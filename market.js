@@ -1,4 +1,5 @@
 var NanoTimer = require('nanotimer');
+var timer = new NanoTimer();
 var priceAndControl = require('./priceAndControl');
 
 var Market = function(config){
@@ -17,6 +18,7 @@ var Market = function(config){
     bids: []
   };
   this.previousAuction = {};
+  this.currentSupply = {};
 };
 
 /*
@@ -37,6 +39,14 @@ Market.prototype.bid = function(bids) {
   }else{
     return false;
   }
+};
+
+/*
+Process a supply report from 1 producer
+*/
+Market.prototype.reportSupply = function(supply) {
+  this.currentSupply[supply.producerId] = supply;
+  return true;
 };
 
 /*
@@ -61,7 +71,6 @@ Market.prototype._startBids = function() {
     biddingDuration: this.config.biddingDuration
   });
 
-  var timer = new NanoTimer();
   timer.setTimeout(this._clearMarket.bind(this), this.config.biddingDuration.toString() + 'ms');
 };
 
@@ -69,7 +78,7 @@ Market.prototype._startBids = function() {
 Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
-  var results = priceAndControl(this.currentAuction.bids, this.supply);
+  var results = priceAndControl(this.currentAuction.bids, this.currentSupply);
   this.state = 2;
   this.trigger('marketClose', receipts);
   this.trigger('changeProduction', results.controls);
