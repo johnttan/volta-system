@@ -45,6 +45,9 @@ market.on('startBidding', function(timeBlock){
 market.on('marketClose', function(receipts){
 });
 
+market.on('changeProduction', function(controls){
+});
+
 // Functions for setting up listeners on sockets
 function setupProducerSocket(socket){
   producerManager.addProducer(socket.id);
