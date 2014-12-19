@@ -1,9 +1,12 @@
 var Market = function(config){
   this.config = config;
   this.events = {};
+  this.runningStats = {};
 };
 
+Market.prototype.bid = function(bids) {
 
+};
 /*
 Register callback to receive data
 */
