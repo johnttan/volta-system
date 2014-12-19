@@ -3,9 +3,9 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-var market = new require('./market')(config);
-var consumerManager = new require('./consumerManager')(config.consumer, market);
-var producerManager = new require('./producerManager')(config.producer, market);
+var market = new (require('./market'))(config.market);
+var consumerManager = new (require('./consumerManager'))(config.consumer, market);
+var producerManager = new (require('./producerManager'))(config.producer, market);
 
 // Setup server.
 server.listen(config.port);

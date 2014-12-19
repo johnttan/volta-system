@@ -1,10 +1,10 @@
-var producerManager = function(config, market){
+var ProducerManager = function(config, market){
   this.config = config;
   this._producers = {};
   this._market = market;
 };
 
-producerManager.prototype.addProducer = function(producerId) {
+ProducerManager.prototype.addProducer = function(producerId) {
   this._producers[producerId] = {};
 };
 // supply of form
@@ -14,7 +14,9 @@ producerManager.prototype.addProducer = function(producerId) {
 //   maxCapacity: 1,
 //   minCapacity: 0.5
 // }
-producerManager.prototype.reportSupply = function(supply) {
+ProducerManager.prototype.reportSupply = function(supply) {
   this._producers[bid.producerId].latestSupply = supply;
   this._market.bid(bid);
 };
+
+module.exports = ProducerManager;
