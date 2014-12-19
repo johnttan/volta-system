@@ -3,9 +3,9 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-var consumerManager = require('./consumerManager');
-var producerManager = require('./producerManager');
-var market = require('./market');
+var market = new (require('./market'))(config.market);
+var consumerManager = new (require('./consumerManager'))(config.consumer, market);
+var producerManager = new (require('./producerManager'))(config.producer, market);
 
 // Setup server.
 server.listen(config.port);
@@ -27,14 +27,16 @@ producerNsp.on('connection', function(socket){
   setupProducerSocket(socket);
 });
 
-// Setup market listeners
-// timeBlock is of the form
-// {
-//   blockStart: 123123124,
-//   duration: 12,
-//   minPrice: .2,
-//   maxPrice: 20
-// }
+/*
+Setup market listeners
+timeBlock is of the form
+{
+  blockStart: 123123124,
+  duration: 12,
+  minPrice: .2,
+  maxPrice: 20
+}
+*/
 
 market.on('startBidding', function(timeBlock){
 });
@@ -44,21 +46,16 @@ market.on('marketClose', function(receipts){
 
 // Functions for setting up listeners on sockets
 function setupProducerSocket(socket){
-  // data of form
-  // {
-  //   productionId: 12345,
-  //   pricePerMW: 1,
-  //   maxCapacity: 1,
-  //   minCapacity: 0.5
-  // }
+  producerManager.addProducer(socket.id);
   socket.on('reportSupply', function(data){
-    market.reportSupply(data)
+    producerManager.reportSupply(data)
   })
 };
 
 function setupConsumerSocket(socket){
+  consumerManager.addConsumer(socket.id);
   socket.on('bid', function(bids){
-    market.bid(bids);
+    consumerManager.bid(bids);
   });
   socket.on('consume', function(consumption){
     console.log(consumption);
