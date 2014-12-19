@@ -7,13 +7,15 @@ var ProducerManager = function(config, market){
 ProducerManager.prototype.addProducer = function(producerId) {
   this._producers[producerId] = {};
 };
-// supply of form
-// {
-//   productionId: 12345,
-//   pricePerMW: 1,
-//   maxCapacity: 1,
-//   minCapacity: 0.5
-// }
+/*
+supply of form
+{
+  productionId: 12345,
+  pricePerMW: 1,
+  maxCapacity: 1,
+  minCapacity: 0.5
+}
+*/
 ProducerManager.prototype.reportSupply = function(supply) {
   this._producers[bid.producerId].latestSupply = supply;
   this._market.bid(bid);

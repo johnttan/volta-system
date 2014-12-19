@@ -27,14 +27,16 @@ producerNsp.on('connection', function(socket){
   setupProducerSocket(socket);
 });
 
-// Setup market listeners
-// timeBlock is of the form
-// {
-//   blockStart: 123123124,
-//   duration: 12,
-//   minPrice: .2,
-//   maxPrice: 20
-// }
+/*
+Setup market listeners
+timeBlock is of the form
+{
+  blockStart: 123123124,
+  duration: 12,
+  minPrice: .2,
+  maxPrice: 20
+}
+*/
 
 market.on('startBidding', function(timeBlock){
 });
