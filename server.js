@@ -37,9 +37,10 @@ producerNsp.on('connection', function(socket){
 // }
 
 market.on('startBidding', function(timeBlock){
-
 });
 
+market.on('marketClose', function(receipts){
+});
 
 // Functions for setting up listeners on sockets
 function setupProducerSocket(socket){
