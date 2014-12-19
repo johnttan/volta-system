@@ -32,7 +32,8 @@ Setup market listeners
 timeBlock is of the form
 {
   blockStart: 123123124,
-  duration: 12,
+  biddingDuration: 10
+  blockDuration: 120,
   minPrice: .2,
   maxPrice: 20
 }

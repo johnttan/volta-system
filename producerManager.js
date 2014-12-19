@@ -17,8 +17,11 @@ supply of form
 }
 */
 ProducerManager.prototype.reportSupply = function(supply) {
-  this._producers[bid.producerId].latestSupply = supply;
-  this._market.bid(bid);
+  var result = this._market.reportSupply(supply);
+  if(result){
+    this._producers[supply.producerId].latestSupply = supply;
+  };
+  return result;
 };
 
 module.exports = ProducerManager;

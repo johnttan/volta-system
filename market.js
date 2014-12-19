@@ -1,11 +1,30 @@
+var nanot = require('nanotimer');
+
 var Market = function(config){
   this.config = config;
   this.events = {};
   this.runningStats = {};
+  this.currentBids = {};
+  this.currentAuction = {
+    bidders: {},
+    bids: []
+  };
+  this.previousAuction = {};
 };
 
 Market.prototype.bid = function(bids) {
-
+  var that = this;
+  if(!this.currentAuction.bidders[bids.consumerId]
+    && this.currentAuction.bids.length <= this.config.maxConsumers
+    && bids.length <= this.config.maxNumBids
+    ){
+    bids.forEach(function(el){
+      that.currentAuction.bids.push(el);
+    });
+    return true;
+  }else{
+    return false;
+  }
 };
 /*
 Register callback to receive data

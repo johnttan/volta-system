@@ -9,8 +9,11 @@ ConsumerManager.prototype.addConsumer = function(consumerId) {
 };
 
 ConsumerManager.prototype.bid = function(bid) {
-  this._consumers[bid.consumerId].latestBid = bid;
-  this._market.bid(bid);
+  var result = this._market.bid(bid);
+  if(result){
+    this._consumers[bid.consumerId].latestBid = bid;
+  }
+  return result;
 };
 
 module.exports = ConsumerManager;
