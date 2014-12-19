@@ -1,0 +1,22 @@
+{
+  "name": "volta-system",
+  "version": "0.0.0",
+  "description": "Volta Central System Operator node for Volta Smart Energy Grid",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/volta/volta-system.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/volta/volta-system/issues"
+  },
+  "dependencies": {
+    "express": "^4.10.6",
+    "socket.io": "^1.2.1"
+  }
+}
