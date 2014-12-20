@@ -26,6 +26,7 @@ var Market = function(config){
 Process a bid from 1 consumer
 */
 Market.prototype.bid = function(bids) {
+  console.log(bids, 'bids');
   var that = this;
   if(
     this.state === 1
