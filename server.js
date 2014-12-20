@@ -51,16 +51,12 @@ market.on('changeProduction', function(controls){
 // Functions for setting up listeners on sockets
 function setupProducerSocket(socket){
   producerManager.addProducer(socket.id);
-  socket.on('reportSupply', function(data){
-    producerManager.reportSupply(data)
-  })
+  socket.on('reportSupply', producerManager.reportSupply)
 };
 
 function setupConsumerSocket(socket){
   consumerManager.addConsumer(socket.id);
-  socket.on('bid', function(bids){
-    consumerManager.bid(bids);
-  });
+  socket.on('bid', consumerManager.bid);
   socket.on('consume', function(consumption){
     console.log(consumption);
   })
