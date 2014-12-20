@@ -5,7 +5,8 @@ exports.development = {
   biddingDuration: 1000,
   blockDuration: 1500,
   maxPrice: 1,
-  minPrice: 100
+  minPrice: 100,
+  margin: 1
 };
 
 exports.production = {
