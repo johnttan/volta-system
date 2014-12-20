@@ -4,9 +4,10 @@ var ConsumerManager = function(config, market){
   this._market = market;
   this._market.on('marketClose', function(receipts){
     receipts.forEach(function(receipt){
+      console.log('emitting', receipt)
       this._consumers[receipt.consumerId].socket.emit('receipt', receipt)
-    })
-  });
+    }.bind(this))
+  }.bind(this));
 };
 
 ConsumerManager.prototype.addConsumer = function(consumer) {
