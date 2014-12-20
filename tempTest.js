@@ -1,41 +1,30 @@
-var Market = require('./market');
-var config = require('./config');
-var test = new Market(config['development']);
+var ioClient = require('socket.io-client')('http://localhost:8000/consumers');
+var producerClient = require('socket.io-client')('http://localhost:8000/producers');
 
-
-
-test.reportSupply({
-  producerId: 100,
-  data: {
-    pricePerMW: 1,
-    maxCapacity: 1,
-    minCapacity: 0.5
-  }
+ioClient.on('startBidding', function(timeBlock){
+  ioClient.emit('bid', {
+    data: [
+      {
+        price: 10
+        energy: 10
+      }
+    ],
+    consumerId: ioClient.io.engine.id,
+    blockStart: timeBlock.blockStart
+  })
+  ioClient.on('receipt', function(receipt){
+    console.log(receipt)
+  })
 });
 
-test.on('test', function(data){
-  console.log(data)
-});
+producerClient.on('connect', function(){
+  setInterval(function(){
+    producerClient.emit('reportSupply', {
+      producerId: producerClient.io.engine.id,
+      pricePerMWH: 1,
+      maxCapacity: 50,
+      minCapacity: 0.5
+    })
+  }, 1000)
+})
 
-test.trigger('test', 'received')
-
-
-test.on('startBidding', function(){
-  for(var i=0;i<10;i++){
-    test.bid({
-      consumerId: 10 * i,
-      data: [
-        {
-          price: 10 * i,
-          energy: 12 * i
-        },
-        {
-          price: 12 * i/2,
-          energy: 10 * i/2
-        }
-      ]
-    });
-  }
-});
-
-test.startMarket();

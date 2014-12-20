@@ -26,6 +26,7 @@ var Market = function(config){
 Process a bid from 1 consumer
 */
 Market.prototype.bid = function(bids) {
+  console.log(bids, 'bids');
   var that = this;
   if(
     this.state === 1
@@ -65,13 +66,14 @@ Bidding loop
 */
 Market.prototype._startBids = function() {
   this.state = 1;
-  this.trigger('startBidding', {
+  this.currentBlock = {
     blockStart: Date.now(),
     blockDuration: this.config.blockDuration,
     minPrice: this.config.minPrice,
     maxPrice: this.config.maxPrice,
     biddingDuration: this.config.biddingDuration
-  });
+  };
+  this.trigger('startBidding', this.currentBlock);
   timer.setTimeout(this._clearMarket.bind(this), null, this.config.biddingDuration.toString() + 'm');
 };
 
@@ -79,17 +81,24 @@ Market.prototype._startBids = function() {
 Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
-  var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
-  var receipts = [];
-  this.state = 2;
-  this.trigger('marketClose', receipts);
-  this.trigger('changeProduction', results.controls);
-  this.previousAuction = this.currentAuction;
-  // DRY this
-  this.currentAuction = {
-    bidders: {},
-    bids: []
-  };
+    var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
+    var receipts = [];
+    for(bidder in this.currentAuction.bidders){
+        receipts.push({
+          price: results.price,
+          consumerId: bidder,
+          block: this.currentBlock
+        })
+    };
+    this.state = 2;
+    this.trigger('marketClose', receipts);
+    this.trigger('changeProduction', results.controls);
+    this.previousAuction = this.currentAuction;
+    // DRY this
+    this.currentAuction = {
+      bidders: {},
+      bids: []
+    };
   timer.setTimeout(this._startBids.bind(this), null, this.config.blockDuration.toString() + 'm');
 };
 
