@@ -10,10 +10,12 @@ ProducerManager.prototype.addProducer = function(producerId) {
 /*
 supply of form
 {
-  productionId: 12345,
-  pricePerMW: 1,
-  maxCapacity: 1,
-  minCapacity: 0.5
+  producerId: 10,
+  data: {
+    pricePerMW: 1,
+    maxCapacity: 1,
+    minCapacity: 0.5
+  }
 }
 */
 ProducerManager.prototype.reportSupply = function(supply) {
