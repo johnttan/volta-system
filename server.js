@@ -40,6 +40,7 @@ timeBlock is of the form
 
 market.on('startBidding', function(timeBlock){
   consumerNsp.emit('startBidding', timeBlock);
+  producerNsp.emit('requestSupply', timeBlock);
 });
 
 market.on('changeProduction', function(controls){
