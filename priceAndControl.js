@@ -39,6 +39,9 @@ module.exports = function(bids, supply, margin, blockDuration){
     cost += current.pricePerMWH * (blockDuration / 1000 / 60 / 60) * productionGoal;
     i++;
   };
+  if(!supplyReached){
+    throw new Error('Not enough energy supply');
+  };
   return {
     controls: controls,
     price: (cost / bids.length) + margin

@@ -13,7 +13,6 @@ var ConsumerManager = function(config, market){
 ConsumerManager.prototype.addConsumer = function(consumer) {
   consumer.on('bid', this.bid.bind(this));
   consumer.on('consume', function(consumption){
-    console.log(consumption);
   });
 
   this._consumers[consumer.id] = {
