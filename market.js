@@ -79,17 +79,21 @@ Market.prototype._startBids = function() {
 Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
-  var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
-  var receipts = [];
-  this.state = 2;
-  this.trigger('marketClose', receipts);
-  this.trigger('changeProduction', results.controls);
-  this.previousAuction = this.currentAuction;
-  // DRY this
-  this.currentAuction = {
-    bidders: {},
-    bids: []
-  };
+  try{
+    var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
+    var receipts = [];
+    this.state = 2;
+    this.trigger('marketClose', receipts);
+    this.trigger('changeProduction', results.controls);
+    this.previousAuction = this.currentAuction;
+    // DRY this
+    this.currentAuction = {
+      bidders: {},
+      bids: []
+    };
+  }catch(e){
+    console.log(e)
+  }
   timer.setTimeout(this._startBids.bind(this), null, this.config.blockDuration.toString() + 'm');
 };
 

@@ -3,18 +3,25 @@ module.exports = function(bids, supply, margin, blockDuration){
   var energySupply = 0;
   var controls = [];
   var cost = 0;
+  var newSupply = [];
+  for(key in supply){
+    if(supply.hasOwnProperty(key)){
+      newSupply.push(supply[key])
+    }
+  };
+
   bids.forEach(function(bid){
-    energyDemand += bid.energy;
+    energyDemand += bid[1];
   });
 
-  newSupply = supply.sort(function(a, b){
+  newSupply.sort(function(a, b){
     return a.pricePerMWH - b.pricePerMWH;
   });
 
   var supplyReached = false;
   var i = 0;
-  while(controls.length < supply.length || !supplyReached){
-    var current = supply[i];
+  while(controls.length < newSupply.length && !supplyReached){
+    var current = newSupply[i];
     if(!current){
       throw new Error('Not enough energy supply');
     };
@@ -49,18 +56,19 @@ module.exports = function(bids, supply, margin, blockDuration){
 //     energy: 20
 //   }
 // ];
-// var testSupply = [
-//   {
+// var testSupply = {
+//   100: {
 //     producerId: 100,
 //     pricePerMWH: 1,
 //     maxCapacity: 35,
 //     minCapacity: 0.5
 //   },
-//   {
+//   101: {
 //     producerId: 101,
 //     pricePerMWH: .5,
 //     maxCapacity: 10,
 //     minCapacity: 0.5
 //   }
-// ]
+// }
+
 // console.log(module.exports(testBids, testSupply, 1, 1000000));

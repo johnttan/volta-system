@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/volta/volta-system.git"
+    "url": "https://github.com/teamvolta/volta-system.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/volta/volta-system/issues"
+    "url": "https://github.com/teamvolta/volta-system/issues"
   },
   "dependencies": {
     "express": "^4.10.6",

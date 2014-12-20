@@ -5,8 +5,7 @@ var ProducerManager = function(config, market){
 };
 
 ProducerManager.prototype.addProducer = function(producer) {
-  producer.on('reportSupply', producerManager.reportSupply);
-
+  producer.on('reportSupply', this.reportSupply.bind(this));
   this._producers[producer.id] = {
     socket: producer
   };
