@@ -4,21 +4,30 @@ var ProducerManager = function(config, market){
   this._market = market;
 };
 
-ProducerManager.prototype.addProducer = function(producerId) {
-  this._producers[producerId] = {};
+ProducerManager.prototype.addProducer = function(producer) {
+  producer.on('reportSupply', producerManager.reportSupply);
+
+  this._producers[producer.id] = {
+    socket: producer
+  };
 };
 /*
 supply of form
 {
-  productionId: 12345,
-  pricePerMW: 1,
-  maxCapacity: 1,
-  minCapacity: 0.5
+  producerId: 10,
+  data: {
+    pricePerMW: 1,
+    maxCapacity: 1,
+    minCapacity: 0.5
+  }
 }
 */
 ProducerManager.prototype.reportSupply = function(supply) {
-  this._producers[bid.producerId].latestSupply = supply;
-  this._market.bid(bid);
+  var result = this._market.reportSupply(supply);
+  if(result){
+    this._producers[supply.producerId].latestSupply = supply;
+  };
+  return result;
 };
 
 module.exports = ProducerManager;

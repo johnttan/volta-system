@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "express": "^4.10.6",
+    "nanotimer": "^0.3.6",
     "socket.io": "^1.2.1"
   }
 }
