@@ -25,3 +25,7 @@ producerClient.on('connect', function(){
     })
   }, 1000)
 })
+
+producerClient.on('receipt', function(receipt){
+  console.log(receipt)
+})

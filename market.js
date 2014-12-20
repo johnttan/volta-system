@@ -82,6 +82,12 @@ Market.prototype._clearMarket = function() {
   try{
     var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
     var receipts = [];
+    for(bidder in this.currentAuction.bidders){
+        receipts.push({
+          price: results.price,
+          consumerId: bidder
+        })
+    };
     this.state = 2;
     this.trigger('marketClose', receipts);
     this.trigger('changeProduction', results.controls);

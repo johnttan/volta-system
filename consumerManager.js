@@ -2,6 +2,11 @@ var ConsumerManager = function(config, market){
   this.config = config;
   this._consumers = {};
   this._market = market;
+  this._market.on('marketClose', function(receipts){
+    receipts.forEach(function(receipt){
+      this._consumers[receipt.consumerId].socket.emit('receipt', receipt)
+    })
+  });
 };
 
 ConsumerManager.prototype.addConsumer = function(consumer) {
