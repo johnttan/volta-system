@@ -15,7 +15,6 @@ app.get('/admin', function(req, res){
   res.sendfile(__dirname + '/admin.html');
 });
 
-
 // Setup listeners for connections on namespaces
 var consumerNsp = io.of('/consumers');
 consumerNsp.on('connection', function(socket){
@@ -40,10 +39,9 @@ timeBlock is of the form
 */
 
 market.on('startBidding', function(timeBlock){
-});
 
-market.on('marketClose', function(receipts){
 });
 
 market.on('changeProduction', function(controls){
+
 });

@@ -28,8 +28,8 @@ Process a bid from 1 consumer
 Market.prototype.bid = function(bids) {
   var that = this;
   if(
-    this.state === 1 &&
-    !this.currentAuction.bidders[bids.consumerId]
+    this.state === 1
+    && !this.currentAuction.bidders[bids.consumerId]
     && this.currentAuction.bids.length <= this.config.maxConsumers
     && bids.data.length <= this.config.maxNumBids
   ){
@@ -113,6 +113,3 @@ Market.prototype.trigger = function(event, data){
 };
 
 module.exports = Market;
-
-var config = require('./config');
-var test = new Market(config);
