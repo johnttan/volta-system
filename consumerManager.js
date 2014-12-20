@@ -4,8 +4,16 @@ var ConsumerManager = function(config, market){
   this._market = market;
 };
 
-ConsumerManager.prototype.addConsumer = function(consumerId) {
-  this._consumers[consumerId] = {};
+ConsumerManager.prototype.addConsumer = function(consumer) {
+  consumer.on('bid', this.bid.bind(this));
+  consumer.on('consume', function(consumption){
+
+    console.log(consumption);
+  });
+
+  this._consumers[consumer.id] = {
+    socket: consumer
+  };
 };
 
 ConsumerManager.prototype.bid = function(bid) {

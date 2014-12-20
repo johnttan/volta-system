@@ -4,8 +4,12 @@ var ProducerManager = function(config, market){
   this._market = market;
 };
 
-ProducerManager.prototype.addProducer = function(producerId) {
-  this._producers[producerId] = {};
+ProducerManager.prototype.addProducer = function(producer) {
+  producer.on('reportSupply', producerManager.reportSupply);
+
+  this._producers[producer.id] = {
+    socket: producer
+  };
 };
 /*
 supply of form

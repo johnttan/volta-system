@@ -19,12 +19,12 @@ app.get('/admin', function(req, res){
 // Setup listeners for connections on namespaces
 var consumerNsp = io.of('/consumers');
 consumerNsp.on('connection', function(socket){
-  setupConsumerSocket(socket);
+  consumerManager.addConsumer(socket);
 });
 
 var producerNsp = io.of('/producers');
 producerNsp.on('connection', function(socket){
-  setupProducerSocket(socket);
+  producerManager.addProducer(socket);
 });
 
 /*
@@ -47,17 +47,3 @@ market.on('marketClose', function(receipts){
 
 market.on('changeProduction', function(controls){
 });
-
-// Functions for setting up listeners on sockets
-function setupProducerSocket(socket){
-  producerManager.addProducer(socket.id);
-  socket.on('reportSupply', producerManager.reportSupply)
-};
-
-function setupConsumerSocket(socket){
-  consumerManager.addConsumer(socket.id);
-  socket.on('bid', consumerManager.bid);
-  socket.on('consume', function(consumption){
-    console.log(consumption);
-  })
-};
