@@ -1,5 +1,66 @@
-module.exports = function(bids, supply){
+module.exports = function(bids, supply, margin, blockDuration){
+  var energyDemand = 0;
+  var energySupply = 0;
+  var controls = [];
+  var cost = 0;
+  bids.forEach(function(bid){
+    energyDemand += bid.energy;
+  });
+
+  newSupply = supply.sort(function(a, b){
+    return a.pricePerMWH - b.pricePerMWH;
+  });
+
+  var supplyReached = false;
+  var i = 0;
+  while(controls.length < supply.length || !supplyReached){
+    var current = supply[i];
+    if(!current){
+      throw new Error('Not enough energy supply');
+    };
+    if(current.maxCapacity + energySupply >= energyDemand){
+      supplyReached = true;
+      productionGoal = energyDemand - energySupply;
+    }else{
+      productionGoal = current.maxCapacity;
+    };
+    energySupply += productionGoal;
+    controls.push({
+      producerId: current.producerId,
+      productionGoal: productionGoal
+    });
+    cost += current.pricePerMWH * (blockDuration / 1000 / 60 / 60) * productionGoal;
+    i++;
+  };
+
   return {
-    controls: []
+    controls: controls,
+    price: (cost / bids.length) + margin
   }
 };
+
+// var testBids = [
+//   {
+//     price: 10,
+//     energy: 12
+//   },
+//   {
+//     price: 9,
+//     energy: 20
+//   }
+// ];
+// var testSupply = [
+//   {
+//     producerId: 100,
+//     pricePerMWH: 1,
+//     maxCapacity: 35,
+//     minCapacity: 0.5
+//   },
+//   {
+//     producerId: 101,
+//     pricePerMWH: .5,
+//     maxCapacity: 10,
+//     minCapacity: 0.5
+//   }
+// ]
+// console.log(module.exports(testBids, testSupply, 1, 1000000));

@@ -47,7 +47,7 @@ Market.prototype.bid = function(bids) {
 Process a supply report from 1 producer
 */
 Market.prototype.reportSupply = function(supply) {
-  this.currentSupply[supply.producerId] = supply.data;
+  this.currentSupply[supply.producerId] = supply;
   return true;
 };
 
@@ -79,7 +79,7 @@ Market.prototype._startBids = function() {
 Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
-  var results = priceAndControl(this.currentAuction.bids, this.currentSupply);
+  var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
   var receipts = [];
   this.state = 2;
   this.trigger('marketClose', receipts);
