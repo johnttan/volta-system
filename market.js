@@ -22,17 +22,16 @@ var Market = function(config){
   };
   this.previousAuction = {};
   this.currentSupply = {};
-  reporter.register('currentAuctionBids', function(){return this.currentAuction.bids}.bind(this));
-  reporter.register('currentAuctionBidders', function(){return this.currentAuction.bidders}.bind(this));
-  reporter.register('currentAuctionResults', function(){return this.currentAuction.results}.bind(this));
-  reporter.register('currentAuctionReceipts', function(){return this.currentAuction.receipts}.bind(this));
+  reporter.register('previousAuctionBids', function(){return this.previousAuction.bids}.bind(this));
+  reporter.register('previousAuctionBidders', function(){return this.previousAuction.bidders}.bind(this));
+  reporter.register('previousAuctionResults', function(){return this.previousAuction.results}.bind(this));
+  reporter.register('previousAuctionReceipts', function(){return this.previousAuction.receipts}.bind(this));
 };
 
 /*
 Process a bid from 1 consumer
 */
 Market.prototype.bid = function(bids) {
-  console.log(bids, 'bids');
   var that = this;
   if(
     this.state === 1
@@ -127,7 +126,12 @@ Market.prototype.on = function(event, cb){
 };
 
 Market.prototype.trigger = function(event, data){
-  console.log(event, data, fileLog(this));
+  var reportedData = JSON.parse(JSON.stringify(data));
+  if(event === 'startBidding'){
+    console.log(reportedData)
+  };
+  reporter.report(event, function(){return reportedData});
+  fileLog(this);
   if(this.events[event]){
     this.events[event].forEach(function(el){
       el(data);

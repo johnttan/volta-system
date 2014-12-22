@@ -37,7 +37,6 @@ var StatsList = React.createClass({
         </Stat>
       )
     });
-    console.log(statNodes);
     return (
       <div className="statsList">
         {statNodes}
@@ -54,7 +53,7 @@ var Stat = React.createClass({
           {this.props.name}
         </h4>
         <div>
-          {this.props.value}
+          {JSON.stringify(this.props.value)}
         </div>
       </div>
     )
