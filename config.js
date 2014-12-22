@@ -6,7 +6,8 @@ exports.development = {
   blockDuration: 1500,
   maxPrice: 1,
   minPrice: 100,
-  margin: 1
+  margin: 1,
+  defaultPriceAndControl: 'verticalDemandAndStepwiseSupply'
 };
 
 exports.production = {
