@@ -1,5 +1,12 @@
 var config = require('./config')[process.argv[2]];
-var app = require('express')();
+var express = require('express');
+var app = express();
+// Setup reporter
+var reporter = new (require('./adminReporter'))();
+global.reporter = reporter;
+// Setup middleware
+app.use(express.static(__dirname + '/public'));
+
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
@@ -10,9 +17,14 @@ var producerManager = new (require('./producerManager'))(config.producer, market
 // Setup server.
 server.listen(config.port);
 
-// Server admin portal
+// Serve admin
 app.get('/admin', function(req, res){
-  res.sendfile(__dirname + '/admin.html');
+  res.sendFile(__dirname + '/public/admin.html')
+});
+
+// Serve stats
+app.get('/api/stats', function(req, res){
+  res.json(reporter.update())
 });
 
 // Setup listeners for connections on namespaces
@@ -40,6 +52,7 @@ timeBlock is of the form
 
 market.on('startBidding', function(timeBlock){
   consumerNsp.emit('startBidding', timeBlock);
+  producerNsp.emit('requestSupply', timeBlock);
 });
 
 market.on('changeProduction', function(controls){

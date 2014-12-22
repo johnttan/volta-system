@@ -16,17 +16,22 @@ var Market = function(config){
   this.currentBids = {};
   this.currentAuction = {
     bidders: {},
-    bids: []
+    bids: [],
+    results: {},
+    receipts: []
   };
   this.previousAuction = {};
   this.currentSupply = {};
+  reporter.register('previousAuctionBids', function(){return this.previousAuction.bids}.bind(this));
+  reporter.register('previousAuctionBidders', function(){return this.previousAuction.bidders}.bind(this));
+  reporter.register('previousAuctionResults', function(){return this.previousAuction.results}.bind(this));
+  reporter.register('previousAuctionReceipts', function(){return this.previousAuction.receipts}.bind(this));
 };
 
 /*
 Process a bid from 1 consumer
 */
 Market.prototype.bid = function(bids) {
-  console.log(bids, 'bids');
   var that = this;
   if(
     this.state === 1
@@ -81,6 +86,7 @@ Market.prototype._startBids = function() {
 Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
+  try{
     var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
     var receipts = [];
     for(bidder in this.currentAuction.bidders){
@@ -90,6 +96,8 @@ Market.prototype._clearMarket = function() {
           block: this.currentBlock
         })
     };
+    this.currentAuction.receipts = receipts;
+    this.currentAuction.results = results;
     this.state = 2;
     this.trigger('marketClose', receipts);
     this.trigger('changeProduction', results.controls);
@@ -99,6 +107,11 @@ Market.prototype._clearMarket = function() {
       bidders: {},
       bids: []
     };
+  }catch(e){
+    console.log(e);
+    this.trigger('error', e);
+  };
+
   timer.setTimeout(this._startBids.bind(this), null, this.config.blockDuration.toString() + 'm');
 };
 
@@ -113,7 +126,12 @@ Market.prototype.on = function(event, cb){
 };
 
 Market.prototype.trigger = function(event, data){
-  console.log(event, fileLog(this));
+  var reportedData = JSON.parse(JSON.stringify(data));
+  if(event === 'startBidding'){
+    console.log(reportedData)
+  };
+  reporter.report(event, function(){return reportedData});
+  fileLog(this);
   if(this.events[event]){
     this.events[event].forEach(function(el){
       el(data);
