@@ -1,10 +1,29 @@
-var data = [{price: 1, energy: 1}];
+var data = [{name: 'price', value: 10}];
 
 var StatsBox = React.createClass({
+  getInitialState: function(){
+    return {data: []}
+  },
+  loadStats: function(){
+    $.ajax({
+      url: this.props.url,
+      dataType: 'json',
+      success: function(data){
+        this.setState({data: data});
+      }.bind(this),
+      error: function(xhr, status, err){
+        console.error(this.props.url, status, err.toString());
+      }.bind(this)
+    });
+  },
+  componentDidMount: function(){
+    this.loadStats();
+    setInterval(this.loadStats.bind(this), 1000);
+  },
   render: function() {
     return (
       <div className="statsBox">
-        <StatsList data={this.props.data} />
+        <StatsList data={this.state.data} />
       </div>
     )
   }
@@ -12,13 +31,13 @@ var StatsBox = React.createClass({
 
 var StatsList = React.createClass({
   render: function(){
-    console.log(this.props.data);
     var statNodes = this.props.data.map(function(stat){
       return (
         <Stat name={stat.name} value={stat.value}>
         </Stat>
       )
     });
+    console.log(statNodes);
     return (
       <div className="statsList">
         {statNodes}
@@ -40,9 +59,9 @@ var Stat = React.createClass({
       </div>
     )
   }
-})
+});
 
 React.render(
-  <StatsBox data={data} />,
+  <StatsBox url="api/stats"/>,
   document.getElementById('content')
 )

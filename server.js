@@ -19,6 +19,11 @@ app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
 });
 
+// Serve stats
+app.get('/api/stats', function(req, res){
+  res.json([{name: 'test', value: 1}])
+});
+
 // Setup listeners for connections on namespaces
 var consumerNsp = io.of('/consumers');
 consumerNsp.on('connection', function(socket){
