@@ -1,6 +1,9 @@
 var config = require('./config')[process.argv[2]];
 var express = require('express');
 var app = express();
+// Setup reporter
+var reporter = new (require('./adminReporter'))();
+global.reporter = reporter;
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
 
@@ -21,7 +24,7 @@ app.get('/admin', function(req, res){
 
 // Serve stats
 app.get('/api/stats', function(req, res){
-  res.json([{name: 'test', value: 1}])
+  res.json(reporter.update())
 });
 
 // Setup listeners for connections on namespaces

@@ -20,6 +20,7 @@ var Market = function(config){
   };
   this.previousAuction = {};
   this.currentSupply = {};
+  reporter.register('currentAuctionBids', function(){return this.currentAuction.bids}.bind(this));
 };
 
 /*
