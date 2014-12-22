@@ -1,5 +1,9 @@
 var config = require('./config')[process.argv[2]];
-var app = require('express')();
+var express = require('express');
+var app = express();
+// Setup middleware
+app.use(express.static(__dirname + '/public'));
+
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
@@ -10,9 +14,9 @@ var producerManager = new (require('./producerManager'))(config.producer, market
 // Setup server.
 server.listen(config.port);
 
-// Server admin portal
+// Serve admin
 app.get('/admin', function(req, res){
-  res.sendfile(__dirname + '/admin.html');
+  res.sendFile(__dirname + '/public/admin.html')
 });
 
 // Setup listeners for connections on namespaces
