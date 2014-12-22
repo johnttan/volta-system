@@ -14,7 +14,12 @@ adminReporter.prototype.registerValue = function(key, watcher) {
 };
 
 adminReporter.prototype.update = function() {
-
+  for(key in this.dataStore){
+    if(this.dataStore.hasOwnProperty(key)){
+      this.dataStore[key].value = this.dataStore[key].watcher();
+    }
+  };
+  return this.dataExport;
 };
 
 module.exports = adminReporter;
