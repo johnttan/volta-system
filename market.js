@@ -16,11 +16,16 @@ var Market = function(config){
   this.currentBids = {};
   this.currentAuction = {
     bidders: {},
-    bids: []
+    bids: [],
+    results: {},
+    receipts: []
   };
   this.previousAuction = {};
   this.currentSupply = {};
   reporter.register('currentAuctionBids', function(){return this.currentAuction.bids}.bind(this));
+  reporter.register('currentAuctionBidders', function(){return this.currentAuction.bidders}.bind(this));
+  reporter.register('currentAuctionResults', function(){return this.currentAuction.results}.bind(this));
+  reporter.register('currentAuctionReceipts', function(){return this.currentAuction.receipts}.bind(this));
 };
 
 /*
@@ -92,6 +97,8 @@ Market.prototype._clearMarket = function() {
           block: this.currentBlock
         })
     };
+    this.currentAuction.receipts = receipts;
+    this.currentAuction.results = results;
     this.state = 2;
     this.trigger('marketClose', receipts);
     this.trigger('changeProduction', results.controls);

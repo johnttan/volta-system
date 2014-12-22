@@ -25,4 +25,9 @@ adminReporter.prototype.update = function() {
   return this.dataExport;
 };
 
+// Allows manual reporting of new levels
+adminReporter.prototype.report = function(key, getter) {
+  this.register(key, getter);
+};
+
 module.exports = adminReporter;
