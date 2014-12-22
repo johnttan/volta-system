@@ -78,6 +78,7 @@ Market.prototype._startBids = function() {
     maxPrice: this.config.maxPrice,
     biddingDuration: this.config.biddingDuration
   };
+  this.currentAuction.currentBlock = this.currentBlock;
   this.trigger('startBidding', this.currentBlock);
   timer.setTimeout(this._clearMarket.bind(this), null, this.config.biddingDuration.toString() + 'm');
 };
@@ -105,7 +106,9 @@ Market.prototype._clearMarket = function() {
     // DRY this
     this.currentAuction = {
       bidders: {},
-      bids: []
+      bids: [],
+      results: {},
+      receipts: []
     };
   }catch(e){
     console.log(e);
