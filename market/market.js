@@ -1,6 +1,5 @@
 var NanoTimer = require('nanotimer');
 var timer = new NanoTimer();
-var fileLog = require('./fileLog');
 var PriceAndControl = require('./priceAndControl');
 
 var Market = function(config){
