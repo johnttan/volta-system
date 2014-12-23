@@ -3,7 +3,7 @@ var fs = require('fs');
 var PriceAndControl = function(config){
   this.currentModel = config.defaultPriceAndControl;
   this.models = {};
-  var pathNames = fs.readdirSync('./pricingModels');
+  var pathNames = fs.readdirSync('./market/pricingModels');
   pathNames.forEach(function(pathName){
     this.models[pathName.slice(0, -3)] = require('./pricingModels/' + pathName);
   }.bind(this))

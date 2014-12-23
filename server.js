@@ -1,8 +1,10 @@
 var config = require('./config')[process.argv[2]];
+var fileLog = require('./utils/fileLog');
+global.fileLog = fileLog;
 var express = require('express');
 var app = express();
 // Setup reporter
-var reporter = new (require('./adminReporter'))();
+var reporter = new (require('./utils/adminReporter'))();
 global.reporter = reporter;
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
@@ -10,7 +12,7 @@ app.use(express.static(__dirname + '/public'));
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-var market = new (require('./market'))(config);
+var market = new (require('./market/market'))(config);
 var consumerManager = new (require('./consumerManager'))(config.consumer, market);
 var producerManager = new (require('./producerManager'))(config.producer, market);
 
