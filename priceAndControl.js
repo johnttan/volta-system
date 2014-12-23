@@ -7,6 +7,7 @@ var PriceAndControl = function(config){
   pathNames.forEach(function(pathName){
     this.models[pathName.slice(0, -3)] = require('./pricingModels/' + pathName);
   }.bind(this))
+  reporter.register('currentPriceAndControlModel', function(){return this.currentModel}.bind(this))
 };
 
 PriceAndControl.prototype.switchModel = function(modelName) {
