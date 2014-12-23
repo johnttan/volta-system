@@ -1,7 +1,7 @@
 var NanoTimer = require('nanotimer');
 var timer = new NanoTimer();
-var priceAndControl = require('./priceAndControl');
 var fileLog = require('./fileLog');
+var PriceAndControl = require('./priceAndControl');
 
 var Market = function(config){
   /*
@@ -20,6 +20,7 @@ var Market = function(config){
     results: {},
     receipts: []
   };
+  this.priceAndControl = new PriceAndControl(config);
   this.previousAuction = {};
   this.currentSupply = {};
   reporter.register('previousAuctionBids', function(){return this.previousAuction.bids}.bind(this));
@@ -88,7 +89,7 @@ Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
   try{
-    var results = priceAndControl(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
+    var results = this.priceAndControl.compute(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
     var receipts = [];
     for(bidder in this.currentAuction.bidders){
         receipts.push({
