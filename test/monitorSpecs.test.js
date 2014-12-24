@@ -17,7 +17,7 @@ describe("Monitor setup", function(){
      monitor = new Monitor(testConfig)
   })
   it("should set config", function(){
-    expect(monitor.config).to.equal(testConfig);
+    expect(monitor.config).to.equal(1);
   });
 
 });
