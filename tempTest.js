@@ -5,7 +5,7 @@ ioClient.on('startBidding', function(timeBlock){
   ioClient.emit('bid', {
     data: [
       {
-        price: 10
+        price: 10,
         energy: 10
       }
     ],
