@@ -1,9 +1,20 @@
 var expect = require('chai').expect;
 var ProducerManager = require('../producerManager');
 var testConfig = require('./stubs').config;
+function makeSuite(name, tests) {
+    describe(name, function () {
+        var producerManager;
+        var marketStub = {
+          reportSupply: function(supply){
+            return supply;
+          }
+        };
+        producerManager = new ProducerManager(testConfig, marketStub)
+        tests(producerManager);
+    });
+};
 
-describe("producerManager methods", function(){
-  var producerManager = new ProducerManager(testConfig);
+makeSuite("producerManager methods", function(producerManager){
   it("should have addProducer method", function(){
     expect(producerManager).to.respondTo('addProducer');
   });
@@ -16,9 +27,7 @@ describe("producerManager methods", function(){
 
 });
 
-describe("producerManager setup", function(){
-  var producerManager;
-
+makeSuite("producerManager setup", function(producerManager){
   beforeEach(function(){
      producerManager = new ProducerManager(testConfig);
   });
@@ -27,8 +36,7 @@ describe("producerManager setup", function(){
   });
 });
 
-describe("producerManager.addProducer", function(){
-  producerManager = new ProducerManager(testConfig);
+makeSuite("producerManager.addProducer", function(producerManager){
   var called = false;
   var args;
   var stubbed = {
@@ -46,13 +54,7 @@ describe("producerManager.addProducer", function(){
   });
 });
 
-describe("producerManager.reportSupply", function(){
-  var marketStub = {
-    reportSupply: function(supply){
-      return supply;
-    }
-  };
-  producerManager = new ProducerManager(testConfig, marketStub)
+makeSuite("producerManager.reportSupply", function(producerManager){
   var called = false;
   var args;
   var stubbed = {

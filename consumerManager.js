@@ -15,7 +15,6 @@ ConsumerManager.prototype.addConsumer = function(consumer) {
   consumer.on('bid', this.bid.bind(this));
   consumer.on('consume', function(consumption){
     if(this._consumers[consumer.id].currentBlock){
-      console.log(consumption)
       this._monitor.consume(consumption, this._consumers[consumer.id].currentBlock);
     }
   }.bind(this));
@@ -29,7 +28,7 @@ ConsumerManager.prototype.bid = function(bid) {
   var result = this._market.bid(bid);
   if(result){
     this._consumers[bid.consumerId].latestBid = bid;
-  }
+  };
   return result;
 };
 
