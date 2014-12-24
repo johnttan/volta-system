@@ -40,12 +40,20 @@ describe("Monitor.consume", function(){
     monitor.consume(consumption, receipt);
     expect(monitor.deltas[receipt.consumerId]).to.be.an('object');
   });
-  it("should set delta for specified consumer", function(){
+  it("should set delta for specified consumer underspending", function(){
     var receipt = {
       consumerId: 10,
       energy: 20
     };
     monitor.consume(consumption, receipt);
     expect(monitor.deltas[receipt.consumerId].delta).to.equal(-10)
+  });
+    it("should set delta for specified consumer overspending", function(){
+    var receipt = {
+      consumerId: 10,
+      energy: 5
+    };
+    monitor.consume(consumption, receipt);
+    expect(monitor.deltas[receipt.consumerId].delta).to.equal(5)
   });
 });
