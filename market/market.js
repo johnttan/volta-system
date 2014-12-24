@@ -91,11 +91,23 @@ Market.prototype._clearMarket = function() {
     var results = this.priceAndControl.compute(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
     var receipts = [];
     for(bidder in this.currentAuction.bidders){
-        receipts.push({
-          price: results.price,
-          consumerId: bidder,
-          block: this.currentBlock
-        })
+      var currentBidder = this.currentAuction.bidders[bidder];
+      var resolvedEnergy;
+      currentBidder.sort(function(a, b){
+        return a.price - b.price;
+      });
+      currentBidder.forEach(function(el, ind){
+        if(el.price < results.price || !currentBidder[ind-1] || (currentBidder[ind-1].price > results.price)){
+          resolvedEnergy = el.energy;
+        }
+      });
+      var receipt = {
+        price: results.price,
+        consumerId: bidder,
+        energy: resolvedEnergy,
+        block: this.currentBlock
+      };
+      receipts.push(receipt)
     };
     this.currentAuction.receipts = receipts;
     this.currentAuction.results = results;

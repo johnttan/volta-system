@@ -15,9 +15,9 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var market = new (require('./market/market'))(config);
-var consumerManager = new (require('./consumerManager'))(config.consumer, market);
-var producerManager = new (require('./producerManager'))(config.producer, market);
-
+var monitor = new (require('./monitor/monitor'))(config);
+var consumerManager = new (require('./consumerManager'))(config.consumer, market, monitor);
+var producerManager = new (require('./producerManager'))(config.producer, market, monitor);
 // Setup server.
 server.listen(config.port);
 
