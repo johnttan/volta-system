@@ -4,16 +4,14 @@ var ConsumerManager = function(config, market){
   this._market = market;
   this._market.on('marketClose', function(receipts){
     receipts.forEach(function(receipt){
-      this._consumers[receipt.consumerId].socket.emit('receipt', receipt)
+      this._consumers[receipt.consumerId].socket.emit('receipt', receipt);
+      this._consumers[receipt.consumerId].currentBlock = receipt;
     }.bind(this))
   }.bind(this));
 };
 
 ConsumerManager.prototype.addConsumer = function(consumer) {
   consumer.on('bid', this.bid.bind(this));
-  consumer.on('consume', function(consumption){
-  });
-
   this._consumers[consumer.id] = {
     socket: consumer
   };
