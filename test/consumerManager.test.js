@@ -14,14 +14,19 @@ makeSuite("consumerManager methods", function(consumerManager){
   it("should have bid method", function(){
     expect(consumerManager).to.respondTo('bid');
   });
+  it("should have getLatestBid method", function(){
+    expect(consumerManager).to.respondTo('getLatestBid');
+  })
 });
 
 makeSuite("consumerManager setup", function(consumerManager){
   var marketArgs = [];
-  var marketStub = {on: function(e, cb){
-    marketArgs[0] = e;
-    marketArgs[1] = cb;
-  }};
+  var marketStub = {
+    on: function(e, cb){
+      marketArgs[0] = e;
+      marketArgs[1] = cb;
+    }
+  };
 
   var monitorStub = {consume: function(){}};
 
@@ -41,4 +46,46 @@ makeSuite("consumerManager setup", function(consumerManager){
   })
 });
 
+makeSuite("consumerManager.addConsumer", function(consumerManager){
+  var events = {};
+  var consumerMock = {
+    on: function(e, cb){
+      events[e] = cb;
+    }
+  };
+  consumerManager.addConsumer(consumerMock);
+  it("should add listeners for events 'bid' and 'consume'", function(){
+    expect(events['bid']).to.be.be.a('function');
+    expect(events['consume']).to.be.a('function');
+  });
+});
 
+makeSuite("consumerManager.bid", function(consumerManager){
+  var marketBidCalled = false;
+  var consumerManager = new ConsumerManager(testConfig, {
+    on: function(){
+    },
+    bid: function(){
+      marketArgs = true;
+      return true;
+    }
+  }, {consume: function(){}});
+
+  var events = {};
+  var consumerMock = {
+    on: function(e, cb){
+      events[e] = cb;
+    },
+    id: 1
+  };
+  var bidStub = {
+    energy: 10,
+    price: 10,
+    consumerId: 1
+  };
+  consumerManager.addConsumer(consumerMock);
+  consumerManager.bid(bidStub);
+  it("should call _market.bid on bid call", function(){
+    expect(consumerManager.getLatestBid(bidStub.consumerId)).to.equal(bidStub);
+  });
+});

@@ -32,4 +32,7 @@ ConsumerManager.prototype.bid = function(bid) {
   return result;
 };
 
+ConsumerManager.prototype.getLatestBid = function(id) {
+  return this._consumers[id].latestBid;
+};
 module.exports = ConsumerManager;
