@@ -16,6 +16,7 @@
     "url": "https://github.com/teamvolta/volta-system/issues"
   },
   "dependencies": {
+    "cassandra-driver": "^1.0.2",
     "express": "^4.10.6",
     "nanotimer": "^0.3.6",
     "socket.io": "^1.2.1"
