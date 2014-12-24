@@ -1,4 +1,6 @@
-var config = require('./config')[process.argv[2]];
+process.env.node_env = process.env.node_env || "development";
+
+var config = require('./config')[process.env.node_env];
 var fileLog = require('./utils/fileLog');
 global.fileLog = fileLog;
 var express = require('express');
@@ -28,6 +30,9 @@ app.get('/admin', function(req, res){
 app.get('/api/stats', function(req, res){
   res.json(reporter.update())
 });
+
+console.log("Running the server file");
+console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
 
 // Setup listeners for connections on namespaces
 var consumerNsp = io.of('/consumers');
