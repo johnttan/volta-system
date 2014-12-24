@@ -25,3 +25,7 @@ gulp.task('style', function() {
 gulp.task('deploy', function () {
 
 });
+
+gulp.task('watch', function(){
+  gulp.watch('test/**/*', ['mochaTest'])
+});
