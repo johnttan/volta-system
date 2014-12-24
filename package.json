@@ -4,7 +4,7 @@
   "description": "Volta Central System Operator node for Volta Smart Energy Grid",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/test.js"
+    "test": "./node_modules/mocha/bin/mocha test/**/*.test.js"
   },
   "repository": {
     "type": "git",
