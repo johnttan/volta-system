@@ -26,7 +26,7 @@ gulp.task('testCoverage', function (cb) {
     .pipe(istanbul({includeUntested: true})) // Covering files; includeUntested is needed to include all files, and not only 'required' ones
     .pipe(istanbul.hookRequire()) // Force `require` to return covered files
     .on('finish', function () {
-      gulp.src(['test/test.js'])
+      gulp.src(['test/*.test.js'])
         .pipe(mocha({reporter: 'spec'}))
         .pipe(istanbul.writeReports()) // Creating the reports after tests ran
         .on('end', cb);
