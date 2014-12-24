@@ -29,4 +29,10 @@ ProducerManager.prototype.reportSupply = function(supply) {
   return result;
 };
 
+/*
+Get latestSupply
+*/
+ProducerManager.prototype.getLatestSupply = function(id) {
+  return this._producers[id].latestSupply;
+};
 module.exports = ProducerManager;
