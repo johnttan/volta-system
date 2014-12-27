@@ -4,7 +4,7 @@ var testConfig = require('./stubs').config;
 var reporter = new (require('../utils/adminReporter'))();
 
 global.reporter = reporter;
-
+global.fileLog = function(){};
 function makeSuite(name, tests) {
     describe(name, function () {
         var market = new Market(testConfig);
@@ -78,3 +78,21 @@ makeSuite('Market.on', function(market){
     expect(market.events[testE][0]).to.equal(testFunc);
   });
 });
+
+makeSuite('Market.trigger', function(market){
+  var testE = 'test';
+  var cbCalled = false;
+  var testFunc = function(){
+    cbCalled = true;
+  };
+  market.on(testE, testFunc);
+
+  it('should have method trigger', function(){
+    expect(market).to.respondTo('trigger');
+  });
+
+  it('should trigger callbacks associated with event', function(){
+    market.trigger(testE);
+    expect(cbCalled).to.be.true;
+  });
+})

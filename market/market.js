@@ -141,9 +141,8 @@ Market.prototype.on = function(event, cb){
 };
 
 Market.prototype.trigger = function(event, data){
-  var reportedData = JSON.parse(JSON.stringify(data));
-  if(event === 'startBidding'){
-    console.log(reportedData)
+  if(data){
+    var reportedData = JSON.parse(JSON.stringify(data));
   };
   reporter.report(event, function(){return reportedData});
   fileLog(this);
