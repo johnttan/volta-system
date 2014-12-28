@@ -1,7 +1,7 @@
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
-var fileLog = require('./utils/fileLog');
+var fileLog = require('../utils/fileLog');
 global.fileLog = fileLog;
 var express = require('express');
 var app = express();

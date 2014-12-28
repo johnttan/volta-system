@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var Market = require('../market/market');
+var Market = require('../SystemServer/market/market');
 var testConfig = require('./stubs').config;
 var reporter = new (require('../utils/adminReporter'))();
 

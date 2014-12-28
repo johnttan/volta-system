@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var ConsumerManager = require('../consumerManager');
+var ConsumerManager = require('../SystemServer/consumerManager');
 var testConfig = require('./stubs').config;
 function makeSuite(name, tests) {
     describe(name, function () {

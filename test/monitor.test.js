@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var Monitor = require('../monitor/monitor')
+var Monitor = require('../SystemServer/monitor/monitor')
 var testConfig = require('./stubs').config;
 
 describe("Monitor setup", function(){

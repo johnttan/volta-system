@@ -1,5 +1,5 @@
 var expect = require('chai').expect;
-var ProducerManager = require('../producerManager');
+var ProducerManager = require('../SystemServer/producerManager');
 var testConfig = require('./stubs').config;
 function makeSuite(name, tests) {
     describe(name, function () {
