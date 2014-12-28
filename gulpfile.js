@@ -44,7 +44,7 @@ gulp.task('deploy', function () {
 });
 
 gulp.task('watch', function(){
-  gulp.watch('test/**/*.test.js', ['mochaTest'])
+  gulp.watch('./**/*.js', ['mochaTest'])
 });
 
 gulp.task('upload', function () {
