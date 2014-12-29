@@ -4,13 +4,13 @@ var config = require('./config')[process.env.node_env];
 var transactions = new (require('./transactions'))(config);
 var express = require('express');
 var app = express();
-
+var bodyParser = require('body-parser');
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
-
+app.use(bodyParser.json());
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
@@ -29,6 +29,7 @@ app.get('/api/stats', function(req, res){
 // REST API for sending and receiving transactions.
 app.post('/api/transactions', function(req, res){
   transactions.commit(req.body);
+  res.sendStatus(200);
 });
 
 app.get('/api/transactions', function(req, res){

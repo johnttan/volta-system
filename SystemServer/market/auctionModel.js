@@ -25,5 +25,5 @@ Auction.prototype.save = function(){
 
 Auction.prototype.getReceipts = function(){
   return this.receipts.getReceipts();
-}
+};
 module.exports = Auction;
