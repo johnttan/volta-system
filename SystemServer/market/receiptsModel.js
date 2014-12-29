@@ -10,6 +10,7 @@ Receipts.prototype.addTransaction = function(transaction){
 
 Receipts.prototype.save = function(){
   request.post({
+    // Get url from config or elsewhere instead of hardcoded
     url: 'http://localhost:8010/api/transactions',
     json: true,
     body: this.receipts
