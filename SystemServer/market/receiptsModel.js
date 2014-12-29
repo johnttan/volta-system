@@ -9,4 +9,8 @@ Receipts.prototype.addTransaction = function(transaction){
 Receipts.prototype.save = function(){
 
 };
+
+Receipts.prototype.getReceipts = function() {
+  return this.receipts;
+};
 module.exports = Receipts;

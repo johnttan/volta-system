@@ -103,7 +103,7 @@ Market.prototype._clearMarket = function() {
     this.trigger('changeProduction', results.controls);
     this.currentAuction = new Auction();
   }catch(e){
-    console.log(e);
+    console.trace(e);
     this.trigger('error', e);
   };
 
