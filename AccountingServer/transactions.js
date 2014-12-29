@@ -45,8 +45,14 @@ Transactions.prototype.getByConsumer = function(id, cb){
 };
 
 module.exports = Transactions;
+// NEEDS SECONDARY INDEXES on consumerId
 // var config = require('./config').development;
 // var test = new Transactions(config);
-// test.commit([{transactionId: '23sfadsf234', price: 23, consumerId: '1', energy: 10, block:{blockStart: 1, blockDuration: 1}}, {transactionId: '34', price: 23, consumerId: '1', energy: 10, block:{blockStart: 1, blockDuration: 1}}])
-
+// test.commit([{transactionId: '23sfadsf234', price: 23, consumerId: '2', energy: 10, block:{blockStart: 1, blockDuration: 1}}, {transactionId: '34', price: 23, consumerId: '2', energy: 10, block:{blockStart: 1, blockDuration: 1}}])
+// test.getLatest(function(data){
+//   console.log(data);
+// })
+// test.getByConsumer('2', function(data){
+//   console.log(data);
+// });
 // repl.start('>').context.Transactions = Transactions;
