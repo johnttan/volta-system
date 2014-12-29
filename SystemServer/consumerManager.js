@@ -3,7 +3,8 @@ var ConsumerManager = function(config, market, monitor){
   this._monitor = monitor;
   this._consumers = {};
   this._market = market;
-  this._market.on('marketClose', function(receipts){
+  this._market.on('marketClose', function(auction){
+    var receipts = auction.getReceipts();
     receipts.forEach(function(receipt){
       this._consumers[receipt.consumerId].socket.emit('receipt', receipt);
       this._consumers[receipt.consumerId].currentBlock = receipt;
