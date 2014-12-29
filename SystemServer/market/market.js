@@ -79,7 +79,6 @@ Clear the market and setTimeout for next bidding cycle
 Market.prototype._clearMarket = function() {
   try{
     var results = this.priceAndControl.compute(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
-    var receipts = new Receipts();
     for(bidder in this.currentAuction.bidders){
       var currentBidder = this.currentAuction.bidders[bidder];
       var resolvedEnergy;
@@ -126,7 +125,6 @@ Market.prototype.trigger = function(event, data){
     var reportedData = JSON.parse(JSON.stringify(data));
   };
   reporter.report(event, function(){return reportedData});
-  fileLog(this);
   if(this.events[event]){
     this.events[event].forEach(function(el){
       el(data);
