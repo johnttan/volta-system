@@ -1,7 +1,7 @@
 var NanoTimer = require('nanotimer');
 var timer = new NanoTimer();
 var PriceAndControl = require('./priceAndControl');
-
+var Auction = require('./auctionModel');
 var Market = function(config){
   /*
   state = 0 non-active
@@ -13,19 +13,9 @@ var Market = function(config){
   this.events = {};
   this.runningStats = {};
   this.currentBids = {};
-  this.currentAuction = {
-    bidders: {},
-    bids: [],
-    results: {},
-    receipts: []
-  };
+  this.currentAuction = new Auction();
   this.priceAndControl = new PriceAndControl(config);
-  this.previousAuction = {};
   this.currentSupply = {};
-  reporter.register('previousAuctionBids', function(){return this.previousAuction.bids}.bind(this));
-  reporter.register('previousAuctionBidders', function(){return this.previousAuction.bidders}.bind(this));
-  reporter.register('previousAuctionResults', function(){return this.previousAuction.results}.bind(this));
-  reporter.register('previousAuctionReceipts', function(){return this.previousAuction.receipts}.bind(this));
 };
 
 /*
@@ -89,7 +79,6 @@ Clear the market and setTimeout for next bidding cycle
 Market.prototype._clearMarket = function() {
   try{
     var results = this.priceAndControl.compute(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
-    var receipts = [];
     for(bidder in this.currentAuction.bidders){
       var currentBidder = this.currentAuction.bidders[bidder];
       var resolvedEnergy;
@@ -101,29 +90,20 @@ Market.prototype._clearMarket = function() {
           resolvedEnergy = el.energy;
         }
       });
-      var receipt = {
+      this.currentAuction.addTransaction({
         price: results.price,
         consumerId: bidder,
         energy: resolvedEnergy,
         block: this.currentBlock
-      };
-      receipts.push(receipt)
+      });
     };
-    this.currentAuction.receipts = receipts;
-    this.currentAuction.results = results;
+    this.currentAuction.save();
     this.state = 2;
-    this.trigger('marketClose', receipts);
+    this.trigger('marketClose', this.currentAuction);
     this.trigger('changeProduction', results.controls);
-    this.previousAuction = this.currentAuction;
-    // DRY this
-    this.currentAuction = {
-      bidders: {},
-      bids: [],
-      results: {},
-      receipts: []
-    };
+    this.currentAuction = new Auction();
   }catch(e){
-    console.log(e);
+    console.trace(e);
     this.trigger('error', e);
   };
 
@@ -145,7 +125,6 @@ Market.prototype.trigger = function(event, data){
     var reportedData = JSON.parse(JSON.stringify(data));
   };
   reporter.report(event, function(){return reportedData});
-  fileLog(this);
   if(this.events[event]){
     this.events[event].forEach(function(el){
       el(data);

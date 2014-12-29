@@ -6,7 +6,7 @@ global.fileLog = fileLog;
 var express = require('express');
 var app = express();
 // Setup reporter
-var reporter = new (require('./utils/adminReporter'))();
+var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
 // Setup middleware
 app.use(express.static(__dirname + '/public'));

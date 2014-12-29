@@ -9,7 +9,6 @@ module.exports = function(bids, supply, margin, blockDuration){
       newSupply.push(supply[key])
     }
   };
-
   bids.forEach(function(bid){
     energyDemand += bid[1];
   });
