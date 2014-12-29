@@ -32,13 +32,13 @@ app.post('/api/transactions', function(req, res){
 });
 
 app.get('/api/transactions', function(req, res){
-  return transactions.getAll(function(data){
+  return transactions.getLatest(function(data){
     res.json(data);
   });
 });
 
 app.get('/api/transactions/:consumerid', function(req, res){
-  return transactions.get(req.params.consumerid, function(data){
+  return transactions.getById(req.params.consumerid, function(data){
     res.json(data);
   });
 });

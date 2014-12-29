@@ -22,4 +22,14 @@ Transactions.prototype.commit = function(transactions) {
   })
 };
 
+Transactions.prototype.getLatest = function(cb){
+  this.client.execute('SELECT * FROM transactions', [], function(err, result){
+    if(err){
+      console.log('err getLatest', err);
+    }else{
+      cb(result.rows);
+    }
+  })
+};
+
 module.exports = Transactions;
