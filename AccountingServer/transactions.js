@@ -1,18 +1,20 @@
 var cassandra = require('cassandra-driver');
-
+var repl = require('repl');
 var Transactions = function(config){
   this.config = config;
   this.client = new cassandra.Client({contactPoints: [this.config.cassIp], keyspace:this.config.cassKeyspace});
 };
 
 Transactions.prototype.commit = function(transactions) {
-  var queryOptions = {consistency: cassandra.types.consistencies.quorum};
-  var query = 'INSERT INTO transactions (price, consumerId, energy, blockStart, blockDuration) VALUES (?, ?, ?, ?, ?)';
+  var queryOptions = {
+    prepare: true
+  };
+  var query = 'INSERT INTO transactions (price, consumerId, energy, blockStart, blockDuration, transactionId) VALUES (?, ?, ?, ?, ?, ?)';
   var queries = [];
   transactions.forEach(function(transaction){
     queries.push({
       query: query,
-      params: [transaction.price, transaction.consumerId, transaction.energy, transaction.block.blockStart, transaction.block.blockDuration]
+      params: [transaction.price, transaction.consumerId, transaction.energy, transaction.block.blockStart, transaction.block.blockDuration, transaction.transactionId]
     })
   });
   this.client.batch(queries, queryOptions, function(err){
@@ -35,7 +37,7 @@ Transactions.prototype.getLatest = function(cb){
 Transactions.prototype.getByConsumer = function(id, cb){
   this.client.execute('SELECT * FROM transactions WHERE consumerId=?', [id], function(err, result){
     if(err){
-      console.log('err getLatest', err);
+      console.log('err getByConsumer', err);
     }else{
       cb(result.rows);
     }
@@ -43,3 +45,8 @@ Transactions.prototype.getByConsumer = function(id, cb){
 };
 
 module.exports = Transactions;
+// var config = require('./config').development;
+// var test = new Transactions(config);
+// test.commit([{transactionId: '23sfadsf234', price: 23, consumerId: '1', energy: 10, block:{blockStart: 1, blockDuration: 1}}, {transactionId: '34', price: 23, consumerId: '1', energy: 10, block:{blockStart: 1, blockDuration: 1}}])
+
+// repl.start('>').context.Transactions = Transactions;
