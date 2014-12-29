@@ -9,7 +9,6 @@ Receipts.prototype.addTransaction = function(transaction){
 };
 
 Receipts.prototype.save = function(){
-  console.log('sending save')
   request.post({
     url: 'http://localhost:8010/api/transactions',
     json: true,
