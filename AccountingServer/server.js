@@ -1,8 +1,10 @@
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
+var transactions = new (require('./transactions'))(config);
 var express = require('express');
 var app = express();
+
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
@@ -22,6 +24,23 @@ app.get('/admin', function(req, res){
 // Serve stats
 app.get('/api/stats', function(req, res){
   res.json(reporter.update())
+});
+
+// REST API for sending and receiving transactions.
+app.post('/api/transactions', function(req, res){
+  transactions.commit(req.body);
+});
+
+app.get('/api/transactions', function(req, res){
+  return transactions.getLatest(function(data){
+    res.json(data);
+  });
+});
+
+app.get('/api/transactions/:consumerid', function(req, res){
+  return transactions.getByConsumer(req.params.consumerid, function(data){
+    res.json(data);
+  });
 });
 
 console.log("Running the server file");
