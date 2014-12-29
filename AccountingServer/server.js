@@ -42,5 +42,6 @@ app.get('/api/transactions/:consumerid', function(req, res){
     res.json(data);
   });
 });
+
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
