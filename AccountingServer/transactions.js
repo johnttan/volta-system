@@ -32,4 +32,14 @@ Transactions.prototype.getLatest = function(cb){
   })
 };
 
+Transactions.prototype.getByConsumer = function(id, cb){
+  this.client.execute('SELECT * FROM transactions WHERE consumerId=?', [id], function(err, result){
+    if(err){
+      console.log('err getLatest', err);
+    }else{
+      cb(result.rows);
+    }
+  })
+};
+
 module.exports = Transactions;

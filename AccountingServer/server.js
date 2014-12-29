@@ -38,7 +38,7 @@ app.get('/api/transactions', function(req, res){
 });
 
 app.get('/api/transactions/:consumerid', function(req, res){
-  return transactions.getById(req.params.consumerid, function(data){
+  return transactions.getByConsumer(req.params.consumerid, function(data){
     res.json(data);
   });
 });
