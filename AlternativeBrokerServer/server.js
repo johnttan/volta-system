@@ -5,6 +5,7 @@ var Broker = require('./broker');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var systemClient = require('socket.io-client')(config.systemIp);
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
@@ -22,7 +23,6 @@ app.get('/admin', function(req, res){
 });
 
 var marketNsp = io.of('/market');
-var systemClient =
 var broker = new Broker(config, marketNsp, systemClient);
 
 console.log("Running the server file");
