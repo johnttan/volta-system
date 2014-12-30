@@ -28,6 +28,7 @@ Broker.prototype.addSupply = function(supply){
 };
 
 Broker.prototype.collectDemandSupply = function(timeBlock) {
+  console.log('collectDemandSupply', timeBlock);
   this.state = 1;
   this.timeBlock = timeBlock;
   this.marketNsp.emit('startCollection');
