@@ -1,4 +1,4 @@
-var numConsumers = 10;
+var numConsumers = 2;
 var clients = [];
 for(var i=0;i<numConsumers;i++){
   var id = Math.random();

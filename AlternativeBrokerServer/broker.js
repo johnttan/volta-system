@@ -38,7 +38,7 @@ Broker.prototype.collectDemandSupply = function(timeBlock) {
     for(demand in this.demand){
       demands.push(this.demand[demand])
     };
-    this.systemClient.emit('queryPrice', demands);
+    this.systemClient.emit('queryPrice', {demands:demands, timeBlock:timeBlock});
   }.bind(this), this.settlementTimePercentage * timeBlock.blockDuration);
 };
 
