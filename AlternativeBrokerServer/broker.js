@@ -13,10 +13,12 @@ var Broker = function(config, marketNsp, systemClient){
   this.systemClient.on('marketClose', this.collectDemandSupply.bind(this));
   this.systemClient.on('queryQuote', this.settleDemand.bind(this));
 
-  this.marketNsp.on('demand', this.addDemand.bind(this));
-  this.marketNsp.on('supply', this.addSupply.bind(this));
 };
 
+Broker.prototype.addParticipant = function(socket) {
+  socket.on('demand', this.addDemand.bind(this));
+  socket.on('supply', this.addSupply.bind(this));
+};
 Broker.prototype.addDemand = function(demand){
   this.demand[demand.consumerId] = demand;
 };

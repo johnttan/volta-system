@@ -1,6 +1,7 @@
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
+var Broker = require('./broker');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
@@ -20,7 +21,9 @@ app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
 });
 
-
+var marketNsp = io.of('/market');
+var systemClient =
+var broker = new Broker(config, marketNsp, systemClient);
 
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
