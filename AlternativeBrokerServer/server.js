@@ -22,6 +22,10 @@ app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
 });
 
+systemClient.on('connect', function(){
+  console.log('connected to system')
+})
+
 var marketNsp = io.of('/market');
 var broker = new Broker(config, marketNsp, systemClient);
 

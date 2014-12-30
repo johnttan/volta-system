@@ -84,7 +84,7 @@ Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
   try{
-    var results = this.compute(this.currentAuction.bids);
+    var results = this.computeBasedOnDemand(this.currentAuction.bids);
     for(bidder in this.currentAuction.bidders){
       var currentBidder = this.currentAuction.bidders[bidder];
       var resolvedEnergy;
@@ -111,6 +111,7 @@ Market.prototype._clearMarket = function() {
     this.trigger('marketClose', this.currentAuction);
     this.trigger('changeProduction', results.controls);
     this.currentAuction = new Auction();
+    console.log('market closed')
   }catch(e){
     console.trace(e);
     this.trigger('error', e);

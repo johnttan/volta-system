@@ -47,11 +47,12 @@ producerNsp.on('connection', function(socket){
 
 var brokerNsp = io.of('/brokers');
 brokerNsp.on('connection', function(socket){
+  console.log('broker connected');
   market.on('marketClose', function(auction){
     socket.emit('marketClose', auction.currentBlock);
   });
   socket.on('queryPrice', function(demand){
-    var result = Market.computeBasedOnDemand(demand);
+    var result = market.computeBasedOnDemand(demand);
     socket.emit('priceQuote', result);
   });
 });
