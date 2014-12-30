@@ -73,12 +73,18 @@ Market.prototype._startBids = function() {
   timer.setTimeout(this._clearMarket.bind(this), null, this.config.biddingDuration.toString() + 'm');
 };
 
+Market.prototype.computeBasedOnDemand = function(demand){
+  var results = this.priceAndControl.compute(demand, this.currentSupply, this.config.margin, this.config.blockDuration);
+  return results;
+
+}
+
 /*
 Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
   try{
-    var results = this.priceAndControl.compute(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
+    var results = this.compute(this.currentAuction.bids);
     for(bidder in this.currentAuction.bidders){
       var currentBidder = this.currentAuction.bidders[bidder];
       var resolvedEnergy;
@@ -101,6 +107,7 @@ Market.prototype._clearMarket = function() {
     };
     this.currentAuction.save();
     this.state = 2;
+    this.currentAuction.currentBlock = this.currentBlock;
     this.trigger('marketClose', this.currentAuction);
     this.trigger('changeProduction', results.controls);
     this.currentAuction = new Auction();

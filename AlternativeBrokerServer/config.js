@@ -1,6 +1,7 @@
 exports.development = {
   port: 8011,
-  settlementTimePercentage: .50
+  settlementTimePercentage: .50,
+  systemIp: 'localhost:8000/brokers'
 };
 
 exports.production = {
