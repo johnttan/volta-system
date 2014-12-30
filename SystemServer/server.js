@@ -52,8 +52,17 @@ brokerNsp.on('connection', function(socket){
     socket.emit('marketClose', auction.currentBlock);
   });
   socket.on('queryPrice', function(demand){
-    var result = market.computeBasedOnDemand(demand);
-    socket.emit('priceQuote', result);
+    try{
+      var result = market.computeBasedOnDemand(demand.demands);
+      result.timeBlock = demand.timeBlock;
+      socket.emit('priceQuote', result);
+    }catch(e){
+      result = {
+        price: config.maxPrice,
+        timeBlock: demand.timeBlock
+      }
+      socket.emit('priceQuote', result);
+    }
   });
 });
 

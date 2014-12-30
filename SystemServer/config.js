@@ -4,8 +4,8 @@ exports.development = {
   maxNumBids: 10,
   biddingDuration: 3000,
   blockDuration: 1500,
-  maxPrice: 1,
-  minPrice: 100,
+  maxPrice: 100,
+  minPrice: 1,
   margin: 1,
   defaultPriceAndControl: 'verticalDemandAndStepwiseSupply'
 };
@@ -16,8 +16,8 @@ exports.production = {
   maxNumBids: 10,
   biddingDuration: 3000,
   blockDuration: 1500,
-  maxPrice: 1,
-  minPrice: 100,
+  maxPrice: 100,
+  minPrice: 1,
   margin: 1,
   defaultPriceAndControl: 'verticalDemandAndStepwiseSupply'
 
