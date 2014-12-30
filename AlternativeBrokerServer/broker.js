@@ -46,7 +46,16 @@ Broker.prototype.settleDemand = function(quote){
   this.state = 2;
   // Figure out transactions here
   delete quote.controls;
-  console.log(quote, 'quote', this.demand);
+  console.log(quote.price, 'quote');
+  var totalDemand = 0;
+  var totalSupply = 0;
+  for(demand in this.demand){
+    totalDemand += this.demand[demand].energy;
+  };
+  for(supply in this.supply){
+    totalSupply += this.supply[supply].energy;
+  };
+  console.log('totals', totalDemand, totalSupply);
   this.demand = {};
   this.supply = {};
 
