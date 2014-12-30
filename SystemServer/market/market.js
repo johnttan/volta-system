@@ -94,7 +94,9 @@ Market.prototype._clearMarket = function() {
         price: results.price,
         consumerId: bidder,
         energy: resolvedEnergy,
-        block: this.currentBlock
+        block: this.currentBlock,
+        buyer: bidder,
+        seller: 'grid'
       });
     };
     this.currentAuction.save();
