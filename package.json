@@ -4,7 +4,8 @@
   "description": "Volta Central System Operator node for Volta Smart Energy Grid",
   "main": "index.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "gulp test",
+    "start": "node SystemServer/server.js"
   },
   "repository": {
     "type": "git",
