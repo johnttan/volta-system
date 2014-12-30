@@ -45,6 +45,17 @@ producerNsp.on('connection', function(socket){
   producerManager.addProducer(socket);
 });
 
+var brokerNsp = io.of('/brokers');
+brokerNsp.on('connection', function(socket){
+  market.on('marketClose', function(auction){
+    socket.emit('marketClose', auction.currentBlock);
+  });
+  socket.on('queryPrice', function(demand){
+    var result = Market.computeBasedOnDemand(demand);
+    socket.emit('priceQuote', result);
+  });
+});
+
 /*
 Setup market listeners
 timeBlock is of the form
