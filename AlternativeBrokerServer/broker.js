@@ -9,9 +9,11 @@ var Broker = function(config, marketNsp, systemClient){
   // State 1 = accepting demand/supply;
   // State 2 = settling transactions;
   this.state = 0;
-
+  this.marketNsp.on('connection', function(socket){
+    this.addParticipant(socket);
+  }.bind(this));
   this.systemClient.on('marketClose', this.collectDemandSupply.bind(this));
-  this.systemClient.on('queryQuote', this.settleDemand.bind(this));
+  this.systemClient.on('priceQuote', this.settleDemand.bind(this));
 
 };
 
@@ -24,23 +26,27 @@ Broker.prototype.addDemand = function(demand){
 };
 
 Broker.prototype.addSupply = function(supply){
-  this.supply[demand.producerId] = supply;
+  this.supply[supply.producerId] = supply;
 };
 
 Broker.prototype.collectDemandSupply = function(timeBlock) {
-  console.log('collectDemandSupply', timeBlock);
   this.state = 1;
   this.timeBlock = timeBlock;
-  this.marketNsp.emit('startCollection');
+  this.marketNsp.emit('startCollection', timeBlock);
   setTimeout(function(){
-    this.systemClient.emit('queryPrice', this.demand);
+    var demands = [];
+    for(demand in this.demand){
+      demands.push(this.demand[demand])
+    };
+    this.systemClient.emit('queryPrice', demands);
   }.bind(this), this.settlementTimePercentage * timeBlock.blockDuration);
 };
 
 Broker.prototype.settleDemand = function(quote){
   this.state = 2;
   // Figure out transactions here
-
+  delete quote.controls;
+  console.log(quote, 'quote', this.demand);
   this.demand = {};
   this.supply = {};
 

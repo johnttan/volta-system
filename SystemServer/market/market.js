@@ -31,7 +31,7 @@ Market.prototype.bid = function(bids) {
   ){
     this.currentAuction.bidders[bids.consumerId] = bids.data;
     bids.data.forEach(function(el){
-      that.currentAuction.bids.push([el.price, el.energy]);
+      that.currentAuction.bids.push({price: el.price, energy: el.energy});
     });
     return true;
   }else{

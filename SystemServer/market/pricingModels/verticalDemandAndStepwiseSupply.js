@@ -10,7 +10,7 @@ module.exports = function(bids, supply, margin, blockDuration){
     }
   };
   bids.forEach(function(bid){
-    energyDemand += bid[1];
+    energyDemand += bid.energy;
   });
 
   newSupply.sort(function(a, b){
