@@ -21,7 +21,8 @@
     "express": "^4.10.6",
     "nanotimer": "^0.3.6",
     "request": "^2.51.0",
-    "socket.io": "^1.2.1"
+    "socket.io": "^1.2.1",
+    "socket.io-client": "^1.2.1"
   },
   "devDependencies": {
     "chai": "^1.10.0",
