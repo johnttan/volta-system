@@ -7,7 +7,13 @@ var StreamingService = function(){
   }
 };
 
-StreamingService.prototype.addSubscription = function(key, subkey, socket){
+StreamingService.prototype.addSubscriber = function(socket) {
+  socket.on('subscribe', function(key, subkey){
+    this._addSubscription(key, subkey, socket);
+  })
+};
+
+StreamingService.prototype._addSubscription = function(key, subkey, socket){
   this.subscriptions[key] = this.subscriptions[key] || {subkey: {}};
   this.subscriptions[key][subkey] = this.subscriptions[key][subkey] || {};
   this.subscriptions[key][subkey][socket.id] = socket;
