@@ -17,8 +17,15 @@ AddressStore.prototype.getState = function() {
   return this.state;
 };
 
-AddressStore.prototype.discover = function(nodeid, opt, cb){
-
+AddressStore.prototype.discover = function(role, subRole, cb){
+  if(models[role]){
+    models[role].find({
+      role: role,
+      subRole: subRole
+    }, cb)
+  }else{
+    cb('role does not exist')
+  };
 };
 
 AddressStore.prototype.register = function(opts, cb) {
