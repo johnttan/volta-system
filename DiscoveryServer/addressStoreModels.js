@@ -17,7 +17,6 @@ exports.systemSchema = new Schema({
 });
 
 exports.producerSchema = new Schema({
-  connections: Number,
   ip: String,
   id: String,
   role: String,
