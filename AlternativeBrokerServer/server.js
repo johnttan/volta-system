@@ -4,6 +4,7 @@ var config = require('./config')[process.env.node_env];
 var Broker = require('./broker');
 var express = require('express');
 var app = express();
+process.env.node_env = process.env.node_env || 'development';
 var bodyParser = require('body-parser');
 var systemClient = require('socket.io-client')(config.systemIp);
 // Setup reporter
