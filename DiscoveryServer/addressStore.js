@@ -17,8 +17,19 @@ AddressStore.prototype.getState = function() {
   return this.state;
 };
 
-AddressStore.prototype.register = function(opts) {
-
+AddressStore.prototype.register = function(opts, cb) {
+  if(models[opts.role]){
+    var newModel = new models[opts.role](opts);
+    newModel.save(function(err, newDoc){
+      if(err){
+        cb(err);
+      }else{
+        cb();
+      }
+    })
+  }else{
+    cb(err);
+  }
 };
 
 module.exports = AddressStore;
