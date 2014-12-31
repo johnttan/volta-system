@@ -32,10 +32,8 @@ module.exports = StreamingService;
 
 var testSocket = function(){
   return {
-    emit: function(data){console.log('emitted', data)}
+    emit: function(event, data){console.log('emitted', event, data)}
   }
 };
 
 var testService = new StreamingService();
-
-testService.addSubscription('buyer', '1', testSocket());
