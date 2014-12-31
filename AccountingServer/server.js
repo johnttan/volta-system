@@ -44,14 +44,14 @@ app.get('/api/transactions/:consumerid', function(req, res){
   });
 });
 
-app.get('/api/transactions/buyers/:buyerid', function(req, res){
+app.get('/api/transactions/buyer/:buyerid', function(req, res){
   return transactions.getByBuyer(req.params.buyerid, function(data){
     res.json(data);
   });
 });
 
-app.get('/api/transactions/sellers/:sellerid', function(req, res){
-  return transactions.getBySeller(req.params.buyerid, function(data){
+app.get('/api/transactions/seller/:sellerid', function(req, res){
+  return transactions.getBySeller(req.params.sellerid, function(data){
     res.json(data);
   });
 });

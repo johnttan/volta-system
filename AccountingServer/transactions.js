@@ -44,7 +44,7 @@ Transactions.prototype.getByConsumer = function(id, cb){
   })
 };
 
-Transactions.prototype.getByBuyer = function(buyerid) {
+Transactions.prototype.getByBuyer = function(buyerid, cb) {
   this.client.execute('SELECT * FROM transactions WHERE buyer=?', [buyerid], function(err, result){
     if(err){
       console.log('err getByBuyer', err);
@@ -54,7 +54,7 @@ Transactions.prototype.getByBuyer = function(buyerid) {
   })
 };
 
-Transactions.prototype.getBySeller = function(sellerid) {
+Transactions.prototype.getBySeller = function(sellerid, cb) {
   this.client.execute('SELECT * FROM transactions WHERE seller=?', [sellerid], function(err, result){
     if(err){
       console.log('err getBySeller', err);
