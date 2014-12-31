@@ -21,10 +21,10 @@ app.get('/admin', function(req, res){
 });
 
 // APIs for discovery of nodes.
-app.get('/discover/:role/:opt', function(req, res){
+app.get('/discover/:role/:subrole', function(req, res){
   var role = req.params.role;
-  var opt = req.params.opt;
-  addressStore.discover(role, opt, function(err, data){
+  var subrole = req.params.subrole;
+  addressStore.discover(role, subrole, function(err, data){
     if(err){
       res.sendStatus(404);
     }else{
