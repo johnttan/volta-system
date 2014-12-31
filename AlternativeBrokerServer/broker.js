@@ -1,3 +1,6 @@
+var Receipts = require(__dirname + '/../SystemServer/market/receiptsModel');
+var Transactions = require(__dirname + '/../SystemServer/market/transactions');
+
 var Broker = function(config, marketNsp, systemClient){
   this.settlementTimePercentage = config.settlementTimePercentage;
   this.demand = {};
@@ -47,6 +50,7 @@ Broker.prototype.settleDemand = function(quote){
   // Figure out transactions here
   delete quote.controls;
   console.log(quote.price, 'quote');
+  var receipts = new Receipts();
   var totalDemand = 0;
   var totalSupply = 0;
   for(demand in this.demand){
@@ -55,6 +59,66 @@ Broker.prototype.settleDemand = function(quote){
   for(supply in this.supply){
     totalSupply += this.supply[supply].energy;
   };
+
+  if(totalSupply === totalDemand){
+    for(demand in this.demand){
+      receipts.addTransaction(new Transaction({
+        price: quote.price,
+        energy: this.demand[demand].energy,
+        block: quote.timeBlock,
+        buyer: this.demand[demand].consumerId,
+        seller: 'AEB'
+      }))
+    };
+    for(supply in this.supply){
+      receipts.addTransaction(new Transaction({
+        price: quote.price + quote.price * config.brokerFeePercent,
+        energy: this.supply[supply].energy,
+        block. quote.timeBlock,
+        seller: this.supply[supply].producerId,
+        buyer: 'AEB'
+      }))
+    }
+  }else if(totalSupply > totalDemand){
+    for(demand in this.demand){
+      receipts.addTransaction(new Transaction({
+        price: quote.price,
+        energy: this.demand[demand].energy,
+        block: quote.timeBlock,
+        buyer: this.demand[demand].consumerId,
+        seller: 'AEB'
+      }))
+    };
+    for(supply in this.supply){
+      receipts.addTransaction(new Transaction({
+        price: quote.price + quote.price * config.brokerFeePercent,
+        energy: this.supply[supply].energy * this.supply[supply].energy / totalSupply,
+        block. quote.timeBlock,
+        seller: this.supply[supply].producerId,
+        buyer: 'AEB'
+      }))
+    }
+  }else{
+   for(demand in this.demand){
+     receipts.addTransaction(new Transaction({
+       price: quote.price,
+       energy: this.demand[demand].energy * this.demand[demand].energy / totalDemand,
+       block: quote.timeBlock,
+       buyer: this.demand[demand].consumerId,
+       seller: 'AEB'
+     }))
+   };
+   for(supply in this.supply){
+     receipts.addTransaction(new Transaction({
+       price: quote.price + quote.price * config.brokerFeePercent,
+       energy: this.supply[supply].energy,
+       block. quote.timeBlock,
+       seller: this.supply[supply].producerId,
+       buyer: 'AEB'
+     }))
+   }
+  };
+  receipts.save();
   console.log('totals', totalDemand, totalSupply);
   this.demand = {};
   this.supply = {};
