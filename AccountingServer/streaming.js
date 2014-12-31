@@ -29,11 +29,3 @@ StreamingService.prototype._notifySubscribers = function(transaction, key, id){
 };
 
 module.exports = StreamingService;
-
-var testSocket = function(){
-  return {
-    emit: function(event, data){console.log('emitted', event, data)}
-  }
-};
-
-var testService = new StreamingService();
