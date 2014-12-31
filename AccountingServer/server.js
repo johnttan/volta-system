@@ -24,8 +24,12 @@ app.get('/admin', function(req, res){
 app.get('/discover/:role/:opt', function(req, res){
   var role = req.params.role;
   var opt = req.params.opt;
-  addressStore.discover(role, opt, function(data){
-    res.json(data);
+  addressStore.discover(role, opt, function(err, data){
+    if(err){
+      res.sendStatus(404);
+    }else{
+      res.json(data);
+    }
   })
 });
 

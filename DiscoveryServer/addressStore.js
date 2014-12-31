@@ -17,6 +17,10 @@ AddressStore.prototype.getState = function() {
   return this.state;
 };
 
+AddressStore.prototype.discover = function(nodeid, opt, cb){
+
+};
+
 AddressStore.prototype.register = function(opts, cb) {
   if(models[opts.role]){
     var newModel = new models[opts.role](opts);
