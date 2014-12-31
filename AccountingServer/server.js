@@ -44,5 +44,17 @@ app.get('/api/transactions/:consumerid', function(req, res){
   });
 });
 
+app.get('/api/transactions/buyers/:buyerid', function(req, res){
+  return transactions.getByBuyer(req.params.buyerid, function(data){
+    res.json(data);
+  });
+});
+
+app.get('/api/transactions/sellers/:sellerid', function(req, res){
+  return transactions.getBySeller(req.params.buyerid, function(data){
+    res.json(data);
+  });
+});
+
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
