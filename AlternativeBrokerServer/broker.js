@@ -1,5 +1,6 @@
 var Receipts = require(__dirname + '/../SystemServer/market/receiptsModel');
-var Transactions = require(__dirname + '/../SystemServer/market/transactions');
+var Transaction = require(__dirname + '/../SystemServer/market/transactionModel');
+var config = require(__dirname + '/config')[process.env.node_env];
 
 var Broker = function(config, marketNsp, systemClient){
   this.settlementTimePercentage = config.settlementTimePercentage;
@@ -49,6 +50,9 @@ Broker.prototype.settleDemand = function(quote){
   this.state = 2;
   // Figure out transactions here
   delete quote.controls;
+  if(!quote.price){
+    quote.price = quote.minPrice;
+  };
   console.log(quote.price, 'quote');
   var receipts = new Receipts();
   var totalDemand = 0;
@@ -59,7 +63,7 @@ Broker.prototype.settleDemand = function(quote){
   for(supply in this.supply){
     totalSupply += this.supply[supply].energy;
   };
-
+  console.log(quote.price + quote.price * config.brokerFeePercent, 'plus broker fee');
   if(totalSupply === totalDemand){
     for(demand in this.demand){
       receipts.addTransaction(new Transaction({

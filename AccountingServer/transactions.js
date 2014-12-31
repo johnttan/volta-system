@@ -9,12 +9,12 @@ Transactions.prototype.commit = function(transactions) {
   var queryOptions = {
     prepare: true
   };
-  var query = 'INSERT INTO transactions (price, consumerId, energy, blockStart, blockDuration, transactionId) VALUES (?, ?, ?, ?, ?, ?)';
+  var query = 'INSERT INTO transactions (price, consumerId, energy, blockStart, blockDuration, transactionId, buyer, seller) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
   var queries = [];
   transactions.forEach(function(transaction){
     queries.push({
       query: query,
-      params: [transaction.price, transaction.consumerId, transaction.energy, transaction.block.blockStart, transaction.block.blockDuration, transaction.transactionId]
+      params: [transaction.price, transaction.consumerId, transaction.energy, transaction.block.blockStart, transaction.block.blockDuration, transaction.transactionId, transaction.buyer, transaction.seller]
     })
   });
   this.client.batch(queries, queryOptions, function(err){

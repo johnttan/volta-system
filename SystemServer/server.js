@@ -55,6 +55,7 @@ brokerNsp.on('connection', function(socket){
     try{
       var result = market.computeBasedOnDemand(demand.demands);
       result.timeBlock = demand.timeBlock;
+      result.minPrice = config.minPrice;
       socket.emit('priceQuote', result);
     }catch(e){
       result = {

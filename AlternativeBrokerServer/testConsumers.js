@@ -1,7 +1,7 @@
 var numConsumers = 2;
 var clients = [];
 for(var i=0;i<numConsumers;i++){
-  var id = Math.random();
+  var id = Math.random().toString().substr(2);
   var client = require('socket.io-client')('http://localhost:8011/market');
   (function(id){
     client.on('startCollection', function(timeBlock){
