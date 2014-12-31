@@ -93,7 +93,7 @@ Broker.prototype.settleDemand = function(quote){
       receipts.addTransaction(new Transaction({
         price: quote.price + quote.price * config.brokerFeePercent,
         energy: this.supply[supply].energy * this.supply[supply].energy / totalSupply,
-        block. quote.timeBlock,
+        block: quote.timeBlock,
         seller: this.supply[supply].producerId,
         buyer: 'AEB'
       }))
