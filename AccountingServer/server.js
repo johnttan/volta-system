@@ -30,9 +30,9 @@ app.get('/discover/:nodeid/:opt', function(req, res){
 });
 
 // APIs for registering node.
-app.post('/register/:nodeid/:opt', function(req, res){
+app.post('/register/:nodeid', function(req, res){
   var nodeid = req.params.nodeid;
-  var opt = req.params.opt;
+  var opt = req.body;
   addressStore.register(nodeid, opt, function(err){
     if(err){
       res.sendStatus(500);

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var schemas = require('./addressStoreModels');
+var models = require('./addressStoreModels');
 
 var AddressStore = function(config){
   this.state = 0;
