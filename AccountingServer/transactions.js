@@ -44,6 +44,26 @@ Transactions.prototype.getByConsumer = function(id, cb){
   })
 };
 
+Transactions.prototype.getByBuyer = function(buyerid, cb) {
+  this.client.execute('SELECT * FROM transactions WHERE buyer=?', [buyerid], function(err, result){
+    if(err){
+      console.log('err getByBuyer', err);
+    }else{
+      cb(result.rows);
+    }
+  })
+};
+
+Transactions.prototype.getBySeller = function(sellerid, cb) {
+  this.client.execute('SELECT * FROM transactions WHERE seller=?', [sellerid], function(err, result){
+    if(err){
+      console.log('err getBySeller', err);
+    }else{
+      cb(result.rows);
+    }
+  })
+};
+
 module.exports = Transactions;
 // NEEDS SECONDARY INDEXES on consumerId
 // var config = require('./config').development;
