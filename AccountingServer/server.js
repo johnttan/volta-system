@@ -19,4 +19,3 @@ server.listen(config.port);
 app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
 });
-
