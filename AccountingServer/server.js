@@ -21,10 +21,10 @@ app.get('/admin', function(req, res){
 });
 
 // APIs for discovery of nodes.
-app.get('/discover/:nodeid/:opt', function(req, res){
-  var nodeid = req.params.nodeid;
+app.get('/discover/:role/:opt', function(req, res){
+  var role = req.params.role;
   var opt = req.params.opt;
-  addressStore.discover(nodeid, opt, function(data){
+  addressStore.discover(role, opt, function(data){
     res.json(data);
   })
 });
