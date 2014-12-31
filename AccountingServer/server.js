@@ -7,12 +7,16 @@ var app = express();
 var bodyParser = require('body-parser');
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
+var streamingService = new (require('./streaming'))();
 global.reporter = reporter;
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+
+var streamNsp = io.of('/subscriptions');
+streamNsp.on('connect', streamingService.addSubscriber.bind(streamingService));
 
 server.listen(config.port);
 
@@ -29,6 +33,7 @@ app.get('/api/stats', function(req, res){
 // REST API for sending and receiving transactions.
 app.post('/api/transactions', function(req, res){
   transactions.commit(req.body);
+  streamingService.emitTransactions(req.body);
   res.sendStatus(200);
 });
 
