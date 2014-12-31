@@ -19,3 +19,25 @@ server.listen(config.port);
 app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
 });
+
+// APIs for discovery of nodes.
+app.get('/discover/:nodeid/:opt', function(req, res){
+  var nodeid = req.params.nodeid;
+  var opt = req.params.opt;
+  addressStore.get(nodeid, opt, function(data){
+    res.json(data);
+  })
+});
+
+// APIs for registering node.
+app.post('/register/:nodeid/:opt', function(req, res){
+  var nodeid = req.params.nodeid;
+  var opt = req.params.opt;
+  addressStore.register(nodeid, opt, function(err){
+    if(err){
+      res.sendStatus(500);
+    }else{
+      res.sendStatus(200);
+    }
+  })
+})
