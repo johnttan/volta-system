@@ -33,6 +33,7 @@ app.get('/api/stats', function(req, res){
 // REST API for sending and receiving transactions.
 app.post('/api/transactions', function(req, res){
   transactions.commit(req.body);
+  streamingService.emitTransactions(req.body);
   res.sendStatus(200);
 });
 
