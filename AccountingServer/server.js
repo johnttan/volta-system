@@ -16,7 +16,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 var streamNsp = io.of('/subscriptions');
-streamNsp.on('connection', streamingService.addSubscriber.bind(streamingService));
+streamNsp.on('connect', streamingService.addSubscriber.bind(streamingService));
 
 server.listen(config.port);
 
