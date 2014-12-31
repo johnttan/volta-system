@@ -24,7 +24,7 @@ app.get('/admin', function(req, res){
 app.get('/discover/:nodeid/:opt', function(req, res){
   var nodeid = req.params.nodeid;
   var opt = req.params.opt;
-  addressStore.get(nodeid, opt, function(data){
+  addressStore.discover(nodeid, opt, function(data){
     res.json(data);
   })
 });
