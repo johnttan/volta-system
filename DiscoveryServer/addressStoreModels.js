@@ -23,6 +23,7 @@ exports.producerSchema = new Schema({
   subRole: String
 });
 
-exports.consumerModel = mongoose.model('Consumers', exports.consumerSchema);
-exports.producerModel = mongoose.model('Producers', exports.producerSchema);
-exports.systemModel = mongoose.model('System', exports.systemSchema):
+exports.models = {};
+exports.models.consumer = mongoose.model('Consumers', exports.consumerSchema);
+exports.models.producer = mongoose.model('Producers', exports.producerSchema);
+exports.models.system = mongoose.model('System', exports.systemSchema):

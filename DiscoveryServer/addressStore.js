@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var models = require('./addressStoreModels');
+var models = require('./addressStoreModels').models;
 
 var AddressStore = function(config){
   this.state = 0;
@@ -15,6 +15,10 @@ var AddressStore = function(config){
 
 AddressStore.prototype.getState = function() {
   return this.state;
+};
+
+AddressStore.prototype.register = function(opts) {
+
 };
 
 module.exports = AddressStore;
