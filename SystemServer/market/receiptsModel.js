@@ -31,3 +31,16 @@ module.exports = Receipts;
 //   test.receipts = [{transactionId: Math.random().toString(36), price: 23, consumerId: '2', energy: 10, block:{blockStart: 1, blockDuration: 1}}, {transactionId: 'TEST2', price: 23, consumerId: '2', energy: 10, block:{blockStart: 1, blockDuration: 1}}];
 //   test.save();
 // }, 1000)
+
+// Schema
+// cqlsh:volta> CREATE TABLE volta.transactions (
+//          ... price double,
+//          ... consumerId text,
+//          ... energy double,
+//          ... blockStart double,
+//          ... blockDuration double,
+//          ... transactionId text PRIMARY KEY,
+//          ... buyer text,
+//          ... seller text
+//          ... );
+
