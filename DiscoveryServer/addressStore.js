@@ -39,7 +39,7 @@ AddressStore.prototype.register = function(opts, cb) {
       }
     })
   }else{
-    cb(err);
+    cb('role does not exist');
   }
 };
 

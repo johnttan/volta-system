@@ -39,6 +39,7 @@ app.post('/register', function(req, res){
   var opt = req.body;
   addressStore.register(opt, function(err){
     if(err){
+      console.log(err);
       res.sendStatus(500);
     }else{
       res.sendStatus(200);
