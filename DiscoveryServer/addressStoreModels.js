@@ -26,4 +26,4 @@ exports.producerSchema = new Schema({
 exports.models = {};
 exports.models.consumer = mongoose.model('Consumers', exports.consumerSchema);
 exports.models.producer = mongoose.model('Producers', exports.producerSchema);
-exports.models.system = mongoose.model('System', exports.systemSchema):
+exports.models.system = mongoose.model('System', exports.systemSchema);
