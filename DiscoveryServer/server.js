@@ -4,6 +4,7 @@ var config = require('./config')[process.env.node_env];
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var addressStore = new (require('./addressStore'))(config)
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
@@ -38,9 +39,12 @@ app.post('/register', function(req, res){
   var opt = req.body;
   addressStore.register(opt, function(err){
     if(err){
+      console.log(err);
       res.sendStatus(500);
     }else{
       res.sendStatus(200);
     }
   })
-})
+});
+
+console.log('Starting Discovery Server at', config.port);
