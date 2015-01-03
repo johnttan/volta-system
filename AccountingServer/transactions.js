@@ -19,7 +19,7 @@ Transactions.prototype.commit = function(transactions) {
   });
   this.client.batch(queries, queryOptions, function(err){
     if(err){
-      console.log('err committing', err);
+      console.log('err committing', err, queries);
     }
   })
 };
