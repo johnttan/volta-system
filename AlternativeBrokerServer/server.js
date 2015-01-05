@@ -31,18 +31,23 @@ var marketNsp = io.of('/market');
 
 function setupSystemClient(){
   discoveryClient.discover('system', 'system', function(err, data){
+    console.log('Try to discover system');
     if(!err){
       var systemClient = require('socket.io-client')(data[0].ip);
+      console.log(data);
       systemClient.on('connect', function(){
         console.log('connected to system')
       });
       var broker = new Broker(config, marketNsp, systemClient);
       console.log('setup connection to systemClient');
     }else{
+      console.log('err', err)
       setTimeout(setupSystemClient, 2000)
     }
   });
-}
+};
+
+setupSystemClient();
 
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
