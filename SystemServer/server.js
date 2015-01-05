@@ -1,6 +1,7 @@
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
+var DiscoveryClient = require('../utils/discoveryClient');
 var fileLog = require('../utils/fileLog');
 global.fileLog = fileLog;
 var express = require('express');
@@ -89,3 +90,5 @@ market.on('changeProduction', function(controls){
 });
 
 market.startMarket();
+
+var discoveryClient = new DiscoveryClient(config);
