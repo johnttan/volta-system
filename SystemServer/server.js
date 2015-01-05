@@ -91,4 +91,5 @@ market.on('changeProduction', function(controls){
 
 market.startMarket();
 
+// Start DiscoveryClient and register self
 var discoveryClient = new DiscoveryClient(config);

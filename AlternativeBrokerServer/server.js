@@ -1,6 +1,8 @@
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
+var DiscoveryClient = require('../utils/discoveryClient');
+
 var Broker = require('./broker');
 var express = require('express');
 var app = express();
@@ -32,3 +34,6 @@ var broker = new Broker(config, marketNsp, systemClient);
 
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
+
+// Start DiscoveryClient and register self
+var discoveryClient = new DiscoveryClient(config);
