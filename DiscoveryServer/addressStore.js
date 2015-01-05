@@ -33,7 +33,7 @@ AddressStore.prototype.discover = function(role, subRole, cb){
 AddressStore.prototype.register = function(opts, cb) {
   if(models[opts.role]){
     var newModel = new models[opts.role](opts);
-    models[opts.role].findOneAndUpdate({id: opts.id}, opts, function(err, newDoc){
+    models[opts.role].findOneAndUpdate({id: opts.id}, opts, {upsert:true}, function(err, newDoc){
       if(err){
         cb(err);
       }else{
