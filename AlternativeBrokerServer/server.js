@@ -27,18 +27,29 @@ app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
 });
 
+var beforeSystem = true;
+var beforeSystemQueue = [];
 var marketNsp = io.of('/market');
-
+marketNsp.on('connection', function(socket){
+  if(beforeSystem){
+    beforeSystemQueue.push(socket);
+  }
+});
 function setupSystemClient(){
-  discoveryClient.discover('system', 'system', function(err, data){
-    console.log('Try to discover system');
+  discoveryClient.discover('system', 'system', function(err, xhr, data){
+    data = JSON.parse(data);
+    console.log('Try to discover system', err, data[0].ip);
     if(!err){
-      var systemClient = require('socket.io-client')(data[0].ip);
-      console.log(data);
+      beforeSystem = false;
+      var systemClient = require('socket.io-client')(data[0].ip + '/brokers');
       systemClient.on('connect', function(){
         console.log('connected to system')
       });
       var broker = new Broker(config, marketNsp, systemClient);
+      console.log('systemQueue pushing', beforeSystemQueue.length);
+      beforeSystemQueue.forEach(function(socket){
+        broker.addParticipant(socket);
+      });
       console.log('setup connection to systemClient');
     }else{
       console.log('err', err)

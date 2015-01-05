@@ -14,6 +14,7 @@ var Broker = function(config, marketNsp, systemClient){
   // State 2 = settling transactions;
   this.state = 0;
   this.marketNsp.on('connection', function(socket){
+    console.log('NEW CONNECTION');
     this.addParticipant(socket);
   }.bind(this));
   this.systemClient.on('marketClose', this.collectDemandSupply.bind(this));
@@ -34,6 +35,7 @@ Broker.prototype.addSupply = function(supply){
 };
 
 Broker.prototype.collectDemandSupply = function(timeBlock) {
+  console.log('market closed', Date())
   this.state = 1;
   this.timeBlock = timeBlock;
   this.marketNsp.emit('startCollection', timeBlock);
