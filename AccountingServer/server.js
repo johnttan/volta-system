@@ -1,6 +1,8 @@
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
+var DiscoveryClient = require('../utils/discoveryClient');
+
 var transactions = new (require('./transactions'))(config);
 var express = require('express');
 var app = express();
@@ -63,3 +65,6 @@ app.get('/api/transactions/seller/:sellerid', function(req, res){
 
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
+
+// Start DiscoveryClient and register self
+var discoveryClient = new DiscoveryClient(config);
