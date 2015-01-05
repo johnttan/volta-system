@@ -9,17 +9,17 @@ Transactions.prototype.commit = function(transactions) {
   var queryOptions = {
     prepare: true
   };
-  var query = 'INSERT INTO transactions (price, consumerId, energy, blockStart, blockDuration, transactionId) VALUES (?, ?, ?, ?, ?, ?)';
+  var query = 'INSERT INTO transactions (price, consumerId, energy, blockStart, blockDuration, transactionId, buyer, seller) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
   var queries = [];
   transactions.forEach(function(transaction){
     queries.push({
       query: query,
-      params: [transaction.price, transaction.consumerId, transaction.energy, transaction.block.blockStart, transaction.block.blockDuration, transaction.transactionId]
+      params: [transaction.price, transaction.consumerId, transaction.energy, transaction.block.blockStart, transaction.block.blockDuration, transaction.transactionId, transaction.buyer, transaction.seller]
     })
   });
   this.client.batch(queries, queryOptions, function(err){
     if(err){
-      console.log('err committing', err);
+      console.log('err committing', err, queries);
     }
   })
 };
@@ -38,6 +38,26 @@ Transactions.prototype.getByConsumer = function(id, cb){
   this.client.execute('SELECT * FROM transactions WHERE consumerId=?', [id], function(err, result){
     if(err){
       console.log('err getByConsumer', err);
+    }else{
+      cb(result.rows);
+    }
+  })
+};
+
+Transactions.prototype.getByBuyer = function(buyerid, cb) {
+  this.client.execute('SELECT * FROM transactions WHERE buyer=?', [buyerid], function(err, result){
+    if(err){
+      console.log('err getByBuyer', err);
+    }else{
+      cb(result.rows);
+    }
+  })
+};
+
+Transactions.prototype.getBySeller = function(sellerid, cb) {
+  this.client.execute('SELECT * FROM transactions WHERE seller=?', [sellerid], function(err, result){
+    if(err){
+      console.log('err getBySeller', err);
     }else{
       cb(result.rows);
     }

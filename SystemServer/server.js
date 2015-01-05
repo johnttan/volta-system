@@ -1,6 +1,7 @@
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
+var DiscoveryClient = require('../utils/discoveryClient');
 var fileLog = require('../utils/fileLog');
 global.fileLog = fileLog;
 var express = require('express');
@@ -45,6 +46,28 @@ producerNsp.on('connection', function(socket){
   producerManager.addProducer(socket);
 });
 
+var brokerNsp = io.of('/brokers');
+brokerNsp.on('connection', function(socket){
+  console.log('broker connected');
+  market.on('marketClose', function(auction){
+    socket.emit('marketClose', auction.currentBlock);
+  });
+  socket.on('queryPrice', function(demand){
+    try{
+      var result = market.computeBasedOnDemand(demand.demands);
+      result.timeBlock = demand.timeBlock;
+      result.minPrice = config.minPrice;
+      socket.emit('priceQuote', result);
+    }catch(e){
+      result = {
+        price: config.maxPrice,
+        timeBlock: demand.timeBlock
+      }
+      socket.emit('priceQuote', result);
+    }
+  });
+});
+
 /*
 Setup market listeners
 timeBlock is of the form
@@ -67,3 +90,6 @@ market.on('changeProduction', function(controls){
 });
 
 market.startMarket();
+
+// Start DiscoveryClient and register self
+var discoveryClient = new DiscoveryClient(config);

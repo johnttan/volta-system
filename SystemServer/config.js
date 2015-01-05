@@ -4,9 +4,14 @@ exports.development = {
   maxNumBids: 10,
   biddingDuration: 3000,
   blockDuration: 1500,
-  maxPrice: 1,
-  minPrice: 100,
+  maxPrice: 100,
+  minPrice: 1,
   margin: 1,
+  discoveryIp: 'http://localhost:9000',
+  ip: 'http://localhost:8000',
+  id: 10,
+  role: 'system',
+  subRole: 'system',
   defaultPriceAndControl: 'verticalDemandAndStepwiseSupply'
 };
 
@@ -16,8 +21,8 @@ exports.production = {
   maxNumBids: 10,
   biddingDuration: 3000,
   blockDuration: 1500,
-  maxPrice: 1,
-  minPrice: 100,
+  maxPrice: 100,
+  minPrice: 1,
   margin: 1,
   defaultPriceAndControl: 'verticalDemandAndStepwiseSupply'
 

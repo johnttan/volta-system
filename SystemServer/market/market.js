@@ -31,7 +31,7 @@ Market.prototype.bid = function(bids) {
   ){
     this.currentAuction.bidders[bids.consumerId] = bids.data;
     bids.data.forEach(function(el){
-      that.currentAuction.bids.push([el.price, el.energy]);
+      that.currentAuction.bids.push({price: el.price, energy: el.energy});
     });
     return true;
   }else{
@@ -73,12 +73,18 @@ Market.prototype._startBids = function() {
   timer.setTimeout(this._clearMarket.bind(this), null, this.config.biddingDuration.toString() + 'm');
 };
 
+Market.prototype.computeBasedOnDemand = function(demand){
+  var results = this.priceAndControl.compute(demand, this.currentSupply, this.config.margin, this.config.blockDuration);
+  return results;
+
+}
+
 /*
 Clear the market and setTimeout for next bidding cycle
 */
 Market.prototype._clearMarket = function() {
   try{
-    var results = this.priceAndControl.compute(this.currentAuction.bids, this.currentSupply, this.config.margin, this.config.blockDuration);
+    var results = this.computeBasedOnDemand(this.currentAuction.bids);
     for(bidder in this.currentAuction.bidders){
       var currentBidder = this.currentAuction.bidders[bidder];
       var resolvedEnergy;
@@ -94,14 +100,28 @@ Market.prototype._clearMarket = function() {
         price: results.price,
         consumerId: bidder,
         energy: resolvedEnergy,
-        block: this.currentBlock
+        block: this.currentBlock,
+        buyer: bidder,
+        seller: 'grid'
       });
     };
+    results.controls.forEach(function(producer){
+      this.currentAuction.addTransaction({
+        price: results.price,
+        energy: producer.productionGoal,
+        block: this.currentBlock,
+        buyer: 'grid',
+        seller: producer.producerId
+      })
+    }.bind(this));
+
     this.currentAuction.save();
     this.state = 2;
+    this.currentAuction.currentBlock = this.currentBlock;
     this.trigger('marketClose', this.currentAuction);
     this.trigger('changeProduction', results.controls);
     this.currentAuction = new Auction();
+    console.log('market closed')
   }catch(e){
     console.trace(e);
     this.trigger('error', e);
