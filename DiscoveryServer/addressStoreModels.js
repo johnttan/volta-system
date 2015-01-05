@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 exports.consumerSchema = new Schema({
   ip: String,
-  id: String,
+  id: {type: String, unique: true},
   role: String,
   subRole: String
 });
@@ -11,14 +11,14 @@ exports.consumerSchema = new Schema({
 exports.systemSchema = new Schema({
   connections: Number,
   ip: String,
-  id: String,
+  id: {type: String, unique: true},
   role: String,
   subRole: String
 });
 
 exports.producerSchema = new Schema({
   ip: String,
-  id: String,
+  id: {type: String, unique: true},
   role: String,
   subRole: String
 });

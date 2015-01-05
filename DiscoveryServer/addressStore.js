@@ -6,9 +6,11 @@ var AddressStore = function(config){
   this.dbClient = mongoose;
   this.dbClient.connect(config.mongoIp);
   this.dbClient.connection.on('open', function(){
+    console.log('connected to db');
     this.state = 1;
   }.bind(this));
-  this.dbClient.connection.on('error', function(){
+  this.dbClient.connection.on('error', function(err){
+    console.log('error connecting', err)
     this.state = 2;
   }.bind(this));
 };
@@ -31,7 +33,7 @@ AddressStore.prototype.discover = function(role, subRole, cb){
 AddressStore.prototype.register = function(opts, cb) {
   if(models[opts.role]){
     var newModel = new models[opts.role](opts);
-    newModel.save(function(err, newDoc){
+    models[opts.role].findOneAndUpdate({id: opts.id}, opts, function(err, newDoc){
       if(err){
         cb(err);
       }else{
