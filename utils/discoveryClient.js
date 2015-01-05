@@ -14,6 +14,7 @@ DiscoveryClient.prototype.register = function(opts){
   if(!opts){
     opts = this.opts;
   };
+  console.log(this.discoveryIp + '/register')
   request({
     method: 'POST',
     url: this.discoveryIp + '/register',
@@ -21,7 +22,7 @@ DiscoveryClient.prototype.register = function(opts){
     body: opts
   }, function(err){
     if(err){
-      console.log('err registering with Discovery Server')
+      console.log('err registering with Discovery Server', err)
       setTimeout(this.register.bind(this), 2000)
     }else{
       console.log('registered with Discovery Server')

@@ -7,7 +7,7 @@ exports.development = {
   maxPrice: 100,
   minPrice: 1,
   margin: 1,
-  discoveryIp: 'http://localhost:9000',
+  discoveryIp: 'http://104.40.181.157:8001',
   ip: 'http://localhost:8000',
   id: 10,
   role: 'system',
