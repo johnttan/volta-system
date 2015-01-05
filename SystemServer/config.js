@@ -9,7 +9,7 @@ exports.development = {
   margin: 1,
   discoveryIp: 'http://localhost:9000',
   ip: 'http://localhost:8000',
-  id: 10
+  id: 10,
   role: 'system',
   subRole: 'system',
   defaultPriceAndControl: 'verticalDemandAndStepwiseSupply'

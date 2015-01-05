@@ -6,7 +6,7 @@ var DiscoveryClient = function(config){
   this.opts.ip = config.ip;
   this.opts.id = config.id;
   this.opts.role = config.role;
-  this.opts.subrole = config.subrole;
+  this.opts.subRole = config.subRole;
   this.register();
 };
 
