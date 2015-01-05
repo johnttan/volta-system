@@ -105,6 +105,16 @@ Market.prototype._clearMarket = function() {
         seller: 'grid'
       });
     };
+    results.controls.forEach(function(producer){
+      this.currentAuction.addTransaction({
+        price: results.price,
+        energy: producer.productionGoal,
+        block: this.currentBlock,
+        buyer: 'grid',
+        seller: producer.producerId
+      })
+    }.bind(this));
+
     this.currentAuction.save();
     this.state = 2;
     this.currentAuction.currentBlock = this.currentBlock;

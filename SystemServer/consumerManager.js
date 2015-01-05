@@ -6,8 +6,10 @@ var ConsumerManager = function(config, market, monitor){
   this._market.on('marketClose', function(auction){
     var receipts = auction.getReceipts();
     receipts.forEach(function(receipt){
-      this._consumers[receipt.consumerId].socket.emit('receipt', receipt);
-      this._consumers[receipt.consumerId].currentBlock = receipt;
+      if(receipt.consumerId){
+        this._consumers[receipt.consumerId].socket.emit('receipt', receipt);
+        this._consumers[receipt.consumerId].currentBlock = receipt;
+      }
     }.bind(this))
   }.bind(this));
 };
