@@ -42,6 +42,7 @@ app.post('/register', function(req, res){
       console.log(err);
       res.sendStatus(500);
     }else{
+      console.log(req.body, 'registered')
       res.sendStatus(200);
     }
   })
