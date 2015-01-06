@@ -1,7 +1,7 @@
 module.exports = {
   port: 9001,
   socketioPort: 9010,
-  rootDir: '/Users/anastasiazotova/hr/volta',
+  rootDir: '/home/john/code',
   nodes: [
     {
       name: 'discovery',
