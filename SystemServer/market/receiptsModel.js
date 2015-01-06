@@ -11,12 +11,15 @@ Receipts.prototype.addTransaction = function(transaction){
 Receipts.prototype.save = function(){
   request.post({
     // Get url from config or elsewhere instead of hardcoded
-    url: 'http://localhost:8010/api/transactions',
+    url: 'http://104.45.230.20:8000/api/transactions',
+    // url: 'http://localhost:8010/api/transactions',
     json: true,
     body: this.receipts
   }, function(err, resp, body){
     if(err){
       console.log('err saving receipts', err);
+    }else{
+      console.log('done saving receipts')
     }
   });
 };
