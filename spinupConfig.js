@@ -1,7 +1,7 @@
 module.exports = {
   port: 9001,
   socketioPort: 9010,
-  rootDir: '/home/john/code',
+  rootDir: '/Users/anastasiazotova/hr/volta',
   nodes: [
     {
       name: 'discovery',
@@ -15,8 +15,18 @@ module.exports = {
     },
     {
       name: 'consumer',
-      dir: '/volta-consumer',
-      args: ['server.js']
+      dir: '/volta-consumer/servers',
+      args: ['consumerServer.js']
+    },
+    {
+      name: 'consumerProducer',
+      dir: '/volta-consumer/servers',
+      args: ['consumerProducerServer.js']
+    },
+    {
+      name: 'consumerClient',
+      dir: '/volta-consumer/servers',
+      args: ['clientServer.js']
     },
     {
       name: 'testConsumers',

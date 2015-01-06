@@ -86,7 +86,7 @@ market.on('startBidding', function(timeBlock){
 });
 
 market.on('changeProduction', function(controls){
-
+  producerNsp.emit('changeProduction', controls);
 });
 
 market.startMarket();
