@@ -1,86 +1,26 @@
 #content.span10
   .row-fluid
-    a.quick-button.metro.yellow.span2
-      i.icon-group
-      p Distribution
-      span.badge 237
-    a.quick-button.metro.green.span2
-      i.icon-barcode
-      p Production
-    a.quick-button.metro.blue.span2
-      i.icon-shopping-cart
-      p Market
-      span.badge 13
-    a.quick-button.metro.pink.span2
-      i.icon-envelope
-      p Transactions
-      span.badge 88
-    a.quick-button.metro.black.span2
-      i.icon-calendar
-      p Controls
-    a.quick-button.metro.red.span2
-      i.icon-comments-alt
-      p Network
-      span.badge 46
+    a.quick-button.metro.span2(ng-repeat="tile in tiles" ng-class="tile.color")
+      i(ng-class="tile.icon")
+      p {{tile.title}}
+      span.badge {{tile.value}}
     .clearfix
   #secondRow.row-fluid
   .row-fluid.hideInIE8.circleStats
-    .span2(ontablet='span4', ondesktop='span2')
-      .circleStatsItemBox.yellow
-        .header Grid Production Capacity
+    .span2(ontablet='span4', ondesktop='span2' ng-repeat="circle in circleStats")
+      .circleStatsItemBox(ng-class="circle.color")
+        .header {{circle.title}}
         span.percent percent
         .circleStat
-          input.whiteCircle(type='text', value='20')
+          input.whiteCircle(type='text', ng-attr-value="{{100 * circle.value / circle.max | number : 1}}")
         .footer
           span.count
-            span.number 20000
-            span.unit MW
+            span.number {{circle.value}}
+            span.unit {{circle.unit}}
           span.sep /
           span.value
-            span.number 100000
-            span.unit MW
-    .span2(ontablet='span4', ondesktop='span2')
-      .circleStatsItemBox.green
-        .header Transient Capacity
-        span.percent percent
-        .circleStat
-          input.whiteCircle(type='text', value='78')
-        .footer
-          span.count
-            span.number 76440
-            span.unit MW
-          span.sep /
-          span.value
-            span.number 98000
-            span.unit MW
-    .span2(ontablet='span4', ondesktop='span2')
-      .circleStatsItemBox.greenDark
-        .header Sales Target
-        span.percent percent
-        .circleStat
-          input.whiteCircle(type='text', value='100')
-        .footer
-          span.sep
-            span.number 1,000,999
-            span.unit USD
-          span.sep /
-          span.value
-            span.number 1,000,999
-            span.unit USD
-    .span2.noMargin(ontablet='span4', ondesktop='span2')
-      .circleStatsItemBox.pink
-        .header Efficiency Target
-        span.percent percent
-        .circleStat
-          input.whiteCircle(type='text', value='83')
-        .footer
-          span.count
-            span.number 83
-            span.unit
-          span.sep /
-          span.value
-            span.number 100
-            span.unit
+            span.number {{circle.max}}
+            span.unit {{circle.unit}}
     .widget.yellow.span4.noMargin(ontablet='span12', ondesktop='span4')
       h2
         span.glyphicons.fire
