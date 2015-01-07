@@ -7,8 +7,9 @@ var LocalAggregator = function(nsp){
 LocalAggregator.prototype.report = function(key, value) {
   if(this.aggregations[key]){
     this.aggregators[key].forEach(function(agFunc){
-      agFunc(value);
-    });
+      console.log(this.aggregations[key]);
+      this.aggregations[key] = agFunc(value, this.aggregations[key]);
+    }.bind(this));
   };
   this.nsp.emit('aggregations', this.aggregations);
 };
@@ -16,20 +17,11 @@ LocalAggregator.prototype.report = function(key, value) {
 LocalAggregator.prototype.register = function(key, aggregator, init){
   var that = this;
   if(!this.aggregations[key]){
-    var aggregatorObject = {
-      value: init,
-    };
-    this.aggregations[key] = aggregatorObject;
-    this.aggregators = [function(value){
-        // new, old
-        aggregatorObject.value = aggregator(value, aggregatorObject.value)
-    }];
+    this.aggregations[key] = init;
+    this.aggregators[key] = [aggregator];
   }else{
-    var aggFunc = function(value){
-      that.aggregations[key].value = aggregator(value, that.aggregations[key].value);
-    };
-    this.aggregators[key].push(aggFunc);
-  }
+    that.aggregators[key].push(aggregator);
+  };
 };
 
 LocalAggregator.prototype.registerAll = function(list){
@@ -39,3 +31,16 @@ LocalAggregator.prototype.registerAll = function(list){
 };
 
 module.exports = LocalAggregator;
+
+// var testNsp = {
+//   emit: function(event, value){
+//     console.log('emittedNsp', event);
+//     console.dir(value.consumers);
+//   }
+// };
+// var testAggregations = require('../SystemServer/aggregations');
+// var testAgg = new LocalAggregator(testNsp);
+// testAgg.registerAll(testAggregations);
+// testAgg.report('consumers', {
+//   id: 1
+// })
