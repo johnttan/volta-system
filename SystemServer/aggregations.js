@@ -3,24 +3,24 @@ var aggregations = [
     key: 'consumers',
     aggregator: function(newValue, oldStructure){
       oldStructure.num ++;
-      oldStructure.consumerIds[newValue.id] = {}
+      oldStructure.ids[newValue.id] = {}
       return oldStructure;
     },
     init: {
       num: 0,
-      consumerIds: {}
+      ids: {}
     }
   },
   {
-    key: 'consumers',
+    key: 'producers',
     aggregator: function(newValue, oldStructure){
       oldStructure.num ++;
-      oldStructure.consumerIds[newValue.id] = {}
+      oldStructure.ids[newValue.id] = {}
       return oldStructure;
     },
     init: {
       num: 0,
-      consumerIds: {}
+      ids: {}
     }
   }
 ];

@@ -49,11 +49,13 @@ console.log("node_env", process.env.node_env); //to check whether it's been set 
 var consumerNsp = io.of('/consumers');
 consumerNsp.on('connection', function(socket){
   consumerManager.addConsumer(socket);
+  aggregator.report('consumers', socket);
 });
 
 var producerNsp = io.of('/producers');
 producerNsp.on('connection', function(socket){
   producerManager.addProducer(socket);
+  aggregator.report('producers', socket);
 });
 
 var brokerNsp = io.of('/brokers');
