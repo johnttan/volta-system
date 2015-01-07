@@ -31,6 +31,9 @@ app.get('/admin', function(req, res){
 app.get('/api/stats', function(req, res){
   res.json(reporter.update())
 });
+app.get('/api/controls', function(req, res){
+  res.json({});
+});
 
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
