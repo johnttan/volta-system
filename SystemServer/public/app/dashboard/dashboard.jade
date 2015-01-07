@@ -1,0 +1,120 @@
+#content.span10
+  .row-fluid
+    a.quick-button.metro.yellow.span2
+      i.icon-group
+      p Distribution
+      span.badge 237
+    a.quick-button.metro.green.span2
+      i.icon-barcode
+      p Production
+    a.quick-button.metro.blue.span2
+      i.icon-shopping-cart
+      p Market
+      span.badge 13
+    a.quick-button.metro.pink.span2
+      i.icon-envelope
+      p Transactions
+      span.badge 88
+    a.quick-button.metro.black.span2
+      i.icon-calendar
+      p Controls
+    a.quick-button.metro.red.span2
+      i.icon-comments-alt
+      p Network
+      span.badge 46
+    .clearfix
+  #secondRow.row-fluid
+  .row-fluid.hideInIE8.circleStats
+    .span2(ontablet='span4', ondesktop='span2')
+      .circleStatsItemBox.yellow
+        .header Grid Production Capacity
+        span.percent percent
+        .circleStat
+          input.whiteCircle(type='text', value='20')
+        .footer
+          span.count
+            span.number 20000
+            span.unit MW
+          span.sep /
+          span.value
+            span.number 100000
+            span.unit MW
+    .span2(ontablet='span4', ondesktop='span2')
+      .circleStatsItemBox.green
+        .header Transient Capacity
+        span.percent percent
+        .circleStat
+          input.whiteCircle(type='text', value='78')
+        .footer
+          span.count
+            span.number 76440
+            span.unit MW
+          span.sep /
+          span.value
+            span.number 98000
+            span.unit MW
+    .span2(ontablet='span4', ondesktop='span2')
+      .circleStatsItemBox.greenDark
+        .header Sales Target
+        span.percent percent
+        .circleStat
+          input.whiteCircle(type='text', value='100')
+        .footer
+          span.sep
+            span.number 1,000,999
+            span.unit USD
+          span.sep /
+          span.value
+            span.number 1,000,999
+            span.unit USD
+    .span2.noMargin(ontablet='span4', ondesktop='span2')
+      .circleStatsItemBox.pink
+        .header Efficiency Target
+        span.percent percent
+        .circleStat
+          input.whiteCircle(type='text', value='83')
+        .footer
+          span.count
+            span.number 83
+            span.unit
+          span.sep /
+          span.value
+            span.number 100
+            span.unit
+    .widget.yellow.span4.noMargin(ontablet='span12', ondesktop='span4')
+      h2
+        span.glyphicons.fire
+          i Grid Load
+      hr
+      .content
+        #serverLoad2(style='height:105px;')
+  .row-fluid
+    .span3.statbox.purple(ontablet='span6', ondesktop='span3')
+      .boxchart 5,6,7,2,0,4,2,4,8,2,3,3,2
+      .number $10.23
+        i.icon-arrow-up
+      .title Price
+      .footer
+        a(href='#') read full report
+    .span3.statbox.green(ontablet='span6', ondesktop='span3')
+      .boxchart 1,2,6,4,0,8,2,4,5,3,1,7,5
+      .number 123,000
+        i.icon-arrow-up
+      .title Consumer Demand
+      .footer
+        a(href='#') read full report
+    .span3.statbox.blue.noMargin(ontablet='span6', ondesktop='span3')
+      .boxchart 5,6,7,2,0,-4,-2,4,8,2,3,3,2
+      .number $900,900
+        i.icon-arrow-up
+      .title Grid Sales
+      .footer
+        a(href='#') read full report
+    .span3.statbox.yellow(ontablet='span6', ondesktop='span3')
+      .boxchart 7,2,2,2,1,-4,-2,4,8,,0,3,3,5
+      .number $100,099
+        i.icon-arrow-down
+      .title Alternative Sales
+      .footer
+        a(href='#') read full report
+  .clearfix
