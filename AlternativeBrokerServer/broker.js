@@ -98,7 +98,7 @@ Broker.prototype.settleDemand = function(quote){
     for(supply in this.supply){
       receipts.addTransaction(new Transaction({
         price: (quote.price * config.discountPercent) - ((quote.price * config.discountPercent) * config.brokerFeePercent),
-        energy: this.supply[supply].energy * this.supply[supply].energy / totalSupply,
+        energy: totalDemand * this.supply[supply].energy / totalSupply,
         block: quote.timeBlock,
         seller: this.supply[supply].producerId,
         buyer: 'AEB'
@@ -108,7 +108,7 @@ Broker.prototype.settleDemand = function(quote){
    for(demand in this.demand){
      receipts.addTransaction(new Transaction({
        price: quote.price * config.discountPercent,
-       energy: this.demand[demand].energy * this.demand[demand].energy / totalDemand,
+       energy: totalSupply * this.demand[demand].energy / totalDemand,
        block: quote.timeBlock,
        buyer: this.demand[demand].consumerId,
        seller: 'AEB'

@@ -10,7 +10,7 @@ var StreamingService = function(){
 StreamingService.prototype.addSubscriber = function(socket) {
   socket.on('subscribe', function(subscription){
     this._addSubscription(subscription.key, subscription.subkey, socket);
-  })
+  }.bind(this))
 };
 
 StreamingService.prototype._addSubscription = function(key, subkey, socket){
