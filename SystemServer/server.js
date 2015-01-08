@@ -28,7 +28,7 @@ server.listen(config.port);
 var aggregationNsp = io.of('/aggregation');
 var aggregator = new Aggregator(aggregationNsp);
 aggregator.registerAll(aggregations);
-
+global.aggregator = aggregator;
 // Serve admin
 app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
@@ -61,6 +61,7 @@ producerNsp.on('connection', function(socket){
 var brokerNsp = io.of('/brokers');
 brokerNsp.on('connection', function(socket){
   console.log('broker connected');
+  aggregator.report('broker', socket);
   market.on('marketClose', function(auction){
     socket.emit('marketClose', auction.currentBlock);
   });
@@ -70,6 +71,8 @@ brokerNsp.on('connection', function(socket){
       result.timeBlock = demand.timeBlock;
       result.minPrice = config.minPrice;
       socket.emit('priceQuote', result);
+      result.id = socket.id;
+      aggregator.report('broker.quotes', result);
     }catch(e){
       result = {
         price: config.maxPrice,

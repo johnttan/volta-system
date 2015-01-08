@@ -5,10 +5,10 @@ var LocalAggregator = function(nsp){
 };
 
 LocalAggregator.prototype.report = function(key, value) {
-  if(this.aggregations[key]){
+  var dataKey = key.split('.')[0];
+  if(this.aggregators[key]){
     this.aggregators[key].forEach(function(agFunc){
-      console.log(this.aggregations[key]);
-      this.aggregations[key] = agFunc(value, this.aggregations[key]);
+      this.aggregations[dataKey] = agFunc(value, this.aggregations[dataKey]);
     }.bind(this));
   };
   this.nsp.emit('aggregations', this.aggregations);
@@ -16,9 +16,11 @@ LocalAggregator.prototype.report = function(key, value) {
 
 LocalAggregator.prototype.register = function(key, aggregator, init){
   var that = this;
-  if(!this.aggregations[key]){
-    this.aggregations[key] = init;
+  if(!this.aggregators[key]){
     this.aggregators[key] = [aggregator];
+  };
+  if(!this.aggregations[key.split('.')[0]]){
+    this.aggregations[key.split('.')[0]] = init;
   }else{
     that.aggregators[key].push(aggregator);
   };
