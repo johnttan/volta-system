@@ -11,6 +11,7 @@ LocalAggregator.prototype.report = function(key, value) {
       this.aggregations[dataKey] = agFunc(value, this.aggregations[dataKey]);
     }.bind(this));
   };
+  console.log(JSON.stringify(this.aggregations));
   this.nsp.emit('aggregations', this.aggregations);
 };
 

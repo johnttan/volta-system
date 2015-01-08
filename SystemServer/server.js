@@ -61,7 +61,7 @@ producerNsp.on('connection', function(socket){
 var brokerNsp = io.of('/brokers');
 brokerNsp.on('connection', function(socket){
   console.log('broker connected');
-  aggregator.report('broker', socket);
+  aggregator.report('brokers', socket);
   market.on('marketClose', function(auction){
     socket.emit('marketClose', auction.currentBlock);
   });
