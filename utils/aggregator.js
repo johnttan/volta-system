@@ -11,7 +11,6 @@ LocalAggregator.prototype.report = function(key, value) {
       this.aggregations[dataKey] = agFunc(value, this.aggregations[dataKey]);
     }.bind(this));
   };
-  console.log(JSON.stringify(this.aggregations));
   this.nsp.emit('aggregations', this.aggregations);
 };
 
@@ -19,12 +18,12 @@ LocalAggregator.prototype.register = function(key, aggregator, init){
   var that = this;
   if(!this.aggregators[key]){
     this.aggregators[key] = [aggregator];
-  };
-  if(!this.aggregations[key.split('.')[0]]){
-    this.aggregations[key.split('.')[0]] = init;
   }else{
     that.aggregators[key].push(aggregator);
-  };
+  }
+  if(!this.aggregations[key.split('.')[0]]){
+    this.aggregations[key.split('.')[0]] = init;
+  }
 };
 
 LocalAggregator.prototype.registerAll = function(list){

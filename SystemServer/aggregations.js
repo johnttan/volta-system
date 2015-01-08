@@ -26,7 +26,6 @@ var aggregations = [
   {
     key: 'brokers',
     aggregator: function(newValue, oldStructure){
-      console.log('reported broker')
       oldStructure.num ++;
       oldStructure.ids[newValue.id] = {
         quotes: []
@@ -41,7 +40,7 @@ var aggregations = [
   {
     key: 'brokers.quotes',
     aggregator: function(quote, oldStructure){
-      oldStructure[quote.id].quotes.push(quote);
+      oldStructure.ids[quote.id].quotes.push(quote);
       return oldStructure;
     }
   }

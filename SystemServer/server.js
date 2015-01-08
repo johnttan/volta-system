@@ -72,8 +72,9 @@ brokerNsp.on('connection', function(socket){
       result.minPrice = config.minPrice;
       socket.emit('priceQuote', result);
       result.id = socket.id;
-      aggregator.report('broker.quotes', result);
+      aggregator.report('brokers.quotes', result);
     }catch(e){
+      console.log('queryPrice', e)
       result = {
         price: config.maxPrice,
         timeBlock: demand.timeBlock
