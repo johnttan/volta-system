@@ -4,6 +4,7 @@ var Auction = function(params){
   this.bidders = {};
   this.bids = [];
   this.results = {};
+  this.timeStamp = Date.now();
   this.receipts = new Receipts();
   if(params){
     for(key in this){

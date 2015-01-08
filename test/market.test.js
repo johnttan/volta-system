@@ -2,8 +2,11 @@ var expect = require('chai').expect;
 var Market = require('../SystemServer/market/market');
 var testConfig = require('./stubs').config;
 var reporter = new (require('../utils/adminReporter'))();
-
+var Aggregator = require('../utils/aggregator');
 global.reporter = reporter;
+global.aggregator = {
+  report: function(){}
+};
 global.fileLog = function(){};
 function makeSuite(name, tests) {
     describe(name, function () {

@@ -8,27 +8,27 @@ var express = require('express');
 var app = express();
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
-var Aggregator = require('../utils/aggregator');
 global.reporter = reporter;
+var Aggregator = require('../utils/aggregator');
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+// Start Aggregation client
+var aggregationNsp = io.of('/aggregation');
+var aggregations = require('./aggregations');
+var aggregator = new Aggregator(aggregationNsp);
+aggregator.registerAll(aggregations);
+global.aggregator = aggregator;
 
 var market = new (require('./market/market'))(config);
 var monitor = new (require('./monitor/monitor'))(config);
 var consumerManager = new (require('./consumerManager'))(config.consumer, market, monitor);
 var producerManager = new (require('./producerManager'))(config.producer, market, monitor);
-var aggregations = require('./aggregations');
 // Setup server.
 server.listen(config.port);
 
-// Start Aggregation client
-var aggregationNsp = io.of('/aggregation');
-var aggregator = new Aggregator(aggregationNsp);
-aggregator.registerAll(aggregations);
-global.aggregator = aggregator;
 // Serve admin
 app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
@@ -72,6 +72,7 @@ brokerNsp.on('connection', function(socket){
       result.minPrice = config.minPrice;
       socket.emit('priceQuote', result);
       result.id = socket.id;
+      result.time = Date.now();
       aggregator.report('brokers.quotes', result);
     }catch(e){
       console.log('queryPrice', e)

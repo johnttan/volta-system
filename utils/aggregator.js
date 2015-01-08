@@ -1,11 +1,18 @@
+var stringify = require('json-stringify-safe');
+
 var LocalAggregator = function(nsp){
   this.nsp = nsp;
   this.aggregations = {};
   this.aggregators = {};
+  nsp.on('connect', function(socket){
+    socket.emit('aggregations', this.aggregations)
+  });
 };
 
 LocalAggregator.prototype.report = function(key, value) {
+  value = JSON.parse(stringify(value));
   var dataKey = key.split('.')[0];
+  console.log(key, value);
   if(this.aggregators[key]){
     this.aggregators[key].forEach(function(agFunc){
       this.aggregations[dataKey] = agFunc(value, this.aggregations[dataKey]);

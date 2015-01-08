@@ -1,5 +1,5 @@
 angular.module('app')
-  .controller('DashboardController', function($scope){
+  .controller('DashboardController', function($scope, AggregationService){
     $scope.tiles = [
       {
         color: 'red',

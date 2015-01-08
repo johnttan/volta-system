@@ -1,4 +1,8 @@
 angular.module('app')
-  .factory(function(){
-
+  .factory('AggregationService', function(){
+    var aggSocket = io('/aggregation');
+    aggSocket.on('aggregations', function(data){
+      console.log(data);
+    });
+    return {};
   })
