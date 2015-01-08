@@ -48,7 +48,7 @@ module.exports = function(bids, supply, margin, blockDuration){
   }});
   return {
     controls: controls,
-    price: (cost / bids.length) + margin
+    price: (cost) + margin
   }
 };
 
