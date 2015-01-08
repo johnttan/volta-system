@@ -20,13 +20,15 @@ var aggregations = [
     },
     init: {
       num: 0,
-      ids: {}
+      supply: {},
+      controls: {}
     }
   },
   {
     key: 'producers.supply',
     aggregator: function(newValue, oldStructure){
-      oldStructure.ids = newValue;
+      oldStructure.supply = oldStructure.supply || [];
+      oldStructure.supply.push(newValue);
       return oldStructure;
     }
   },
@@ -34,7 +36,7 @@ var aggregations = [
     key: 'producers.controls',
     aggregator: function(controls, oldStructure){
       controls.forEach(function(control){
-        oldStructure.ids[control.producerId] = oldStructure.ids[control.producerId] || [];
+        oldStructure.controls[control.producerId] = oldStructure.controls[control.producerId] || [];
         oldStructure.ids[control.producerId].push(control);
       })
     }
