@@ -77,7 +77,7 @@ Market.prototype.computeBasedOnDemand = function(demand){
   var results = this.priceAndControl.compute(demand, this.currentSupply, this.config.margin, this.config.blockDuration);
   return results;
 
-}
+};
 
 /*
 Clear the market and setTimeout for next bidding cycle

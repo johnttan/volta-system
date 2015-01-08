@@ -8,6 +8,7 @@ var express = require('express');
 var app = express();
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
+var Aggregator = require('../utils/aggregator');
 global.reporter = reporter;
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
@@ -19,9 +20,15 @@ var market = new (require('./market/market'))(config);
 var monitor = new (require('./monitor/monitor'))(config);
 var consumerManager = new (require('./consumerManager'))(config.consumer, market, monitor);
 var producerManager = new (require('./producerManager'))(config.producer, market, monitor);
+var aggregations = require('./aggregations');
 // Setup server.
 server.listen(config.port);
 
+// Start Aggregation client
+var aggregationNsp = io.of('/aggregation');
+var aggregator = new Aggregator(aggregationNsp);
+aggregator.registerAll(aggregations);
+global.aggregator = aggregator;
 // Serve admin
 app.get('/admin', function(req, res){
   res.sendFile(__dirname + '/public/admin.html')
@@ -31,6 +38,9 @@ app.get('/admin', function(req, res){
 app.get('/api/stats', function(req, res){
   res.json(reporter.update())
 });
+app.get('/api/controls', function(req, res){
+  res.json({});
+});
 
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
@@ -39,16 +49,19 @@ console.log("node_env", process.env.node_env); //to check whether it's been set 
 var consumerNsp = io.of('/consumers');
 consumerNsp.on('connection', function(socket){
   consumerManager.addConsumer(socket);
+  aggregator.report('consumers', socket);
 });
 
 var producerNsp = io.of('/producers');
 producerNsp.on('connection', function(socket){
   producerManager.addProducer(socket);
+  aggregator.report('producers', socket);
 });
 
 var brokerNsp = io.of('/brokers');
 brokerNsp.on('connection', function(socket){
   console.log('broker connected');
+  aggregator.report('brokers', socket);
   market.on('marketClose', function(auction){
     socket.emit('marketClose', auction.currentBlock);
   });
@@ -58,7 +71,10 @@ brokerNsp.on('connection', function(socket){
       result.timeBlock = demand.timeBlock;
       result.minPrice = config.minPrice;
       socket.emit('priceQuote', result);
+      result.id = socket.id;
+      aggregator.report('brokers.quotes', result);
     }catch(e){
+      console.log('queryPrice', e)
       result = {
         price: config.maxPrice,
         timeBlock: demand.timeBlock
@@ -93,3 +109,4 @@ market.startMarket();
 
 // Start DiscoveryClient and register self
 var discoveryClient = new DiscoveryClient(config);
+

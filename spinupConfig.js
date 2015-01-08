@@ -4,16 +4,6 @@ module.exports = {
   rootDir: '/home/john/code',
   nodes: [
     {
-      name: 'discovery',
-      dir: '/volta-system/DiscoveryServer',
-      args: ['server.js']
-    },
-    {
-      name: 'accounting',
-      dir: '/volta-system/AccountingServer',
-      args: ['server.js']
-    },
-    {
       name: 'consumer',
       dir: '/volta-consumer/servers',
       args: ['consumerServer.js']
@@ -27,11 +17,6 @@ module.exports = {
       name: 'consumerClient',
       dir: '/volta-consumer/servers',
       args: ['clientServer.js']
-    },
-    {
-      name: 'testConsumers',
-      dir: '/volta-system/AlternativeBrokerServer',
-      args: ['testConsumers.js']
     },
     {
       name: 'producer',

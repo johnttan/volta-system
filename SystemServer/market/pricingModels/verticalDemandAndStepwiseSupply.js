@@ -35,7 +35,7 @@ module.exports = function(bids, supply, margin, blockDuration){
       producerId: current.producerId,
       productionGoal: productionGoal
     });
-    cost += current.pricePerMWH * (blockDuration / 1000 / 60 / 60) * productionGoal;
+    cost += current.pricePerMWH;
     i++;
   };
   if(!supplyReached){
@@ -48,7 +48,7 @@ module.exports = function(bids, supply, margin, blockDuration){
   }});
   return {
     controls: controls,
-    price: (cost / bids.length) + margin
+    price: (cost) + margin
   }
 };
 

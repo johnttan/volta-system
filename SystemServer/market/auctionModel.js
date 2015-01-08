@@ -20,7 +20,7 @@ Auction.prototype.addTransaction = function(params){
 };
 
 Auction.prototype.save = function(){
-
+  this.receipts.save();
 };
 
 Auction.prototype.getReceipts = function(){
