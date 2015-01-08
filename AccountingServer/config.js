@@ -3,7 +3,7 @@
   cassIp: '104.210.34.54',
   cassKeyspace: 'volta',
   discoveryIp: 'http://104.40.181.157:8001',
-  ip: 'http://localhost:8001',
+  ip: '130.211.159.31',
   id: 22,
   role: 'system',
   subRole: 'accounting'

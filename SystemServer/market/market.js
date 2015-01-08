@@ -119,7 +119,10 @@ Market.prototype._clearMarket = function() {
     this.state = 2;
     this.currentAuction.currentBlock = this.currentBlock;
     this.trigger('marketClose', this.currentAuction);
-    this.trigger('changeProduction', results.controls);
+
+////////////////////////////////////////////////////////
+////TO DO: results.controls object being sent should contain the info on the timeblock;  
+    this.trigger('changeProduction', results.controls); 
     this.currentAuction = new Auction();
     console.log('market closed')
   }catch(e){
