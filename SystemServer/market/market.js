@@ -33,6 +33,7 @@ Market.prototype.bid = function(bids) {
     bids.data.forEach(function(el){
       that.currentAuction.bids.push({price: el.price, energy: el.energy});
     });
+    aggregator.report('auctions.update', that.currentAuction);
     return true;
   }else{
     return false;
@@ -44,6 +45,7 @@ Process a supply report from 1 producer
 */
 Market.prototype.reportSupply = function(supply) {
   this.currentSupply[supply.producerId] = supply;
+  aggregator.report('producers.supply', this.currentSupply);
   return true;
 };
 
