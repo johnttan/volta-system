@@ -69,7 +69,6 @@ var aggregations = [
   {
     key: 'auctions',
     aggregator: function(newValue, oldStructure){
-      console.log('new auction', newValue, oldStructure);
       oldStructure.auctions.push(newValue);
       return oldStructure;
     },
