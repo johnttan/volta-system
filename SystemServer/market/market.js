@@ -127,7 +127,6 @@ Market.prototype._clearMarket = function() {
     this.trigger('changeProduction', results.controls);
     this.currentAuction = new Auction();
     aggregator.report('auctions', this.currentAuction);
-    console.log('market closed')
   }catch(e){
     console.trace(e);
     this.trigger('error', e);

@@ -11,8 +11,8 @@ var LocalAggregator = function(nsp){
 
 LocalAggregator.prototype.report = function(key, value) {
   value = JSON.parse(stringify(value));
-  var dataKey = key.split('.')[0];
   console.log(key, value);
+  var dataKey = key.split('.')[0];
   if(this.aggregators[key]){
     this.aggregators[key].forEach(function(agFunc){
       this.aggregations[dataKey] = agFunc(value, this.aggregations[dataKey]);

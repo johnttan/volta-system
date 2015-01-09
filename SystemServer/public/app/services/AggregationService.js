@@ -1,8 +1,19 @@
 angular.module('app')
   .factory('AggregationService', function(){
     var aggSocket = io('/aggregation');
+    var aggregations = {};
+    var result = {
+      aggregations: aggregations,
+      update: function(){},
+      addUpdate: function(update){
+        result.update = update;
+      }
+    };
     aggSocket.on('aggregations', function(data){
-      console.log(data);
+      for(var key in data){
+        aggregations[key] = data[key]
+      };
+      result.update();
     });
-    return {};
+    return result;
   })

@@ -40,8 +40,9 @@ var aggregations = [
     aggregator: function(controls, oldStructure){
       controls.forEach(function(control){
         oldStructure.controls[control.producerId] = oldStructure.controls[control.producerId] || [];
-        oldStructure.ids[control.producerId].push(control);
-      })
+        oldStructure.controls[control.producerId].push(control);
+      });
+      return oldStructure;
     }
   },
   {
@@ -68,7 +69,7 @@ var aggregations = [
   {
     key: 'auctions',
     aggregator: function(newValue, oldStructure){
-      console.log('new auction');
+      console.log('new auction', newValue, oldStructure);
       oldStructure.auctions.push(newValue);
       return oldStructure;
     },
