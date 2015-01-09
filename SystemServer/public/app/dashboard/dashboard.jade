@@ -1,10 +1,10 @@
 #content.span10
   .row-fluid
     vt-distribution-tile(stats="tiles[0]")
-    a.quick-button.metro.span2(ng-repeat="tile in tiles" ng-class="tile.color")
-      i(ng-class="tile.icon")
-      p {{tile.title}}
-      span.badge {{tile.value}}
+    vt-production-tile(stats="tiles[0]")
+    vt-market-tile(stats="tiles[0]")
+    vt-transactions-tile(stats="tiles[0]")
+    vt-control-tile(stats="tiles[0]")
     .clearfix
   #secondRow.row-fluid
   .row-fluid.hideInIE8.circleStats
