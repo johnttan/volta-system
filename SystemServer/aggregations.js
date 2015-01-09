@@ -20,6 +20,7 @@ var aggregations = [
     },
     init: {
       num: 0,
+      ids: {},
       supply: {},
       controls: {}
     }
@@ -27,8 +28,10 @@ var aggregations = [
   {
     key: 'producers.supply',
     aggregator: function(newValue, oldStructure){
-      oldStructure.supply = oldStructure.supply || [];
-      oldStructure.supply.push(newValue);
+      for(var id in newValue){
+        oldStructure.supply[id] = oldStructure.supply[id] || [];
+        oldStructure.supply[id].push(newValue[id]);
+      };
       return oldStructure;
     }
   },
@@ -37,8 +40,9 @@ var aggregations = [
     aggregator: function(controls, oldStructure){
       controls.forEach(function(control){
         oldStructure.controls[control.producerId] = oldStructure.controls[control.producerId] || [];
-        oldStructure.ids[control.producerId].push(control);
-      })
+        oldStructure.controls[control.producerId].push(control);
+      });
+      return oldStructure;
     }
   },
   {
@@ -65,11 +69,12 @@ var aggregations = [
   {
     key: 'auctions',
     aggregator: function(newValue, oldStructure){
+      console.log('new auction', newValue, oldStructure);
       oldStructure.auctions.push(newValue);
       return oldStructure;
     },
     init: {
-      auctions: [];
+      auctions: []
     }
   },
   {
@@ -77,9 +82,6 @@ var aggregations = [
     aggregator: function(newValue, oldStructure){
       oldStructure.auctions[oldStructure.auctions.length-1] = newValue;
       return oldStructure;
-    },
-    init: {
-      auctions: [];
     }
   }
 ];

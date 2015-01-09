@@ -14,6 +14,7 @@ var Market = function(config){
   this.runningStats = {};
   this.currentBids = {};
   this.currentAuction = new Auction();
+  aggregator.report('auctions', this.currentAuction);
   this.priceAndControl = new PriceAndControl(config);
   this.currentSupply = {};
 };
@@ -33,6 +34,7 @@ Market.prototype.bid = function(bids) {
     bids.data.forEach(function(el){
       that.currentAuction.bids.push({price: el.price, energy: el.energy});
     });
+    that.currentAuction.time = Date.now();
     aggregator.report('auctions.update', that.currentAuction);
     return true;
   }else{
@@ -45,6 +47,7 @@ Process a supply report from 1 producer
 */
 Market.prototype.reportSupply = function(supply) {
   this.currentSupply[supply.producerId] = supply;
+  this.currentSupply.time = Date.now();
   aggregator.report('producers.supply', this.currentSupply);
   return true;
 };
@@ -123,8 +126,10 @@ Market.prototype._clearMarket = function() {
     this.trigger('marketClose', this.currentAuction);
     this.trigger('changeProduction', results.controls);
     this.currentAuction = new Auction();
-    console.log('market closed')
+    aggregator.report('auctions', this.currentAuction);
   }catch(e){
+    this.trigger('marketClose', this.currentAuction);
+    this.currentAuction = new Auction();
     console.trace(e);
     this.trigger('error', e);
   };
