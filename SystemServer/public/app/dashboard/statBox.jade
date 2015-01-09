@@ -1,0 +1,7 @@
+.span3.statbox(ng-class="tile.color" ontablet='span6', ondesktop='span3')
+  .boxchart {{tile.data.join(',')}}
+  .number {{tile.number}}
+    i(ng-class="tile.icon")
+  .title {{tile.title}}
+  .footer
+    a(href='#') read full report
