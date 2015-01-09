@@ -4,7 +4,8 @@
     vt-production-tile(stats="tiles[0]")
     vt-market-tile(stats="tiles[0]")
     vt-transactions-tile(stats="tiles[0]")
-    vt-control-tile(stats="tiles[0]")
+    vt-controls-tile(stats="tiles[0]")
+    vt-network-tile(stats="tiles[0]")
     .clearfix
   #secondRow.row-fluid
   .row-fluid.hideInIE8.circleStats
@@ -30,32 +31,8 @@
       .content
         #serverLoad2(style='height:105px;')
   .row-fluid
-    .span3.statbox.purple(ontablet='span6', ondesktop='span3')
-      .boxchart 5,6,7,2,0,4,2,4,8,2,3,3,2
-      .number $10.23
-        i.icon-arrow-up
-      .title Price
-      .footer
-        a(href='#') read full report
-    .span3.statbox.green(ontablet='span6', ondesktop='span3')
-      .boxchart 1,2,6,4,0,8,2,4,5,3,1,7,5
-      .number 123,000
-        i.icon-arrow-up
-      .title Consumer Demand
-      .footer
-        a(href='#') read full report
-    .span3.statbox.blue.noMargin(ontablet='span6', ondesktop='span3')
-      .boxchart 5,6,7,2,0,-4,-2,4,8,2,3,3,2
-      .number $900,900
-        i.icon-arrow-up
-      .title Grid Sales
-      .footer
-        a(href='#') read full report
-    .span3.statbox.yellow(ontablet='span6', ondesktop='span3')
-      .boxchart 7,2,2,2,1,-4,-2,4,8,,0,3,3,5
-      .number $100,099
-        i.icon-arrow-down
-      .title Alternative Sales
-      .footer
-        a(href='#') read full report
+    vt-price-box
+    vt-consumer-demand-box
+    vt-grid-sales-box
+    vt-alternative-sales-box
   .clearfix
