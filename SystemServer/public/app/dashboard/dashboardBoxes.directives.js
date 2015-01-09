@@ -26,7 +26,7 @@ angular.module('app')
       },
       controller: function($scope){
         $scope.tile = {
-          color: 'blue',
+          color: 'green',
           data: [5,6,7,2,0,-4,-2,4,8,2,3,3,2],
           number: '123,000',
           icon: 'icon-arrow-up',
@@ -64,7 +64,7 @@ angular.module('app')
       },
       controller: function($scope){
         $scope.tile = {
-          color: 'purple',
+          color: 'yellow',
           data: [7,2,2,2,1,-4,-2,4,8,,0,3,3,5],
           number: '$100,099',
           icon: 'icon-arrow-down',
