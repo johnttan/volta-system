@@ -1,0 +1,14 @@
+.span2(ontablet='span4', ondesktop='span2')
+      .circleStatsItemBox(ng-class="circle.color")
+        .header {{circle.title}}
+        span.percent percent
+        .circleStat
+          input.whiteCircle(type='text', ng-attr-value="{{100 * circle.value / circle.max | number : 1}}")
+        .footer
+          span.count
+            span.number {{circle.value}}
+            span.unit {{circle.unit}}
+          span.sep /
+          span.value
+            span.number {{circle.max}}
+            span.unit {{circle.unit}}

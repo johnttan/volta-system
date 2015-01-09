@@ -6,7 +6,7 @@ angular.module('app')
         stats: "="
       },
       controller: function($scope){
-        $scope.tile = {
+        $scope.circle = {
           title: 'Grid Capacity',
           value: 90,
           max: 100,
@@ -14,7 +14,7 @@ angular.module('app')
           color: 'red'
         }
       },
-      templateUrl: 'circleTile.html',
+      templateUrl: 'circleStat.html',
       replace: true
     }
   })
@@ -25,7 +25,7 @@ angular.module('app')
         stats: "="
       },
       controller: function($scope){
-        $scope.tile = {
+        $scope.circle = {
           title: 'Transient Capacity',
           value: 76440,
           max: 98000,
@@ -33,7 +33,7 @@ angular.module('app')
           color: 'green'
         }
       },
-      templateUrl: 'circleTile.html',
+      templateUrl: 'circleStat.html',
       replace: true
     }
   })
@@ -44,7 +44,7 @@ angular.module('app')
         stats: "="
       },
       controller: function($scope){
-        $scope.tile = {
+        $scope.circle = {
           title: 'Sales Target',
           value: 76440,
           max: 98000,
@@ -52,7 +52,7 @@ angular.module('app')
           color: 'blue'
         }
       },
-      templateUrl: 'circleTile.html',
+      templateUrl: 'circleStat.html',
       replace: true
     }
   })
@@ -63,7 +63,7 @@ angular.module('app')
         stats: "="
       },
       controller: function($scope){
-        $scope.tile = {
+        $scope.circle = {
           title: 'Efficiency Target',
           value: 76440,
           max: 98000,
@@ -71,7 +71,7 @@ angular.module('app')
           color: 'yellow'
         }
       },
-      templateUrl: 'circleTile.html',
+      templateUrl: 'circleStat.html',
       replace: true
     }
   })
