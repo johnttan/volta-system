@@ -128,6 +128,8 @@ Market.prototype._clearMarket = function() {
     this.currentAuction = new Auction();
     aggregator.report('auctions', this.currentAuction);
   }catch(e){
+    this.trigger('marketClose', this.currentAuction);
+    this.currentAuction = new Auction();
     console.trace(e);
     this.trigger('error', e);
   };
