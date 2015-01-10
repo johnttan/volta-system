@@ -39,6 +39,7 @@ CircularBuffer.prototype.getArray = function(){
     results.push(this._storage[tempHead]);
     tempHead = (tempHead + 1) % this.size;
   };
+  this.array = results;
   return results;
 };
 
