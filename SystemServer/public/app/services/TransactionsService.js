@@ -17,7 +17,7 @@ angular.module('app')
       key: 'seller',
       subkey: 'grid'
     });
-    var transactions = {};
+    var transactions = new CircularBuffer(200);
     var result = {
       transactions: transactions,
       update: function(){},
