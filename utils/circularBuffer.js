@@ -3,6 +3,7 @@ var CircularBuffer = function(size){
   this.head = 0;
   this.tail = 0;
   this.size = size;
+  this.array = [];
 };
 
 CircularBuffer.prototype.eq = function(item){
@@ -13,6 +14,7 @@ CircularBuffer.prototype.eq = function(item){
   this._storage[this.tail] = item;
   this.tail = (this.tail + 1) % this.size;
   this.lastOperation = 'write';
+  this.getArray();
 };
 
 CircularBuffer.prototype.dq = function(){
@@ -40,6 +42,7 @@ CircularBuffer.prototype.getArray = function(){
     tempHead = (tempHead + 1) % this.size;
   };
   this.array = results;
+  console.log(this.array);
   return results;
 };
 
