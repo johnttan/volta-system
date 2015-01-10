@@ -1,3 +1,5 @@
+var CircularBuffer = require(__dirname + '/../utils/circularBuffer');
+
 var aggregations = [
   {
     key: 'consumers',
@@ -43,8 +45,8 @@ var aggregations = [
     key: 'producers.supply',
     aggregator: function(newValue, oldStructure){
       for(var id in newValue){
-        oldStructure.supply[id] = oldStructure.supply[id] || [];
-        oldStructure.supply[id].push(newValue[id]);
+        oldStructure.supply[id] = oldStructure.supply[id] || new CircularBuffer(100);
+        oldStructure.supply[id].eq(newValue[id]);
       };
       return oldStructure;
     }
@@ -53,8 +55,8 @@ var aggregations = [
     key: 'producers.controls',
     aggregator: function(controls, oldStructure){
       controls.forEach(function(control){
-        oldStructure.controls[control.producerId] = oldStructure.controls[control.producerId] || [];
-        oldStructure.controls[control.producerId].push(control);
+        oldStructure.controls[control.producerId] = oldStructure.controls[control.producerId] || new CircularBuffer(100);
+        oldStructure.controls[control.producerId].eq(control);
       });
       return oldStructure;
     }
@@ -64,7 +66,7 @@ var aggregations = [
     aggregator: function(newValue, oldStructure){
       oldStructure.num ++;
       oldStructure.ids[newValue.id] = {
-        quotes: []
+        quotes: new CircularBuffer(100)
       };
       return oldStructure;
     },
@@ -76,18 +78,18 @@ var aggregations = [
   {
     key: 'brokers.quotes',
     aggregator: function(quote, oldStructure){
-      oldStructure.ids[quote.id].quotes.push(quote);
+      oldStructure.ids[quote.id].quotes.eq(quote);
       return oldStructure;
     }
   },
   {
     key: 'auctions',
     aggregator: function(newValue, oldStructure){
-      oldStructure.auctions.push(newValue);
+      oldStructure.auctions.eq(newValue);
       return oldStructure;
     },
     init: {
-      auctions: []
+      auctions: new CircularBuffer(100)
     }
   },
   {

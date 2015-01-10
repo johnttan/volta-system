@@ -4,6 +4,7 @@ var LocalAggregator = function(nsp){
   this.nsp = nsp;
   this.aggregations = {};
   this.aggregators = {};
+  this.buffers = [];
   nsp.on('connect', function(socket){
     socket.emit('aggregations', this.aggregations)
   });
@@ -39,6 +40,12 @@ LocalAggregator.prototype.registerAll = function(list){
   list.forEach(function(aggregation){
     this.register(aggregation.key, aggregation.aggregator, aggregation.init)
   }.bind(this))
+};
+
+LocalAggregator.prototype.resolveBuffers = function(){
+  this.buffers.forEach(function(buffer){
+    buffer.getArray();
+  })
 };
 
 module.exports = LocalAggregator;
