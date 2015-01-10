@@ -9,9 +9,14 @@ angular.module('app')
         $scope.tile = {
           color: 'red',
           title: 'Distribution',
-          value: 100,
           icon: 'icon-group'
-        }
+        };
+
+        $scope.value = function(){
+          if($scope.stats){
+            return $scope.stats.num;
+          }
+        };
       },
       templateUrl: 'quickButton.html',
       replace: true
@@ -27,8 +32,13 @@ angular.module('app')
         $scope.tile = {
           color: 'green',
           title: 'Production',
-          value: 100,
           icon: 'icon-barcode'
+        };
+
+        $scope.value = function(){
+          if($scope.stats){
+            return $scope.stats.num;
+          }
         }
       },
       templateUrl: 'quickButton.html',
@@ -45,8 +55,13 @@ angular.module('app')
         $scope.tile = {
           color: 'blue',
           title: 'Market',
-          value: 13,
           icon: 'icon-shopping-cart'
+        };
+
+        $scope.value = function(){
+          if($scope.stats){
+            return $scope.stats.auctions.length;
+          }
         }
       },
       templateUrl: 'quickButton.html',

@@ -1,11 +1,11 @@
 #content.span10
   .row-fluid
-    vt-distribution-tile(stats="tiles[0]")
-    vt-production-tile(stats="tiles[0]")
-    vt-market-tile(stats="tiles[0]")
-    vt-transactions-tile(stats="tiles[0]")
-    vt-controls-tile(stats="tiles[0]")
-    vt-network-tile(stats="tiles[0]")
+    vt-distribution-tile(stats="aggregations.consumers")
+    vt-production-tile(stats="aggregations.producers")
+    vt-market-tile(stats="aggregations.auctions")
+    vt-transactions-tile(stats="aggregations")
+    vt-controls-tile(stats="aggregations")
+    vt-network-tile(stats="aggregations")
     .clearfix
   #secondRow.row-fluid
   .row-fluid.hideInIE8.circleStats
