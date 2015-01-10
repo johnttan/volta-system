@@ -86,10 +86,12 @@ var aggregations = [
     key: 'auctions',
     aggregator: function(newValue, oldStructure){
       oldStructure.auctions.eq(newValue);
+      oldStructure.num ++;
       return oldStructure;
     },
     init: {
-      auctions: new CircularBuffer(100)
+      auctions: new CircularBuffer(100),
+      num: 0
     }
   },
   {
