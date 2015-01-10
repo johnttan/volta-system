@@ -1,7 +1,7 @@
 var expect = require('chai').expect;
 var ConsumerManager = require('../SystemServer/consumerManager');
 var testConfig = require('./stubs').config;
-globals.aggregator = {
+global.aggregator = {
   report: function(){}
 };
 function makeSuite(name, tests) {

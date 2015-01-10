@@ -27,4 +27,21 @@ CircularBuffer.prototype.dq = function(){
   return result;
 };
 
+CircularBuffer.prototype.getArray = function(){
+  var tempHead = this.head;
+  var results = [];
+  if(tempHead === this.tail){
+    results.push(this._storage[tempHead]);
+    tempHead = (tempHead + 1) % this.size;
+  };
+
+  while(tempHead !== this.tail){
+    results.push(this._storage[tempHead]);
+    tempHead = (tempHead + 1) % this.size;
+  };
+  return results;
+};
+
 module.exports = CircularBuffer;
+
+var test = new CircularBuffer(4);
