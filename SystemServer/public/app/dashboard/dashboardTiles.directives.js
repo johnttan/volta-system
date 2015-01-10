@@ -60,7 +60,7 @@ angular.module('app')
 
         $scope.value = function(){
           if($scope.stats){
-            return $scope.stats.auctions.length;
+            return $scope.stats.num;
           }
         }
       },
@@ -78,8 +78,13 @@ angular.module('app')
         $scope.tile = {
           color: 'pink',
           title: 'Transactions',
-          value: 88,
           icon: 'icon-envelope'
+        };
+
+        $scope.value = function(){
+          if($scope.stats){
+            return $scope.stats.num;
+          }
         }
       },
       templateUrl: 'quickButton.html',
