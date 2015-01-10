@@ -10,8 +10,10 @@ var LocalAggregator = function(nsp){
 };
 
 LocalAggregator.prototype.report = function(key, value) {
-  value = JSON.parse(stringify(value));
-  console.log(key, value);
+  try{
+    value = JSON.parse(JSON.stringify(value))
+  }catch(e){};
+
   var dataKey = key.split('.')[0];
   if(this.aggregators[key]){
     this.aggregators[key].forEach(function(agFunc){
