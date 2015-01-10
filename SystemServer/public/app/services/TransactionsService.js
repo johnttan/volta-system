@@ -1,6 +1,6 @@
 angular.module('app')
   .factory('TransactionsService', function(){
-    var transactionsSocket = io('130.211.159.31/subscriptions');
+    var transactionsSocket = io('130.211.159.31:80/subscriptions');
     transactionsSocket.emit('subscribe', {
       key: 'buyer',
       subkey: 'AEB'
@@ -19,13 +19,15 @@ angular.module('app')
     });
     var transactions = new CircularBuffer(200);
     var result = {
+      num: 0,
       transactions: transactions,
       update: function(){},
       addUpdate: function(update){
         result.update = update;
       }
     };
-    aggSocket.on('transaction', function(data){
+    transactionsSocket.on('transaction', function(data){
+      result.num ++;
       transactions.eq(data);
       result.update();
     });
