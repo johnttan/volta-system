@@ -3,12 +3,12 @@
         .header {{circle.title}}
         span.percent percent
         .circleStat
-          input.whiteCircle(type='text', ng-attr-value="{{100 * circle.value / circle.max | number : 1}}")
+          input.whiteCircle(type='text', ng-attr-value="{{newProp}}")
         .footer
           span.count
-            span.number {{circle.value}}
+            span.number {{ratio () | number: 0}}
             span.unit {{circle.unit}}
           span.sep /
           span.value
-            span.number {{circle.max}}
+            span.number {{max()}}
             span.unit {{circle.unit}}

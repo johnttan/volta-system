@@ -13,7 +13,7 @@ angular.module('app')
       for(var key in data){
         aggregations[key] = data[key]
       };
-      console.log(aggregations);
+     // console.log(aggregations);
       // console.log(Object.keys(aggregations));
       result.update();
     });

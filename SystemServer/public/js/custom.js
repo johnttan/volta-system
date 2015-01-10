@@ -698,6 +698,7 @@ function template_functions(){
 /* ---------- Circle Progess Bars ---------- */
 
 function circle_progess() {
+	console.log("draw");
 	
 	var divElement = $('div'); //log all div elements
 	
@@ -706,12 +707,12 @@ function circle_progess() {
 		$(".whiteCircle").knob({
 	        'min':0,
 	        'max':100,
-	        'readOnly': true,
+	        'readOnly': false,
 	        'width': 240,
 	        'height': 240,
 			'bgColor': 'rgba(255,255,255,0.5)',
 	        'fgColor': 'rgba(255,255,255,0.9)',
-	        'dynamicDraw': true,
+	        'dynamicDraw': false,
 	        'thickness': 0.2,
 	        'tickColorizeValues': true
 	    });
@@ -725,7 +726,7 @@ function circle_progess() {
 		$(".whiteCircle").knob({
 	        'min':0,
 	        'max':100,
-	        'readOnly': true,
+	        'readOnly': false,
 	        'width': 120,
 	        'height': 120,
 			'bgColor': 'rgba(255,255,255,0.5)',

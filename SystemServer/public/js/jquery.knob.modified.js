@@ -231,7 +231,7 @@ $(function () {
 
     // jQuery plugin
     $.fn.knob = $.fn.dial = function (gopt) {
-
+        console.log("doing");
         return this.each(
 
             function () {
@@ -339,21 +339,31 @@ $(function () {
                                          };
 
                 // bind change on input
-                $this.bind(
+                $this.on(
                         'change'
                         ,function (e) {
+                            console.log("noticed");
                             k.val($this.val());
                         }
                     );
-
+                $this.on(
+                        'changes'
+                        ,function (e, data) {
+                            console.log("noticed!", e, data);
+                            // console.log("$t", $this.val());
+                            k.val(data);
+                        }
+                    );
                 if (!opt.readOnly) {
 
                     // canvas
                     c.bind(
                                     "mousedown touchstart"
                                     ,function (e) {
-                                        e.preventDefault();
-                                        k.startDrag(e);
+                                        console.log("I see")
+                                         e.preventDefault();
+                                        // k.startDrag(e);
+                                        k.val($this.val());
                                     }
                           )
                      .bind(
@@ -380,6 +390,7 @@ $(function () {
                                         k.val($this.val());
                                     }
                             )
+                       // .bind("click", function () {console.log("I see")})
                         .bind(
                                     "keydown"
                                     ,function (e) {
@@ -438,7 +449,7 @@ $(function () {
                                     ,mw
                                 );
                 } else {
-                    $this.attr('readonly', 'readonly');
+                //    $this.attr('readonly', 'readonly');
                 }
             }
         ).parent();
