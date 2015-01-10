@@ -5,6 +5,10 @@ var ProducerManager = function(config, market){
 };
 
 ProducerManager.prototype.addProducer = function(producer) {
+  aggregator.report('producers', producer);
+  producer.on('disconnect', function(){
+    aggregator.report('producer.disconnect');
+  });
   producer.on('reportSupply', this.reportSupply.bind(this));
   this._producers[producer.id] = {
     socket: producer

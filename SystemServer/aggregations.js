@@ -12,6 +12,13 @@ var aggregations = [
     }
   },
   {
+    key: 'consumers.disconnect',
+    aggregator: function(newValue, oldStructure){
+      oldStructure.num --;
+      return oldStructure;
+    }
+  },
+  {
     key: 'producers',
     aggregator: function(newValue, oldStructure){
       oldStructure.num ++;
@@ -23,6 +30,13 @@ var aggregations = [
       ids: {},
       supply: {},
       controls: {}
+    }
+  },
+  {
+    key: 'producers.disconnect',
+    aggregator: function(newValue, oldStructure){
+      oldStructure.num --;
+      return oldStructure;
     }
   },
   {
