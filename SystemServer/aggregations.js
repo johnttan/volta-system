@@ -113,7 +113,7 @@ var aggregations = [
       var oldGridSales = parseInt(oldStructure.gridSales);
       newValue.receipts.receipts.forEach(function(receipt){
         if(receipt.seller === 'grid'){
-          oldStructure.gridSales += receipt.energy * receipt.price;
+          oldStructure.gridSales += receipt.energy * receipt.price * (receipt.block.blockDuration / 1000 / 60 / 60) ;
         }
       });
       oldStructure.gridSalesDelta = oldStructure.gridSales - oldGridSales;

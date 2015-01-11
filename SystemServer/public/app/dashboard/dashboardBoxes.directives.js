@@ -51,7 +51,7 @@ angular.module('app')
 
         $scope.number = function(){
           if(data.array && data.array.length >= 1 && data.array[data.array.length-1]){
-            return '$' + data.array[data.array.length-1].toString();
+            return '$' + data.array[data.array.length-1].toFixed(2).toString();
           }
         };
 
@@ -118,7 +118,7 @@ angular.module('app')
           if(data.array && data.array.length >= 1){
             for(var i=data.array.length-1;i>=0;i--){
               if(data.array[i] > 0){
-                return Math.floor(data.array[i]).toString() + ' MW';
+                return data.array[i].toFixed().toString() + ' MW';
               }
             }
           }
@@ -172,7 +172,7 @@ angular.module('app')
 
         $scope.number = function(){
           if($scope.stats){
-            return '$' + Math.floor($scope.stats.gridSalesDelta);
+            return '$' + $scope.stats.gridSalesDelta.toFixed(2).toString();
           }
         };
       },
@@ -189,15 +189,42 @@ angular.module('app')
       controller: function($scope){
         $scope.tile = {
           color: 'yellow',
-          data: [7,2,2,2,1,-4,-2,4,8,,0,3,3,5],
-          number: '$100,099',
-          icon: 'icon-arrow-down',
-          title: 'Alternative Sales'
+          icon: 'icon-arrow-up',
+          title: 'Alternative Sales',
+          class: 'alternativeSales'
         };
 
         $scope.data = function(){
-          return [5,6,7,2,0,-4,-2,4,8,2,3,3,2].join(',');
+          if($scope.stats){
+            var data = $scope.stats.brokerTransactions.array;
+            var result = [];
+            var max = Math.max.apply(null, data.array);
+            if(!max){
+              max = 1;
+            };
+            data.forEach(function(el){
+              if(el){
+                result.push(Math.floor((el / max) * 1000));
+              }
+            });
+            result[0] = 0;
+            $('.boxchart.' + $scope.tile.class).sparkline(result, {
+              type: 'bar',
+              height: '60',
+              barWidth: '4',
+              barSpacing: '1',
+              barColor: '#ffffff',
+              negBarColor: '#eeeeee'
+            });
+          };
         };
+
+        $scope.number = function(){
+          if($scope.stats){
+            return '$' + $scope.stats.brokerSales.toFixed(2).toString();
+          }
+        };
+
       },
       templateUrl: 'statBox.html',
       replace: true
