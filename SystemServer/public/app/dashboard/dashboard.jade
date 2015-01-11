@@ -9,7 +9,7 @@
     .clearfix
   .row-fluid.hideInIE8.circleStats(ng-show="isState('dashboard')")
     vt-grid-capacity-circle(stats="aggregations.producers")
-    vt-transient-capacity-circle
+    vt-transient-capacity-circle(stats="aggregations", trans="transactions")
     vt-sales-target-circle
     vt-efficiency-target-circle
     .widget.yellow.span4.noMargin(ontablet='span12', ondesktop='span4')
