@@ -142,7 +142,9 @@ Broker.prototype.settleDemand = function(quote){
   this.systemClient.emit('aggregation', {
     totalSales: this.totalSales,
     deltaSales: this.deltaSales,
-    deltaHistory: this.deltaBuffer.array
+    deltaHistory: this.deltaBuffer.array,
+    totalSupply: totalSupply,
+    totalDemand: totalDemand
   });
 
   receipts.save();
