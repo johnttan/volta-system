@@ -61,8 +61,6 @@ angular.module('app')
             var current = extractFromSupply($scope.stats.supply, "currCapacity");
             var max = extractFromSupply($scope.stats.supply, "maxCapacity"); 
             var ratio =  Math.round(100 * current / max, 1);             
-            $input.attr("ng-attr-value", ratio);
-            $input.attr("value", ratio);
             $input.trigger("changes", ratio);           
           }
        });
