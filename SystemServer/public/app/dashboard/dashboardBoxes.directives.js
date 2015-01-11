@@ -28,10 +28,13 @@ angular.module('app')
                 data.eq(price);
               }
             };
+            if(max === 0){
+              max = 1;
+            };
             var result = [];
             data.array.forEach(function(el){
               if(el){
-                result.push((el / max) * 10);
+                result.push((el / max) * 100);
               }
             });
             result[0] = 0;
@@ -47,7 +50,7 @@ angular.module('app')
         };
 
         $scope.number = function(){
-          if(data.array && data.array.length >= 1){
+          if(data.array && data.array.length >= 1 && data.array[data.array.length-1]){
             return '$' + data.array[data.array.length-1].toString();
           }
         };
@@ -91,9 +94,12 @@ angular.module('app')
               }
             };
             var result = [];
+            if(max === 0){
+              max = 1;
+            };
             data.array.forEach(function(el){
               if(el){
-                result.push(Math.floor((el / max) * 10));
+                result.push(Math.floor((el / max) * 100));
               }
             });
             result[0] = 0;
@@ -125,16 +131,45 @@ angular.module('app')
         stats: "="
       },
       controller: function($scope){
+        var data = new CircularBuffer(14);
         $scope.tile = {
           color: 'blue',
-          data: [5,6,7,2,0,-4,-2,4,8,2,3,3,2],
-          number: '$900,900',
           icon: 'icon-arrow-up',
-          title: 'Grid Sales'
+          title: 'Grid Sales Delta',
+          class: 'gridSalesDelta'
         };
 
         $scope.data = function(){
-          return [5,6,7,2,0,-4,-2,4,8,2,3,3,2].join(',');
+          if($scope.stats){
+            var auctionsList = $scope.stats.auctions.array;
+            var max = 0;
+            data.eq($scope.stats.gridSalesDelta);
+            var result = [];
+            var max = Math.max.apply(null, data.array);
+            if(!max){
+              max = 1;
+            };
+            data.array.forEach(function(el){
+              if(el){
+                result.push(Math.floor((el / max) * 1000));
+              }
+            });
+            result[0] = 0;
+            $('.boxchart.' + $scope.tile.class).sparkline(result, {
+              type: 'bar',
+              height: '60',
+              barWidth: '4',
+              barSpacing: '1',
+              barColor: '#ffffff',
+              negBarColor: '#eeeeee'
+            });
+          };
+        };
+
+        $scope.number = function(){
+          if($scope.stats){
+            return '$' + Math.floor($scope.stats.gridSalesDelta);
+          }
         };
       },
       templateUrl: 'statBox.html',
