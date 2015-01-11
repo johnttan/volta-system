@@ -43,5 +43,3 @@ CircularBuffer.prototype.getArray = function(){
   this.array = results;
   return results;
 };
-
-module.exports = CircularBuffer;

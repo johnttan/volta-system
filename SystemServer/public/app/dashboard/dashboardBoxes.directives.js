@@ -116,7 +116,11 @@ angular.module('app')
 
         $scope.number = function(){
           if(data.array && data.array.length >= 1){
-            return Math.floor(data.array[data.array.length-1]).toString() + ' MW';
+            for(var i=data.array.length-1;i>=0;i--){
+              if(data.array[i] > 0){
+                return Math.floor(data.array[i]).toString() + ' MW';
+              }
+            }
           }
         };
       },
