@@ -27,7 +27,9 @@ angular.module('app')
         };
 
         $scope.number = function(){
-          return '$' + data.array[data.array.length-1].toString();
+          if(data.array){
+            return '$' + data.array[data.array.length-1].toString();
+          }
         };
 
       },
