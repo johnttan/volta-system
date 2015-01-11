@@ -87,17 +87,36 @@ var aggregations = [
     aggregator: function(newValue, oldStructure){
       oldStructure.auctions.eq(newValue);
       oldStructure.num ++;
+      oldStructure.lastAuction = newValue;
       return oldStructure;
     },
     init: {
       auctions: new CircularBuffer(100),
-      num: 0
+      num: 0,
+      lastAuction: {},
+      gridSalesDelta: 0,
+      gridSales: 0
     }
   },
   {
     key: 'auctions.update',
     aggregator: function(newValue, oldStructure){
-      oldStructure.auctions[oldStructure.auctions.length-1] = newValue;
+      for(var key in newValue){
+        oldStructure.lastAuction[key] = newValue[key];
+      };
+      return oldStructure;
+    }
+  },
+  {
+    key: 'auctions.sales',
+    aggregator: function(newValue, oldStructure){
+      var oldGridSales = parseInt(oldStructure.gridSales);
+      newValue.receipts.receipts.forEach(function(receipt){
+        if(receipt.seller === 'grid'){
+          oldStructure.gridSales += receipt.energy * receipt.price * (receipt.block.blockDuration / 1000 / 60 / 60) ;
+        }
+      });
+      oldStructure.gridSalesDelta = oldStructure.gridSales - oldGridSales;
       return oldStructure;
     }
   }
