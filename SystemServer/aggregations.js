@@ -119,7 +119,17 @@ var aggregations = [
       oldStructure.gridSalesDelta = oldStructure.gridSales - oldGridSales;
       return oldStructure;
     }
-  }
+  },
+  {
+    key: 'brokerAuctions',
+    aggregator: function(newValue, oldStructure){
+      oldStructure.auctions = newValue;
+      return oldStructure;
+    },
+    init: {
+      auctions: {}
+    }
+  },
 ];
 
 module.exports = aggregations;

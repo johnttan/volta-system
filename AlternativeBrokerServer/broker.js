@@ -1,12 +1,17 @@
 var Receipts = require(__dirname + '/../SystemServer/market/receiptsModel');
 var Transaction = require(__dirname + '/../SystemServer/market/transactionModel');
 var config = require(__dirname + '/config')[process.env.node_env];
+var CircularBuffer = require(__dirname + '/../utils/circularBuffer');
 
-var Broker = function(config, marketNsp, systemClient){
+var Broker = function(config, marketNsp, aggregationNsp, systemClient){
   this.settlementTimePercentage = config.settlementTimePercentage;
+  this.aggregationNsp = aggregationNsp;
   this.demand = {};
   this.supply = {};
   this.timeBlock = {};
+  this.totalSales = 0;
+  this.salesDelta = 0;
+  this.deltaBuffer = new CircularBuffer(20):
   this.marketNsp = marketNsp;
   this.systemClient = systemClient;
   // State 0 = inactive;
@@ -124,6 +129,23 @@ Broker.prototype.settleDemand = function(quote){
      }))
    }
   };
+
+  receipts.receipts.forEach(function(receipt){
+    if(receipt.seller === 'AEB'){
+      var sale = receipt.price * receipt.energy * (receipt.block.blockDuration / 1000 / 60 / 60);
+      var oldSales = this.totalSales;
+      this.totalSales += sale;
+      this.deltaSales = this.totalSales - oldSales;
+      this.deltaBuffer.eq(this.deltaSales);
+    }
+  });
+
+  this.aggregationNsp.emit('data', {
+    totalSales: this.totalSales,
+    deltaSales: this.deltaSales,
+    deltaHistory: this.deltaBuffer.array
+  });
+
   receipts.save();
   console.log('totals', totalDemand, totalSupply);
   this.demand = {};
