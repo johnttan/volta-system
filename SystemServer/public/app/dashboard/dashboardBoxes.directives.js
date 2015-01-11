@@ -6,6 +6,7 @@ angular.module('app')
         stats: "="
       },
       controller: function($scope){
+        var data = new CircularBuffer(13);
         $scope.tile = {
           color: 'purple',
           data: [5,6,7,2,0,4,2,4,8,2,3,3,2],
@@ -15,7 +16,14 @@ angular.module('app')
         };
 
         $scope.data = function(){
-
+          var auctionsList = $scope.stats.auctions.array;
+          for(var i = 1; i < 14; i++){
+            var auction = auctionsList[auctionsList.length - i];
+            if(auction && auction.receipts.receipts[0]){
+              data.eq(auction.receipts.receipts[0].price)
+            }
+          };
+          return data.array.join(',');
         };
 
         $scope.number = function(){
