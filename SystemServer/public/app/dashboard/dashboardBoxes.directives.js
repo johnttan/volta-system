@@ -27,7 +27,7 @@ angular.module('app')
         };
 
         $scope.number = function(){
-          if(data.array){
+          if(data.array && data.array.length >= 1){
             return '$' + data.array[data.array.length-1].toString();
           }
         };
