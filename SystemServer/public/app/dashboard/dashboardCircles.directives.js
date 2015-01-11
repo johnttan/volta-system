@@ -5,8 +5,8 @@ angular.module('app')
       var total = 0;
       for (var key in supplyObject) {
         if (key !== "time") {
-          var len = supplyObject[key].length;
-          total = total + supplyObject[key][len-1][property];
+          var len = supplyObject[key].array.length;
+          total = total + supplyObject[key].array[len-1][property];
         }
       }
       return total;
