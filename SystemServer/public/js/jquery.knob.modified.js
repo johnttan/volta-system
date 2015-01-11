@@ -231,6 +231,7 @@ $(function () {
 
     // jQuery plugin
     $.fn.knob = $.fn.dial = function (gopt) {
+        
         return this.each(
 
             function () {
