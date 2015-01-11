@@ -7,24 +7,24 @@ var CircularBuffer = function(size){
 };
 
 CircularBuffer.prototype.eq = function(item){
-  if(this._tail === this._head && this.lastOperation === 'write'){
+  if(this._tail === this._head && this._lastOperation === 'write'){
     this._head ++;
   };
   this._storage[this._tail] = item;
   this._tail = (this._tail + 1) % this._size;
-  this.lastOperation = 'write';
+  this._lastOperation = 'write';
   this.getArray();
 };
 
 CircularBuffer.prototype.dq = function(){
-  if(this._head === this._tail && this.lastOperation === 'read'){
+  if(this._head === this._tail && this._lastOperation === 'read'){
     console.log('queue empty');
     throw new Error('queue empty');
   }else{
     var result = this._storage[this._head];
     this._head = (this._head + 1) % this._size;
   };
-  this.lastOperation = 'read';
+  this._lastOperation = 'read';
   return result;
 };
 
