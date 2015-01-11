@@ -7,7 +7,6 @@ var CircularBuffer = function(size){
 };
 
 CircularBuffer.prototype.eq = function(item){
-  console.log(this.lastOperation, this.head, this.tail, item);
   if(this.tail === this.head && this.lastOperation === 'write'){
     this.head ++;
   };
@@ -42,7 +41,6 @@ CircularBuffer.prototype.getArray = function(){
     tempHead = (tempHead + 1) % this.size;
   };
   this.array = results;
-  console.log(this.array);
   return results;
 };
 

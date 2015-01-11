@@ -12,7 +12,15 @@ angular.module('app')
           number: '$10.23',
           icon: 'icon-arrow-up',
           title: 'Price'
-        }
+        };
+
+        $scope.data = function(){
+
+        };
+
+        $scope.number = function(){
+        };
+
       },
       templateUrl: 'statBox.html',
       replace: true

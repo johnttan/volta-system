@@ -117,7 +117,8 @@ Market.prototype._clearMarket = function() {
         block: this.currentBlock,
         buyer: 'grid',
         seller: producer.producerId
-      })
+      });
+      producer.timeBlock = this.currentBlock;
     }.bind(this));
 
     this.currentAuction.save();
@@ -125,11 +126,9 @@ Market.prototype._clearMarket = function() {
     this.currentAuction.currentBlock = this.currentBlock;
     this.trigger('marketClose', this.currentAuction);
 
-////////////////////////////////////////////////////////
-////TO DO: results.controls object being sent should contain the info on the timeblock;  
-    this.trigger('changeProduction', results.controls); 
-    this.currentAuction = new Auction();
+    this.trigger('changeProduction', results.controls);
     aggregator.report('auctions', this.currentAuction);
+    this.currentAuction = new Auction();
   }catch(e){
     this.trigger('marketClose', this.currentAuction);
     this.currentAuction = new Auction();
