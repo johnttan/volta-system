@@ -1,44 +1,44 @@
 var CircularBuffer = function(size){
   this._storage = [];
-  this.head = 0;
-  this.tail = 0;
-  this.size = size;
+  this._head = 0;
+  this._tail = 0;
+  this._size = size;
   this.array = [];
 };
 
 CircularBuffer.prototype.eq = function(item){
-  if(this.tail === this.head && this.lastOperation === 'write'){
-    this.head ++;
+  if(this._tail === this._head && this.lastOperation === 'write'){
+    this._head ++;
   };
-  this._storage[this.tail] = item;
-  this.tail = (this.tail + 1) % this.size;
+  this._storage[this._tail] = item;
+  this._tail = (this._tail + 1) % this._size;
   this.lastOperation = 'write';
   this.getArray();
 };
 
 CircularBuffer.prototype.dq = function(){
-  if(this.head === this.tail && this.lastOperation === 'read'){
+  if(this._head === this._tail && this.lastOperation === 'read'){
     console.log('queue empty');
     throw new Error('queue empty');
   }else{
-    var result = this._storage[this.head];
-    this.head = (this.head + 1) % this.size;
+    var result = this._storage[this._head];
+    this._head = (this._head + 1) % this._size;
   };
   this.lastOperation = 'read';
   return result;
 };
 
 CircularBuffer.prototype.getArray = function(){
-  var tempHead = this.head;
+  var tempHead = this._head;
   var results = [];
-  if(tempHead === this.tail){
+  if(tempHead === this._tail){
     results.push(this._storage[tempHead]);
-    tempHead = (tempHead + 1) % this.size;
+    tempHead = (tempHead + 1) % this._size;
   };
 
-  while(tempHead !== this.tail){
+  while(tempHead !== this._tail){
     results.push(this._storage[tempHead]);
-    tempHead = (tempHead + 1) % this.size;
+    tempHead = (tempHead + 1) % this._size;
   };
   this.array = results;
   return results;
