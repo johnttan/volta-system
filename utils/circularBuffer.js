@@ -8,7 +8,7 @@ var CircularBuffer = function(size){
 
 CircularBuffer.prototype.eq = function(item){
   if(this._tail === this._head && this._lastOperation === 'write'){
-    this._head ++;
+    this._head = (this._head + 1) % this._size;
   };
   this._storage[this._tail] = item;
   this._tail = (this._tail + 1) % this._size;
