@@ -3,15 +3,14 @@ var Transaction = require(__dirname + '/../SystemServer/market/transactionModel'
 var config = require(__dirname + '/config')[process.env.node_env];
 var CircularBuffer = require(__dirname + '/../utils/circularBuffer');
 
-var Broker = function(config, marketNsp, aggregationNsp, systemClient){
+var Broker = function(config, marketNsp, systemClient){
   this.settlementTimePercentage = config.settlementTimePercentage;
-  this.aggregationNsp = aggregationNsp;
   this.demand = {};
   this.supply = {};
   this.timeBlock = {};
   this.totalSales = 0;
   this.salesDelta = 0;
-  this.deltaBuffer = new CircularBuffer(20):
+  this.deltaBuffer = new CircularBuffer(20);
   this.marketNsp = marketNsp;
   this.systemClient = systemClient;
   // State 0 = inactive;
@@ -140,7 +139,7 @@ Broker.prototype.settleDemand = function(quote){
     }
   });
 
-  this.aggregationNsp.emit('data', {
+  this.systemClient.emit('aggregation', {
     totalSales: this.totalSales,
     deltaSales: this.deltaSales,
     deltaHistory: this.deltaBuffer.array

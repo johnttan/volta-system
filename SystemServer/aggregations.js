@@ -76,6 +76,13 @@ var aggregations = [
     }
   },
   {
+    key: 'brokers.auctions',
+    aggregator: function(newValue, oldStructure){
+      oldStructure.auctions = newValue;
+      return oldStructure;
+    }
+  },
+  {
     key: 'brokers.quotes',
     aggregator: function(quote, oldStructure){
       oldStructure.ids[quote.id].quotes.eq(quote);
@@ -119,17 +126,7 @@ var aggregations = [
       oldStructure.gridSalesDelta = oldStructure.gridSales - oldGridSales;
       return oldStructure;
     }
-  },
-  {
-    key: 'brokerAuctions',
-    aggregator: function(newValue, oldStructure){
-      oldStructure.auctions = newValue;
-      return oldStructure;
-    },
-    init: {
-      auctions: {}
-    }
-  },
+  }
 ];
 
 module.exports = aggregations;

@@ -63,6 +63,9 @@ brokerNsp.on('connection', function(socket){
   market.on('marketClose', function(auction){
     socket.emit('marketClose', auction.currentBlock);
   });
+  socket.on('aggregation', function(data){
+    aggregator.report('brokers.auctions', data);
+  });
   socket.on('queryPrice', function(demand){
     try{
       var result = market.computeBasedOnDemand(demand.demands);

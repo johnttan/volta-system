@@ -30,7 +30,6 @@ app.get('/admin', function(req, res){
 var beforeSystem = true;
 var beforeSystemQueue = [];
 var marketNsp = io.of('/market');
-var aggregationNsp = io.of('/aggregations');
 
 marketNsp.on('connection', function(socket){
   if(beforeSystem){
@@ -47,7 +46,7 @@ function setupSystemClient(){
       systemClient.on('connect', function(){
         console.log('connected to system')
       });
-      var broker = new Broker(config, marketNsp, aggregationNsp, systemClient);
+      var broker = new Broker(config, marketNsp, systemClient);
       console.log('systemQueue pushing', beforeSystemQueue.length);
       beforeSystemQueue.forEach(function(socket){
         broker.addParticipant(socket);
