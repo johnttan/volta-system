@@ -231,7 +231,7 @@ $(function () {
 
     // jQuery plugin
     $.fn.knob = $.fn.dial = function (gopt) {
-
+        
         return this.each(
 
             function () {
@@ -345,7 +345,12 @@ $(function () {
                             k.val($this.val());
                         }
                     );
-
+                $this.on(
+                        'changes'
+                        ,function (e, data) {
+                            k.val(data);
+                        }
+                    );
                 if (!opt.readOnly) {
 
                     // canvas

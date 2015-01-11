@@ -711,7 +711,7 @@ function circle_progess() {
 	        'height': 240,
 			'bgColor': 'rgba(255,255,255,0.5)',
 	        'fgColor': 'rgba(255,255,255,0.9)',
-	        'dynamicDraw': true,
+	        'dynamicDraw': false,
 	        'thickness': 0.2,
 	        'tickColorizeValues': true
 	    });
@@ -730,7 +730,7 @@ function circle_progess() {
 	        'height': 120,
 			'bgColor': 'rgba(255,255,255,0.5)',
 	        'fgColor': 'rgba(255,255,255,0.9)',
-	        'dynamicDraw': true,
+	        'dynamicDraw': false,
 	        'thickness': 0.2,
 	        'tickColorizeValues': true
 	    });
