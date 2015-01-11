@@ -1,6 +1,6 @@
 .span3.statbox(ng-class="tile.color" ontablet='span6', ondesktop='span3')
-  .boxchart {{tile.data.join(',')}}
-  .number {{tile.number}}
+  .boxchart {{data()}}
+  .number {{number()}}
     i(ng-class="tile.icon")
   .title {{tile.title}}
   .footer
