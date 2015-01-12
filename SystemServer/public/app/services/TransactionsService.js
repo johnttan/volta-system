@@ -23,15 +23,19 @@ angular.module('app')
       transactions: transactions,
       brokerSales: 0,
       brokerTransactions: new CircularBuffer(20),
-      update: function(){},
-      addUpdate: function(update){
-        result.update = update;
+      update: [],
+      addUpdate: function(updater){
+        result.update.push(updater);
       }
     };
     transactionsSocket.on('transaction', function(data){
       result.num ++;
       transactions.eq(data);
-      result.update();
+      result.update.forEach(function(updater){
+        if(updater){
+          updater();
+        }
+      });
     });
     return result;
   })

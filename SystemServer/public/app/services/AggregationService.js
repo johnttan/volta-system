@@ -4,9 +4,9 @@ angular.module('app')
     var aggregations = {};
     var result = {
       aggregations: aggregations,
-      update: function(){},
-      addUpdate: function(update){
-        result.update = update;
+      update: [],
+      addUpdate: function(updater){
+        result.update.push(updater);
       }
     };
     aggSocket.on('aggregations', function(data){
@@ -14,7 +14,11 @@ angular.module('app')
         aggregations[key] = data[key]
       };
       console.log(aggregations)
-      result.update();
+      result.update.forEach(function(updater){
+        if(updater){
+          updater();
+        }
+      })
     });
     return result;
   })
