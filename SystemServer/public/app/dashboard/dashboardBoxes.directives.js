@@ -190,15 +190,15 @@ angular.module('app')
         $scope.tile = {
           color: 'yellow',
           icon: 'icon-arrow-up',
-          title: 'Alternative Sales',
+          title: 'Alternative Sales Delta',
           class: 'alternativeSales'
         };
 
         $scope.data = function(){
           if($scope.stats){
-            var data = $scope.stats.brokerTransactions.array;
+            var data = $scope.stats.deltaHistory.array;
             var result = [];
-            var max = Math.max.apply(null, data.array);
+            var max = Math.max.apply(null, data);
             if(!max){
               max = 1;
             };
@@ -221,7 +221,7 @@ angular.module('app')
 
         $scope.number = function(){
           if($scope.stats){
-            return '$' + $scope.stats.brokerSales.toFixed(2).toString();
+            return '$' + $scope.stats.totalSales.toFixed(2).toString();
           }
         };
 

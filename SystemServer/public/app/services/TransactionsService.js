@@ -30,11 +30,6 @@ angular.module('app')
     };
     transactionsSocket.on('transaction', function(data){
       result.num ++;
-      if(data.seller === 'AEB'){
-        var sale = data.energy * data.price * (data.block.blockDuration / 1000 / 60 / 60);
-        result.brokerSales += sale;
-        result.brokerTransactions.eq(sale);
-      };
       transactions.eq(data);
       result.update();
     });

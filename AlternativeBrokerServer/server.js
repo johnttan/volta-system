@@ -30,6 +30,7 @@ app.get('/admin', function(req, res){
 var beforeSystem = true;
 var beforeSystemQueue = [];
 var marketNsp = io.of('/market');
+
 marketNsp.on('connection', function(socket){
   if(beforeSystem){
     beforeSystemQueue.push(socket);

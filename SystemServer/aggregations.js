@@ -76,6 +76,13 @@ var aggregations = [
     }
   },
   {
+    key: 'brokers.auctions',
+    aggregator: function(newValue, oldStructure){
+      oldStructure.auctions = newValue;
+      return oldStructure;
+    }
+  },
+  {
     key: 'brokers.quotes',
     aggregator: function(quote, oldStructure){
       oldStructure.ids[quote.id].quotes.eq(quote);
