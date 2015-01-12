@@ -9,13 +9,9 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
   console.log('configuring')
   $stateProvider
     .state('dashboard', {
-      url: '/',
-      templateUrl: 'dashboard.html',
-      controller: 'DashboardController'
+      url: '/'
     })
     .state('network', {
-      url: '/network',
-      templateUrl: 'network.html',
-      controller: 'NetworkController'
+      url: '/network'
     })
 })

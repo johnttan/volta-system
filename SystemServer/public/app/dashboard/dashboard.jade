@@ -5,10 +5,9 @@
     vt-market-tile(stats="aggregations.auctions")
     vt-transactions-tile(stats="transactions")
     vt-controls-tile(stats="aggregations")
-    vt-network-tile(stats="aggregations")
+    vt-network-tile(stats="aggregations" ng-click="setState('network')")
     .clearfix
-  #secondRow.row-fluid
-  .row-fluid.hideInIE8.circleStats
+  .row-fluid.hideInIE8.circleStats(ng-show="isState('dashboard')")
     vt-grid-capacity-circle(stats="aggregations.producers")
     vt-transient-capacity-circle
     vt-sales-target-circle
@@ -20,9 +19,11 @@
       hr
       .content
         #serverLoad2(style='height:105px;')
-  .row-fluid
+  .row-fluid(ng-show="isState('dashboard')")
     vt-price-box(stats="aggregations.auctions")
     vt-consumer-demand-box(stats="aggregations.auctions")
     vt-grid-sales-box(stats="aggregations.auctions")
     vt-alternative-sales-box(stats="aggregations.brokers.auctions")
+  .row-fluid(ng-show="isState('network')")
+    include ../network/network.jade
   .clearfix
