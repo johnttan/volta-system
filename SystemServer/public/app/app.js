@@ -13,4 +13,9 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
       templateUrl: 'dashboard.html',
       controller: 'DashboardController'
     })
+    .state('network', {
+      url: '/network',
+      templateUrl: 'network.html',
+      controller: 'NetworkController'
+    })
 })
