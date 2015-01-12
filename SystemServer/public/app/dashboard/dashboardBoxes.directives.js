@@ -9,11 +9,16 @@ angular.module('app')
         var data = new CircularBuffer(14);
         $scope.tile = {
           color: 'purple',
-          icon: 'icon-arrow-up',
           title: 'Price',
           class: 'price'
         };
-
+        $scope.icon = function(){
+          if(data.array && data.array.length >= 2 && data.array[data.array.length-1] >= data.array[data.array.length-2]){
+            return 'icon-arrow-up';
+          }else{
+            return 'icon-arrow-down';
+          }
+        };
         $scope.data = function(){
           if($scope.stats){
             var auctionsList = $scope.stats.auctions.array;
@@ -71,11 +76,16 @@ angular.module('app')
         $scope.tile = {
           color: 'green',
           number: '123,000',
-          icon: 'icon-arrow-up',
           title: 'Consumer Demand',
           class: 'consumerDemand'
         };
-
+        $scope.icon = function(){
+          if(data.array && data.array.length >= 2 && data.array[data.array.length-1] >= data.array[data.array.length-2]){
+            return 'icon-arrow-up';
+          }else{
+            return 'icon-arrow-down';
+          }
+        };
         $scope.data = function(){
           if($scope.stats){
             var auctionsList = $scope.stats.auctions.array;
@@ -138,11 +148,16 @@ angular.module('app')
         var data = new CircularBuffer(14);
         $scope.tile = {
           color: 'blue',
-          icon: 'icon-arrow-up',
           title: 'Grid Sales Delta',
           class: 'gridSalesDelta'
         };
-
+        $scope.icon = function(){
+          if(data.array && data.array.length >= 2 && data.array[data.array.length-1] >= data.array[data.array.length-2]){
+            return 'icon-arrow-up';
+          }else{
+            return 'icon-arrow-down';
+          }
+        };
         $scope.data = function(){
           if($scope.stats){
             var auctionsList = $scope.stats.auctions.array;
@@ -194,9 +209,16 @@ angular.module('app')
           class: 'alternativeSales'
         };
 
+        $scope.icon = function(){
+          if($scope.stats && $scope.stats.deltaHistory.length > 2 && $scope.stats.deltaHistory[$scope.stats.deltaHistory.length-1] > $scope.stats.deltaHistory[$scope.stats.deltaHistory.length-2]){
+            return 'icon-arrow-up';
+          }else{
+            return 'icon-arrow-down'
+          }
+        };
         $scope.data = function(){
           if($scope.stats){
-            var data = $scope.stats.deltaHistory.array;
+            var data = $scope.stats.deltaHistory;
             var result = [];
             var max = Math.max.apply(null, data);
             if(!max){
@@ -221,7 +243,7 @@ angular.module('app')
 
         $scope.number = function(){
           if($scope.stats){
-            return '$' + $scope.stats.totalSales.toFixed(2).toString();
+            return '$' + $scope.stats.deltaHistory[$scope.stats.deltaHistory.length-1].toFixed(2).toString();
           }
         };
 
