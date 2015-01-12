@@ -34,7 +34,8 @@ angular.module('app')
           unit: 'MW',
           color: 'red'
         };
-
+        
+        $scope.newProp = 9;
 
         $scope.value = function () {
           if ($scope.stats && $scope.stats.controls) {
@@ -65,7 +66,8 @@ angular.module('app')
       link: function ( $scope, element, attributes ) {
         var $el = $(element);
         var $input = $el.find("input");
-
+         
+        console.log("check",$scope.newProp);
         
         $scope.$watch("stats", function () {
           if ($scope.stats && $scope.stats.supply && $scope.stats.controls) {
@@ -82,7 +84,7 @@ angular.module('app')
   .directive('vtTransientCapacityCircle', function(){
     
     var extractFromTransactions = function (transObject) {
-      var len = transObject.array.length;
+      /*var len = transObject.array.length;
       if (len > 0) {
         var timeblock = transObject.array[len-1].block.blockStart;
         var total = 0;
@@ -97,8 +99,9 @@ angular.module('app')
         }      
       } else {
         return 5;
-      }
-      return total;
+      }*/
+      return 0;
+      //total;
     }
 
     return {
@@ -115,8 +118,8 @@ angular.module('app')
         };
 
         $scope.value = function () {
-          if ($scope.trans && $scope.trans.array) {
             console.log("s", $scope.trans)
+          if ($scope.trans && $scope.trans.array) {
             var result =  extractFromTransactions($scope.trans);
             console.log("res", result);
             return result;
