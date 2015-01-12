@@ -196,9 +196,9 @@ angular.module('app')
 
         $scope.data = function(){
           if($scope.stats){
-            var data = $scope.stats.deltaHistory;
+            var data = $scope.stats.deltaHistory.array;
             var result = [];
-            var max = Math.max.apply(null, data.array);
+            var max = Math.max.apply(null, data);
             if(!max){
               max = 1;
             };

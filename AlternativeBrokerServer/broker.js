@@ -137,7 +137,7 @@ Broker.prototype.settleDemand = function(quote){
       this.deltaSales = this.totalSales - oldSales;
       this.deltaBuffer.eq(this.deltaSales);
     }
-  });
+  }.bind(this));
 
   this.systemClient.emit('aggregation', {
     totalSales: this.totalSales,
