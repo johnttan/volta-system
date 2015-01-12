@@ -118,14 +118,15 @@ angular.module('app')
         };
 
         $scope.value = function () {
-            console.log("s", $scope.trans)
+          /*  console.log("s", $scope.trans)
           if ($scope.trans && $scope.trans.array) {
             var result =  extractFromTransactions($scope.trans);
             console.log("res", result);
             return result;
           } else {
             return 0;
-          }
+          }*/
+          return 0;
         };
 
         $scope.max = function () {
@@ -133,18 +134,20 @@ angular.module('app')
         };
 
         $scope.ratio = function () {      
-          if ($scope.trans) {
+          /*if ($scope.trans) {
             var value = extractFromTransactions($scope.trans);
             var max = 100;
             return  Math.round(100 * value / max, 1); 
           } else {
             return 0;
-          }
+          }*/
+          return 0;
         };
 
       },
       templateUrl: 'circleStat.html',
-      replace: true,
+      replace: true
+      /*,
 
       link: function ( $scope, element, attributes ) {
         var $el = $(element);
@@ -160,11 +163,11 @@ angular.module('app')
     //        $input.trigger("changes", ratio);           
           }
         });     
-      }
+      }*/
 
     }
   })
-  .directive('vtSalesTargetCircle', function(){
+  .directive('vtProfitSalesCircle', function(){
     return {
       restrict: 'E',
       scope: {
@@ -172,12 +175,28 @@ angular.module('app')
       },
       controller: function($scope){
         $scope.circle = {
-          title: 'Sales Target',
-          value: 76440,
-          max: 98000,
+          title: 'Profitability',
           unit: 'MW',
           color: 'blue'
-        }
+        };
+
+
+        $scope.value = function () {
+          return 0;
+        };
+
+        $scope.max = function () {
+          return 1;
+        };
+
+        $scope.ratio = function () {
+          if (($scope.val || $scope.val === 0) && $scope.maxvalue > 0) {
+            return $scope.val/$scope.maxvalue; 
+          } else {
+            return 0;
+          }
+        };
+
       },
       templateUrl: 'circleStat.html',
       replace: true
