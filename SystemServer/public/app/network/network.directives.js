@@ -22,6 +22,7 @@ angular.module('app')
         $scope.$watch(function(){
           return $scope.data.links.length;
         }, function(){
+
           force
             .nodes(graph.nodes)
             .links(graph.links)

@@ -55,66 +55,81 @@ function generateD3Nodes(aggregations){
     group: 2
   });
   linksIndices['accounting'] = data.nodes.length-1;
-  Object.keys(brokers).forEach(function(el){
-    data.nodes.push({
-      name: 'broker',
-      group: 2
+  if(brokers.ids){
+    Object.keys(brokers.ids).forEach(function(el){
+      data.nodes.push({
+        name: 'broker',
+        group: 2
+      });
+      data.links.push({
+        source: data.nodes.length-1,
+        target: linksIndices['discovery']
+      });
+      data.links.push({
+        source: data.nodes.length-1,
+        target: linksIndices['accounting']
+      });
+      linksIndices['broker'] = data.nodes.length-1;
     });
-    data.links.push({
-      source: data.nodes.length-1,
-      target: linksIndices['discovery']
+  };
+  if(consumers.ids){
+    Object.keys(consumers.ids).forEach(function(el){
+      data.nodes.push({
+        name: el,
+        group: 1
+      });
+      var ind = data.nodes.length-1;
+      data.links.push({
+        source: ind,
+        target: linksIndices['broker']
+      })
+      data.links.push({
+        source: ind,
+        target: linksIndices['system']
+      })
+      data.links.push({
+        source: ind,
+        target: linksIndices['accounting']
+      })
+      data.links.push({
+        source: ind,
+        target: linksIndices['discovery']
+      })
     });
-    linksIndices['broker'] = data.nodes.length-1;
-  });
-  Object.keys(consumers).forEach(function(el){
-    data.nodes.push({
-      name: el,
-      group: 1
+  }
+  if(producers.ids){
+    Object.keys(producers.ids).forEach(function(el){
+      data.nodes.push({
+        name: el,
+        group: 2
+      });
+      var ind = data.nodes.length-1;
+      data.links.push({
+        source: ind,
+        target: linksIndices['system']
+      });
+      data.links.push({
+        source: ind,
+        target: linksIndices['accounting']
+      });
+      data.links.push({
+        source: ind,
+        target: linksIndices['discovery']
+      });
     });
-    var ind = data.nodes.length-1;
-    data.links.push({
-      source: ind,
-      target: linksIndices['broker']
-    })
-    data.links.push({
-      source: ind,
-      target: linksIndices['system']
-    })
-    data.links.push({
-      source: ind,
-      target: linksIndices['accounting']
-    })
-    data.links.push({
-      source: ind,
-      target: linksIndices['discovery']
-    })
-  });
-  Object.keys(producers).forEach(function(el){
-    data.nodes.push({
-      name: el,
-      group: 2
-    });
-    var ind = data.nodes.length-1;
-    data.links.push({
-      source: ind,
-      target: linksIndices['system']
-    });
-    data.links.push({
-      source: ind,
-      target: linksIndices['accounting']
-    });
-    data.links.push({
-      source: ind,
-      target: linksIndices['discovery']
-    });
-  });
+  };
   data.links.push({
     source: linksIndices['system'],
     target: linksIndices['accounting']
   });
   data.links.push({
+    source: linksIndices['system'],
+    target: linksIndices['discovery']
+  });
+  data.links.push({
     source: linksIndices['accounting'],
     target: linksIndices['discovery']
   });
+
   return data;
 };
