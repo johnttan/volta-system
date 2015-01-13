@@ -3,7 +3,6 @@ angular.module('app')
     AggregationService.addUpdate($scope.$apply.bind($scope));
     $scope.aggregations = AggregationService.aggregations;
     $scope.transactions = TransactionsService;
-
     $scope.isState = function(state){
       return $state.is(state);
     };
