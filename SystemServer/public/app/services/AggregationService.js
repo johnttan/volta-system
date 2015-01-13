@@ -6,7 +6,7 @@ angular.module('app')
       aggregations: aggregations,
       d3nodes: {
         nodes: [],
-        links: []
+        edges: []
       },
       update: [],
       addUpdate: function(updater){
@@ -19,7 +19,7 @@ angular.module('app')
       };
       var d3nodes = generateD3Nodes(aggregations);
       result.d3nodes.nodes = d3nodes.nodes;
-      result.d3nodes.links = d3nodes.links;
+      result.d3nodes.edges = d3nodes.edges;
       console.log(result.d3nodes);
       console.log(aggregations);
       result.update.forEach(function(updater){
@@ -34,134 +34,133 @@ angular.module('app')
 function generateD3Nodes(aggregations){
   var data = {
     nodes: [],
-    links: []
+    edges: []
   };
   var consumers = aggregations.consumers || {};
   var producers = aggregations.producers || {};
   var brokers = aggregations.brokers || {};
-  var linksIndices = {};
   data.nodes.push({
-    name: 'system',
+    id: 'system',
+    label: 'system',
     group: 2,
     radius: 45,
-    x: 600,
-    y: 50
+    x: 300,
+    y: 150
   });
-  linksIndices['system'] = data.nodes.length - 1;
   data.nodes.push({
-    name: 'discovery',
+    id: 'discovery',
+    label: 'discovery',
     group: 2,
-    radius: 45,
-    x: 600,
-    y: 200
+    x: 300,
+    y: 250,
+    radius: 45
   });
-  linksIndices['discovery'] = data.nodes.length-1;
   data.nodes.push({
-    name: 'accounting',
+    id: 'accounting',
+    label: 'accounting',
+    x: 300,
+    y: 350,
     group: 2,
-    radius: 45,
-    x: 600,
-    y: 350
+    radius: 45
   });
-  linksIndices['accounting'] = data.nodes.length-1;
   if(brokers.ids){
     Object.keys(brokers.ids).forEach(function(el){
       data.nodes.push({
-        name: 'broker',
+        id: 'broker',
+        label: 'broker',
         group: 2,
         radius: 25,
-        x: 350,
-        y: 200
+        x: 200,
+        y: 250
       });
-      linksIndices['broker'] = data.nodes.length-1;
     });
   };
   if(consumers.ids){
-    var consumerYstart = 50;
-    var consumerX = 250;
+    var consumerYstart = 150;
+    var consumerX = 10;
     Object.keys(consumers.ids).forEach(function(el){
       data.nodes.push({
-        name: el,
+        id: el,
+        label: el,
         group: 1,
         radius: 10,
         x: consumerX,
         y: consumerYstart
       });
       consumerYstart += 50;
-      var ind = data.nodes.length-1;
-      data.links.push({
-        source: ind,
-        target: linksIndices['broker']
+      data.edges.push({
+        from: el,
+        to: 'broker'
       })
-      data.links.push({
-        source: ind,
-        target: linksIndices['system']
+      data.edges.push({
+        from: el,
+        to: 'system'
       })
-      data.links.push({
-        source: ind,
-        target: linksIndices['accounting']
+      data.edges.push({
+        from: el,
+        to: 'accounting'
       })
-      data.links.push({
-        source: ind,
-        target: linksIndices['discovery']
+      data.edges.push({
+        from: el,
+        to: 'discovery'
       })
     });
   };
   if(producers.ids){
-    var producerYstart = 50;
-    var producerX = 800;
+    var producerYstart = 150;
+    var producerX = 600;
     Object.keys(producers.ids).forEach(function(el){
       data.nodes.push({
-        name: el,
+        id: el,
+        label: el,
         group: 3,
         radius: 5,
         x: producerX,
         y: producerYstart
       });
       producerYstart += 10;
-      var ind = data.nodes.length-1;
-      data.links.push({
-        source: ind,
-        target: linksIndices['system']
+      data.edges.push({
+        from: el,
+        to: 'system'
       });
-      data.links.push({
-        source: ind,
-        target: linksIndices['accounting']
+      data.edges.push({
+        from: el,
+        to: 'accounting'
       });
-      data.links.push({
-        source: ind,
-        target: linksIndices['discovery']
+      data.edges.push({
+        from: el,
+        to: 'discovery'
       });
     });
   };
-  data.links.push({
-    source: linksIndices['system'],
-    target: linksIndices['accounting'],
+  data.edges.push({
+    from: 'system',
+    to: 'accounting',
     value: 50
   });
-  data.links.push({
-    source: linksIndices['system'],
-    target: linksIndices['discovery'],
+  data.edges.push({
+    from: 'system',
+    to: 'discovery',
     value: 50
   });
-  data.links.push({
-    source: linksIndices['accounting'],
-    target: linksIndices['discovery'],
+  data.edges.push({
+    from: 'accounting',
+    to: 'discovery',
     value: 50
   });
-  data.links.push({
-    source: linksIndices['broker'],
-    target: linksIndices['discovery'],
+  data.edges.push({
+    from: 'broker',
+    to: 'discovery',
     value: 50
   });
-  data.links.push({
-    source: linksIndices['broker'],
-    target: linksIndices['accounting'],
+  data.edges.push({
+    from: 'broker',
+    to: 'accounting',
     value: 50
   });
-  data.links.push({
-    source: linksIndices['broker'],
-    target: linksIndices['system'],
+  data.edges.push({
+    from: 'broker',
+    to: 'system',
     value: 50
   });
 
