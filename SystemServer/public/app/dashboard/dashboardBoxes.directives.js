@@ -90,7 +90,7 @@ angular.module('app')
           if($scope.stats){
             var auctionsList = $scope.stats.auctions.array;
             var max = 0;
-            for(var i = 1; i < 15; i++){
+            for(var i = 14; i > 0; i--){
               var auction = auctionsList[auctionsList.length - i];
               if(auction && auction.bids[0]){
                 var sum = 0;
@@ -125,6 +125,7 @@ angular.module('app')
         };
 
         $scope.number = function(){
+          console.log("consdata", data.array);
           if(data.array && data.array.length >= 1){
             for(var i=data.array.length-1;i>=0;i--){
               if(data.array[i] > 0){
