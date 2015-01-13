@@ -9,9 +9,9 @@
     .clearfix
   .row-fluid.hideInIE8.circleStats(ng-show="isState('dashboard')")
     vt-grid-capacity-circle(stats="aggregations.producers")
-    vt-transient-capacity-circle(statsproduc="aggregations.producers", statssolar="aggregations.brokers")
-    vt-profit-sales-circle(stats="aggregations")
-    vt-efficiency-target-circle
+    vt-transient-capacity-circle(stats="aggregations")
+    vt-profit-sales-circle(stats="aggregations", price="transactions")
+    vt-solar-price-discount-circle(stats="transactions", changelisten="aggregations.brokers")
     .widget.yellow.span4.noMargin(ontablet='span12', ondesktop='span4')
       h2
         span.glyphicons.fire

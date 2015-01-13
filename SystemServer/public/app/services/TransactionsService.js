@@ -31,6 +31,7 @@ angular.module('app')
     transactionsSocket.on('transaction', function(data){
       result.num ++;
       transactions.eq(data);
+      console.log("trans", transactions);
       result.update.forEach(function(updater){
         if(updater){
           updater();
