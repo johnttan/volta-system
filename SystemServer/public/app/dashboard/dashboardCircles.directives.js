@@ -46,47 +46,32 @@ angular.module('app')
         $scope.value = function () {
           if ($scope.stats && $scope.stats.controls) {
             console.log("try");
-            return extractFromControls($scope.stats.controls, "productionGoal"); 
+            $scope.val = extractFromControls($scope.stats.controls, "productionGoal"); 
           } else {
-            return 0;
+            $scope.val = 0;
           }
+          return $scope.val;
         };
 
         $scope.max = function () {
           if ($scope.stats && $scope.stats.supply) {
-            return extractFromSupply($scope.stats.supply, "maxCapacity");
+            $scope.maxvalue = extractFromSupply($scope.stats.supply, "maxCapacity");
+            return $scope.maxvalue;
           } 
         };
 
         $scope.ratio = function () {
-          if ($scope.stats && $scope.stats.supply && $scope.stats.controls) {
-            var current = extractFromControls($scope.stats.controls, "productionGoal");
-            var max = extractFromSupply($scope.stats.supply, "maxCapacity"); 
-            return  Math.round(100 * current / max, 1); 
+          if (($scope.val || $scope.val === 0) && $scope.maxvalue) {
+            $scope.rat = Math.round(100 * $scope.val/$scope.maxvalue, 0);
+            $('.whiteCircle.' + $scope.circle.class).trigger("changes", $scope.rat);
+            return $scope.rat;
           } else {
             return 0;
           }
         };
       },
       templateUrl: 'circleStat.html',
-      replace: true,
-      link: function ( $scope, element, attributes ) {
-        var $el = $(element);
-        var $input = $el.find("input");
-         
-        console.log("check",$scope.newProp);
-        
-        $scope.$watch("stats", function () {
-          if ($scope.stats && $scope.stats.supply && $scope.stats.controls) {
-            var current = extractFromControls($scope.stats.controls, "productionGoal");
-            var max = extractFromSupply($scope.stats.supply, "maxCapacity"); 
-            var ratio =  Math.round(100 * current / max, 1); 
-            console.log("rat", ratio);            
-            $input.trigger("changes", ratio);           
-          }
-       });
-       
-      }
+      replace: true
     }
   })
   .directive('vtTransientCapacityCircle', function(){
@@ -118,10 +103,11 @@ angular.module('app')
         $scope.value = function () {
           if ($scope.stats && $scope.stats.brokers && $scope.stats.brokers.auctions) {
             console.log("brok", $scope.stats.brokers.auctions);
-            return $scope.stats.brokers.auctions.totalSupply;
+            $scope.val = $scope.stats.brokers.auctions.totalSupply;
           } else {
-            return 0;
+            $scope.val = 0;
           }
+          return $scope.val;
         };
 
         $scope.max = function () {
@@ -134,54 +120,28 @@ angular.module('app')
             traditional = extractFromControls($scope.stats.producers.controls, "productionGoal"); 
           } 
           if (solar + traditional > 0) {
-            return (solar + traditional);
+            $scope.maxvalue = solar + traditional;
+            return $scope.maxvalue;
           } else {
             console.log("Error: zero total production");
           }
         };
 
-        $scope.ratio = function () {      
-          var solar;
-          var traditional;
-          if ($scope.stats && $scope.stats.brokers && $scope.stats.brokers.auctions) {
-            solar = $scope.stats.brokers.auctions.totalSupply;
-          }
-          if ($scope.stats && $scope.stats.producers && $scope.stats.producers.controls) {
-            traditional = extractFromControls($scope.stats.producers.controls, "productionGoal"); 
-          } 
-          if (solar + traditional > 0) {
-            return Math.round(100 * solar / (solar + traditional), 1);
+        $scope.ratio = function () {
+          if (($scope.val || $scope.val === 0) && $scope.maxvalue) {
+            $scope.rat = Math.round(100 * $scope.val/$scope.maxvalue, 0);
+            $('.whiteCircle.' + $scope.circle.class).trigger("changes", $scope.rat);
+            return $scope.rat;
           } else {
             return 0;
           }
         };
 
+
       },
       templateUrl: 'circleStat.html',
-      replace: true,
-
-      link: function ( $scope, element, attributes ) {
-        var $el = $(element);
-        var $input = $el.find("input");
-
-        console.log("scopeLink", $scope)
-        $scope.$watch("stats.producers", function () {
-          var solar;
-          var traditional;
-          var ratio;
-          if ($scope.stats && $scope.stats.brokers && $scope.stats.brokers.auctions) {
-            solar = $scope.stats.brokers.auctions.totalSupply;
-          }
-          if ($scope.stats && $scope.stats.producers && $scope.stats.producers.controls) {
-            traditional = extractFromControls($scope.stats.producers.controls, "productionGoal"); 
-          } 
-          if (solar + traditional > 0) {
-            ratio = Math.round(100 * solar / (solar + traditional), 1);;
-          } 
-          console.log("to draw", solar, traditional, ratio);           
-          $input.trigger("changes", ratio);
-        });     
-      }
+      replace: true
+      
     }
   })
   .directive('vtProfitSalesCircle', function(){
@@ -199,35 +159,6 @@ angular.module('app')
       }
     };
 
-    var extractFromControls = function (controlObject, property) {
-      var total = 0;
-      for (var key in controlObject) {
-        if (key !== "time") {
-          var len = controlObject[key].array.length;
-          if (len > 0) {
-            total = total + controlObject[key].array[len-1][property];  
-          }
-        }
-      }
-      console.log("tryres", total, property);
-      return total;
-    };
-
-    var extractFromSupply = function (supplyObject, property) {
-      var total = 0;
-      for (var key in supplyObject) {
-        if (key !== "time") {
-          var len = supplyObject[key].array.length;
-          if (len > 0) {
-            total = total + supplyObject[key].array[len-1][property]; 
-          }
-        }
-      }
-      return total;
-    };
-  
-    
-
     return {
       restrict: 'E',
       scope: {
@@ -242,21 +173,6 @@ angular.module('app')
           class: 'profitability'
         };
         
-        /*$scope.gridprice = function () {
-          if ($scope.price && $scope.price.transactions && $scope.price.transactions.array) {
-            var price = extractRegularFromTransactions($scope.stats.transactions.array);
-            console.log("price", price);
-            return price;
-          } else {
-            return 0;
-          }
-        }*/
-
-        /*$scope.
-
-        $scope.value = function () {
-          return 0;
-        };*/
 
         $scope.value = function () {
           var price = 0;
@@ -287,7 +203,7 @@ angular.module('app')
             }
           }
           console.log("profit", profitTotal);
-          $scope.val = profitTotal / 1000 ;
+          $scope.val = profitTotal / 1000;
           return $scope.val;
         };
 
@@ -312,7 +228,7 @@ angular.module('app')
             }
           }
 
-          $scope.maxvalue = price * total * duration / 1000 ;
+          $scope.maxvalue = price * total * duration / 1000;
           return $scope.maxvalue;
         };
         
@@ -326,10 +242,6 @@ angular.module('app')
             return 0;
           }
         };
-
-        var checkRatio = function() {
-          return $scope.rat || 0;
-        }
 
 
       },
@@ -400,7 +312,9 @@ angular.module('app')
 
         $scope.ratio = function () {
           if (($scope.val || $scope.val === 0) && $scope.maxvalue) {
-            return Math.round(100 * $scope.val/$scope.maxvalue, 0); 
+            $scope.rat = Math.round(100 * $scope.val/$scope.maxvalue, 0);
+            $('.whiteCircle.' + $scope.circle.class).trigger("changes", $scope.rat);
+            return $scope.rat;
           } else {
             return 0;
           }
@@ -408,29 +322,7 @@ angular.module('app')
 
       },
       templateUrl: 'circleStat.html',
-      replace: true,
-
-      link: function ( $scope, element, attributes ) {
-        var $el = $(element);
-        var $input = $el.find("input");
-
-        $scope.$watch("changelisten", function () {
-          var solarPrice;
-          var traditionalPrice;
-          var ratio;
-          if ($scope.stats && $scope.stats.transactions && $scope.stats.transactions.array) {
-            solarPrice = extractSolarFromTransactions($scope.stats.transactions.array);
-          }
-          if ($scope.stats && $scope.stats.transactions && $scope.stats.transactions.array) {
-            traditionalPrice = extractRegularFromTransactions($scope.stats.transactions.array);
-          }
-          if (traditionalPrice > 0) {
-            ratio = Math.round(100 * solarPrice / traditionalPrice, 1);;
-          } 
-          console.log("to draw");           
-          $input.trigger("changes", ratio);
-        });     
-      }
+      replace: true
     }
   })
 
