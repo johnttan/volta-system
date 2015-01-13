@@ -41,6 +41,9 @@ app.get('/api/stats', function(req, res){
 app.get('/api/controls', function(req, res){
   res.json({});
 });
+app.get('/*', function(req, res){
+  res.redirect('/')
+});
 
 console.log("Running the server file");
 console.log("node_env", process.env.node_env); //to check whether it's been set to production when deployed
