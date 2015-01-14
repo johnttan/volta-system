@@ -13,16 +13,18 @@ module.exports = function(bids, supply, margin, blockDuration){
     energyDemand += bid.energy;
   });
 
+
   newSupply.sort(function(a, b){
     return a.pricePerMWH - b.pricePerMWH;
   });
 
+  
   var supplyReached = false;
   var i = 0;
   while(controls.length < newSupply.length && !supplyReached){
     var current = newSupply[i];
     if(!current){
-      throw new Error('Not enough energy supply');
+      throw new Error('Not enough energy supply1');
     };
     if(current.maxCapacity + energySupply >= energyDemand){
       supplyReached = true;
@@ -39,7 +41,7 @@ module.exports = function(bids, supply, margin, blockDuration){
     i++;
   };
   if(!supplyReached){
-    throw new Error('Not enough energy supply');
+    throw new Error('Not enough energy supply2');
   };
   reporter.report('pricing', function(){return {
     energyDemand: energyDemand,
