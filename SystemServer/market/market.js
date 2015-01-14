@@ -1,4 +1,4 @@
-.var NanoTimer = require('nanotimer');
+var NanoTimer = require('nanotimer');
 var timer = new NanoTimer();
 var PriceAndControl = require('./priceAndControl');
 var Auction = require('./auctionModel');
