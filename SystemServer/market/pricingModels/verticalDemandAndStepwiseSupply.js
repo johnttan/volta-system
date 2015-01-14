@@ -18,7 +18,7 @@ module.exports = function(bids, supply, margin, blockDuration){
     return a.pricePerMWH - b.pricePerMWH;
   });
 
-  
+
   var supplyReached = false;
   var i = 0;
   while(controls.length < newSupply.length && !supplyReached){
@@ -37,7 +37,7 @@ module.exports = function(bids, supply, margin, blockDuration){
       producerId: current.producerId,
       productionGoal: productionGoal
     });
-    cost += current.pricePerMWH;
+    cost = current.pricePerMWH;
     i++;
   };
   if(!supplyReached){
