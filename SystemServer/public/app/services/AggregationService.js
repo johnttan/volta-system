@@ -78,10 +78,10 @@ function generateD3Nodes(aggregations){
   if(consumers.ids){
     var consumerYstart = 150;
     var consumerX = 10;
-    Object.keys(consumers.ids).forEach(function(el){
+    Object.keys(consumers.ids).forEach(function(el, ind){
       data.nodes.push({
         id: el,
-        label: el,
+        label: "Consumer" + ind.toString(),
         group: 1,
         radius: 10,
         x: consumerX,
@@ -109,10 +109,11 @@ function generateD3Nodes(aggregations){
   if(producers.ids){
     var producerYstart = 150;
     var producerX = 600;
-    Object.keys(producers.ids).forEach(function(el){
+    var producerCount = 1;
+    Object.keys(producers.ids).forEach(function(el, ind){
       data.nodes.push({
         id: el,
-        label: el,
+        label: "Producer" + ind.toString(),
         group: 3,
         radius: 5,
         x: producerX,
