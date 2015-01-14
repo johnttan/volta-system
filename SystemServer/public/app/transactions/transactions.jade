@@ -9,7 +9,7 @@ table.ui.compact.table(ng-controller="TransactionsController")
       th Energy (MW)
       th Price (USD/MWH)
   tbody
-    tr(ng-repeat="data in transactions.transactions.array")
+    tr(ng-repeat="data in transactions.transactions.array.reverse()")
       td {{data.transactionId}}
       td {{data.block.blockDuration}}
       td {{data.block.blockStart | date : 'medium'}}
