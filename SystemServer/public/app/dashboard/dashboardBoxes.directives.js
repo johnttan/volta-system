@@ -80,7 +80,7 @@ angular.module('app')
           class: 'consumerDemand'
         };
         $scope.icon = function(){
-          if(data.array && data.array.length >= 2 && data.array[data.array.length-1] >= data.array[data.array.length-2]){
+          if(data.array && data.array.length >= 3 && data.array[data.array.length-2] >= data.array[data.array.length-3]){
             return 'icon-arrow-up';
           }else{
             return 'icon-arrow-down';
