@@ -1717,29 +1717,7 @@ function charts() {
 		update();
 	}
 
-	if($("#serverLoad2").length)
-	{
-		var options = {
-			series: { shadowSize: 1 },
-			lines: { show: true, lineWidth: 2, fill: true, fillColor: { colors: [ { opacity: 0.9 }, { opacity: 0.9 } ] }},
-			yaxis: { min: 0, max: 100, tickFormatter: function (v) { return v + "%"; }, color: "rgba(255,255,255,0.8)"},
-			xaxis: { show: false, color: "rgba(255,255,255,0.8)" },
-			colors: ["rgba(255,255,255,0.95)"],
-			grid: {	tickColor: "rgba(255,255,255,0.15)",
-					borderWidth: 0,
-			},
-		};
-		var plot = $.plot($("#serverLoad2"), [ getRandomData() ], options);
-		function update() {
-			plot.setData([ getRandomData() ]);
-			// since the axes don't change, we don't need to call plot.setupGrid()
-			plot.draw();
 
-			setTimeout(update, updateInterval);
-		}
-
-		update();
-	}
 
 	if($("#realtimechart").length)
 	{
