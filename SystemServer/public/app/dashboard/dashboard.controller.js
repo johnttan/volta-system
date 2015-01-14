@@ -4,6 +4,7 @@ angular.module('app')
     $scope.aggregations = AggregationService.aggregations;
     $scope.transactions = TransactionsService;
     $scope.isState = function(state){
+      console.log(state, $state.is(state))
       return $state.is(state);
     };
     $scope.setState = function(state){

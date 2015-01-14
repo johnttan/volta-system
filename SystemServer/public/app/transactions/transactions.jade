@@ -1,0 +1,20 @@
+table.ui.compact.table(ng-controller="TransactionsController")
+  thead
+    tr
+      th id
+      th Block Duration (ms)
+      th Block Start (UTC)
+      th Buyer Id
+      th Seller Id
+      th Energy (MW)
+      th Price (USD/MWH)
+  tbody
+    tr(ng-repeat="data in transactions.transactions.array")
+      td {{data.transactionId}}
+      td {{data.block.blockDuration}}
+      td {{data.block.blockStart | date : 'medium'}}
+      td {{data.buyer}}
+      td {{data.seller}}
+      td {{data.energy}}
+      td {{data.price}}
+
