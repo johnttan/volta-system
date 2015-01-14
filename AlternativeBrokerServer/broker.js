@@ -128,7 +128,7 @@ Broker.prototype.settleDemand = function(quote){
      }))
    }
   };
-
+  console.log(this.demand, this.supply);
   receipts.receipts.forEach(function(receipt){
     if(receipt.seller === 'AEB'){
       var sale = receipt.price * receipt.energy * (receipt.block.blockDuration / 1000 / 60 / 60);

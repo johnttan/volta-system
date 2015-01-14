@@ -47,7 +47,6 @@ function setupSystemClient(){
         console.log('connected to system')
       });
       var broker = new Broker(config, marketNsp, systemClient);
-      console.log('systemQueue pushing', beforeSystemQueue.length);
       beforeSystemQueue.forEach(function(socket){
         broker.addParticipant(socket);
       });
