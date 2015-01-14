@@ -11,7 +11,6 @@ angular.module('app')
           }
         }
       }
-      console.log("tryres", total, property);
       return total;
     };
 
@@ -45,7 +44,6 @@ angular.module('app')
 
         $scope.value = function () {
           if ($scope.stats && $scope.stats.controls) {
-            console.log("try");
             $scope.val = extractFromControls($scope.stats.controls, "productionGoal"); 
           } else {
             $scope.val = 0;
@@ -102,7 +100,6 @@ angular.module('app')
 
         $scope.value = function () {
           if ($scope.stats && $scope.stats.brokers && $scope.stats.brokers.auctions) {
-            console.log("brok", $scope.stats.brokers.auctions);
             $scope.val = $scope.stats.brokers.auctions.totalSupply;
           } else {
             $scope.val = 0;
@@ -178,7 +175,6 @@ angular.module('app')
           var price = 0;
           if ($scope.price && $scope.price.transactions && $scope.price.transactions.array) {
             price = extractRegularFromTransactions($scope.price.transactions.array);
-            console.log("priceProfit", price);
           } 
           var profitTotal = 0;
           var duration = 0;
@@ -195,14 +191,12 @@ angular.module('app')
                   production = controlObject[key].array[len-1].productionGoal;  
                   duration = controlObject[key].array[len-1].timeBlock.blockDuration;
                   costs = supplyObject[key].array[len-1].pricePerMWH;
-                  console.log("costs", costs);
                   profit = (price - costs) * production * duration;
                   profitTotal = profitTotal + profit;
                 }
               }
             }
           }
-          console.log("profit", profitTotal);
           $scope.val = profitTotal / 1000;
           return $scope.val;
         };
@@ -211,7 +205,6 @@ angular.module('app')
           var price = 0;
           if ($scope.price && $scope.price.transactions && $scope.price.transactions.array) {
             price = extractRegularFromTransactions($scope.price.transactions.array);
-            console.log("price", price);
           } 
           var total = 0;
           var duration = 0;
@@ -292,7 +285,6 @@ angular.module('app')
         };
         
         $scope.value = function () {
-          console.log("price", $scope.stats.transactions)
           if ($scope.stats && $scope.stats.transactions && $scope.stats.transactions.array) {
             $scope.val = extractSolarFromTransactions($scope.stats.transactions.array);
             return $scope.val;

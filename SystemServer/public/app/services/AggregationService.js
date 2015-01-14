@@ -20,7 +20,6 @@ angular.module('app')
       var d3nodes = generateD3Nodes(aggregations);
       result.d3nodes.nodes = d3nodes.nodes;
       result.d3nodes.edges = d3nodes.edges;
-      console.log(result.d3nodes);
       console.log(aggregations);
       result.update.forEach(function(updater){
         if(updater){

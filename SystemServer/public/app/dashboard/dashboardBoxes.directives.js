@@ -125,7 +125,6 @@ angular.module('app')
         };
 
         $scope.number = function(){
-          console.log("consdata", data.array);
           if(data.array && data.array.length >= 1){
             for(var i=data.array.length-1;i>=0;i--){
               if(data.array[i] > 0){
