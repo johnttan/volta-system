@@ -20,4 +20,7 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
     .state('producers', {
       url: '/producers'
     })
+    .state('transactions', {
+      url: '/transactions'
+    })
 })

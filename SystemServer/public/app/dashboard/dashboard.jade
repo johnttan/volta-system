@@ -3,7 +3,7 @@
     vt-distribution-tile(stats="aggregations.consumers")
     vt-production-tile(stats="aggregations.producers" ng-click="setState('producers')")
     vt-market-tile(stats="aggregations.auctions" ng-click="setState('market')")
-    vt-transactions-tile(stats="transactions")
+    vt-transactions-tile(stats="transactions" ng-click="setState('transactions')")
     vt-controls-tile(stats="aggregations")
     vt-network-tile(stats="aggregations" ng-click="setState('network')")
     .clearfix
@@ -25,9 +25,13 @@
     vt-grid-sales-box(stats="aggregations.auctions")
     vt-alternative-sales-box(stats="aggregations.brokers.auctions")
   .row-fluid(ng-show="isState('network')")
+    .ui.divider
     include ../network/network.jade
   .row-fluid(ng-show="isState('market')")
     include ./market.jade
   .row-fluid(ng-show="isState('producers')")
     include ./producers.jade
+  .row-fluid(ng-show="isState('transactions')")
+    .ui.divider
+    include ../transactions/transactions.jade
   .clearfix

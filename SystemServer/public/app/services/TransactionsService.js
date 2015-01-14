@@ -21,6 +21,7 @@ angular.module('app')
     var result = {
       num: 0,
       transactions: transactions,
+      transactionsArray: [],
       brokerSales: 0,
       brokerTransactions: new CircularBuffer(20),
       update: [],
@@ -31,6 +32,7 @@ angular.module('app')
     transactionsSocket.on('transaction', function(data){
       result.num ++;
       transactions.eq(data);
+      result.transactionsArray = result.transactions.array.reverse();
       result.update.forEach(function(updater){
         if(updater){
           updater();
