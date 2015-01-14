@@ -125,8 +125,8 @@ angular.module('app')
         };
 
         $scope.number = function(){
-          if(data.array && data.array.length >= 1){
-            for(var i=data.array.length-1;i>=0;i--){
+          if(data.array && data.array.length >= 2){
+            for(var i=data.array.length-2;i>=0;i--){
               if(data.array[i] > 0){
                 return data.array[i].toFixed().toString() + ' MW';
               }

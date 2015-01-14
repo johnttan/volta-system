@@ -47,7 +47,7 @@ Process a supply report from 1 producer
 */
 Market.prototype.reportSupply = function(supply) {
   this.currentSupply[supply.producerId] = supply;
-  this.currentSupply.time = Date.now();
+  // this.currentSupply.time = Date.now();
   aggregator.report('producers.supply', this.currentSupply);
   return true;
 };
