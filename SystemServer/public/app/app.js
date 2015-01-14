@@ -14,4 +14,10 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider){
     .state('network', {
       url: '/network'
     })
+    .state('market', {
+      url: '/market'
+    })
+    .state('producers', {
+      url: '/producers'
+    })
 })
