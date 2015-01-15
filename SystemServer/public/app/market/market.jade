@@ -16,17 +16,4 @@ table.ui.celled.structured.table(ng-controller="MarketController")
       td {{data.priceBid}}
       td {{data.blockStart}}
       td {{data.blockDuration}}
-
-    //- tr(ng-repeat="data in aggregations.auctions.auctions.array")
-    //-   td(rowspan="{{objectLength(data.bidders)}}") {{$index+1}}
-    //-   td {{objectKeys(data.bidders)[0]}}
-    //-   td {{data.bids[0].energy}}
-    //-   td {{data.bids[0].price}}
-    //-   td {{data.currentBlock.blockStart}}
-    //-   td {{data.currentBlock.blockDuration}}
-    //- tr(ng-repeat="(bidder,bidderdata) in data.bidders")
-    //-   td {{objectKeys(data.bidders)[$index + 1]}}
-    //-   td {{data.bids[$index + 1].energy}}
-    //-   td {{data.bids[$index + 1].price}}
-    //-   td {{data.currentBlock.blockStart}}
-    //-   td {{data.currentBlock.blockStart}}
+      
