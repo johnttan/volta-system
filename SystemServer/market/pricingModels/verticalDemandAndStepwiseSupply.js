@@ -21,24 +21,28 @@ module.exports = function(bids, supply, margin, blockDuration){
 
   var supplyReached = false;
   var i = 0;
-  while(controls.length < newSupply.length && !supplyReached){
+  while(controls.length < newSupply.length){
     var current = newSupply[i];
     if(!current){
       throw new Error('Not enough energy supply1');
     };
-    if(current.maxCapacity + energySupply >= energyDemand){
-      supplyReached = true;
-      productionGoal = energyDemand - energySupply;
+    if(!supplyReached){
+      if(current.maxCapacity + energySupply >= energyDemand){
+        supplyReached = true;
+        productionGoal = energyDemand - energySupply;
+      }else{
+        productionGoal = current.maxCapacity;
+      };
+      energySupply += productionGoal;
+      cost = current.pricePerMWH;
+      i++;
     }else{
-      productionGoal = current.maxCapacity;
+      productionGoal = 0;
     };
-    energySupply += productionGoal;
     controls.push({
       producerId: current.producerId,
       productionGoal: productionGoal
     });
-    cost = current.pricePerMWH;
-    i++;
   };
   if(!supplyReached){
     throw new Error('Not enough energy supply2');
