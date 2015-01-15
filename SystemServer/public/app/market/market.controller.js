@@ -2,19 +2,15 @@ angular.module('app')
   .controller('MarketController', function($scope, AggregationService){
     
     $scope.aggregations = AggregationService.aggregations;
-    console.log("CONTROLLLLLLLLLLERRRRRRRRRRRRRRRRRRRRRR")
     $scope.tableRows = [];
 
 
     $scope.$watch(function(scope){
       return scope.aggregations.auctions}, function(newValue, oldValue) {
       if ($scope.aggregations.auctions) {
-        console.log("RRRRRRRRRRRRRRRRRRRRRUUUUUNNNNNN")
         $scope.auctions = $scope.aggregations.auctions.auctions.array;
-        // $scope.tableRows = [];
 
         for (var i = $scope.auctions.length-1; i >= 0; i--){
-          console.log("AUCCCTTIONNNNNNNNNNNNNNNNNNNNN")
           var auction = $scope.auctions[i];
           var bidders = auction.bidders;
           var bids = auction.bids;
@@ -22,7 +18,6 @@ angular.module('app')
           var blockDuration = auction.currentBlock.blockDuration;
           var numOfBidders = Object.keys(bidders).length;
           for (var j = 0; j < numOfBidders; j++){
-            console.log("BBBBBBBBBIIIIIDDDEEERRRRSSSSS")
             var tableRowData = {
               numOfBidders: numOfBidders,
               position: j,
@@ -46,7 +41,6 @@ angular.module('app')
             }
           }
         }
-        console.log($scope.tableRows);
       }
     });
   });
