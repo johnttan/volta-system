@@ -118,7 +118,7 @@ function generateD3Nodes(aggregations){
         x: producerX,
         y: producerYstart
       });
-      producerYstart += 10;
+      producerYstart += 50;
       data.edges.push({
         from: el,
         to: 'system'
