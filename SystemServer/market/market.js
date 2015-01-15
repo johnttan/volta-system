@@ -14,6 +14,7 @@ var Market = function(config){
   this.runningStats = {};
   this.currentBids = {};
   this.currentAuction = new Auction();
+  aggregator.report('auctions', this.currentAuction);
   this.priceAndControl = new PriceAndControl(config);
   this.currentSupply = {};
 };
@@ -33,6 +34,8 @@ Market.prototype.bid = function(bids) {
     bids.data.forEach(function(el){
       that.currentAuction.bids.push({price: el.price, energy: el.energy});
     });
+    that.currentAuction.time = Date.now();
+    aggregator.report('auctions.update', that.currentAuction);
     return true;
   }else{
     return false;
@@ -44,6 +47,8 @@ Process a supply report from 1 producer
 */
 Market.prototype.reportSupply = function(supply) {
   this.currentSupply[supply.producerId] = supply;
+  // this.currentSupply.time = Date.now();
+  aggregator.report('producers.supply', this.currentSupply);
   return true;
 };
 
@@ -77,7 +82,7 @@ Market.prototype.computeBasedOnDemand = function(demand){
   var results = this.priceAndControl.compute(demand, this.currentSupply, this.config.margin, this.config.blockDuration);
   return results;
 
-}
+};
 
 /*
 Clear the market and setTimeout for next bidding cycle
@@ -112,17 +117,23 @@ Market.prototype._clearMarket = function() {
         block: this.currentBlock,
         buyer: 'grid',
         seller: producer.producerId
-      })
+      });
+      producer.timeBlock = this.currentBlock;
     }.bind(this));
 
     this.currentAuction.save();
     this.state = 2;
     this.currentAuction.currentBlock = this.currentBlock;
     this.trigger('marketClose', this.currentAuction);
+
     this.trigger('changeProduction', results.controls);
+    aggregator.report('auctions.update', this.currentAuction);
+    aggregator.report('auctions.sales', this.currentAuction);
     this.currentAuction = new Auction();
-    console.log('market closed')
+    aggregator.report('auctions', this.currentAuction);
   }catch(e){
+    this.trigger('marketClose', this.currentAuction);
+    this.currentAuction = new Auction();
     console.trace(e);
     this.trigger('error', e);
   };

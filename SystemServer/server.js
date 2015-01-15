@@ -9,11 +9,18 @@ var app = express();
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
+var Aggregator = require('../utils/aggregator');
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+// Start Aggregation client
+var aggregationNsp = io.of('/aggregation');
+var aggregations = require('./aggregations');
+var aggregator = new Aggregator(aggregationNsp);
+aggregator.registerAll(aggregations);
+global.aggregator = aggregator;
 
 var market = new (require('./market/market'))(config);
 var monitor = new (require('./monitor/monitor'))(config);
@@ -30,6 +37,12 @@ app.get('/admin', function(req, res){
 // Serve stats
 app.get('/api/stats', function(req, res){
   res.json(reporter.update())
+});
+app.get('/api/controls', function(req, res){
+  res.json({});
+});
+app.get('/*', function(req, res){
+  res.redirect('/')
 });
 
 console.log("Running the server file");
@@ -49,8 +62,12 @@ producerNsp.on('connection', function(socket){
 var brokerNsp = io.of('/brokers');
 brokerNsp.on('connection', function(socket){
   console.log('broker connected');
+  aggregator.report('brokers', socket);
   market.on('marketClose', function(auction){
     socket.emit('marketClose', auction.currentBlock);
+  });
+  socket.on('aggregation', function(data){
+    aggregator.report('brokers.auctions', data);
   });
   socket.on('queryPrice', function(demand){
     try{
@@ -58,7 +75,11 @@ brokerNsp.on('connection', function(socket){
       result.timeBlock = demand.timeBlock;
       result.minPrice = config.minPrice;
       socket.emit('priceQuote', result);
+      result.id = socket.id;
+      result.time = Date.now();
+      aggregator.report('brokers.quotes', result);
     }catch(e){
+      console.log('queryPrice', e)
       result = {
         price: config.maxPrice,
         timeBlock: demand.timeBlock
@@ -86,10 +107,12 @@ market.on('startBidding', function(timeBlock){
 });
 
 market.on('changeProduction', function(controls){
-
+  producerNsp.emit('changeProduction', controls);
+  aggregator.report('producers.controls', controls);
 });
 
 market.startMarket();
 
 // Start DiscoveryClient and register self
 var discoveryClient = new DiscoveryClient(config);
+

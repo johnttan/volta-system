@@ -5,7 +5,7 @@ exports.development = {
   brokerFeePercent: .1,
   discountPercent: .5,
   ip: 'http://localhost:8011',
-  discoveryIp: 'http://localhost:9000',
+  discoveryIp: 'http://104.40.181.157:8001',
   id: 25,
   role: 'system',
   subRole: 'broker'

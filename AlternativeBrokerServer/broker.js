@@ -1,12 +1,16 @@
 var Receipts = require(__dirname + '/../SystemServer/market/receiptsModel');
 var Transaction = require(__dirname + '/../SystemServer/market/transactionModel');
 var config = require(__dirname + '/config')[process.env.node_env];
+var CircularBuffer = require(__dirname + '/../utils/circularBuffer');
 
 var Broker = function(config, marketNsp, systemClient){
   this.settlementTimePercentage = config.settlementTimePercentage;
   this.demand = {};
   this.supply = {};
   this.timeBlock = {};
+  this.totalSales = 0;
+  this.salesDelta = 0;
+  this.deltaBuffer = new CircularBuffer(20);
   this.marketNsp = marketNsp;
   this.systemClient = systemClient;
   // State 0 = inactive;
@@ -14,6 +18,7 @@ var Broker = function(config, marketNsp, systemClient){
   // State 2 = settling transactions;
   this.state = 0;
   this.marketNsp.on('connection', function(socket){
+    console.log('NEW CONNECTION');
     this.addParticipant(socket);
   }.bind(this));
   this.systemClient.on('marketClose', this.collectDemandSupply.bind(this));
@@ -34,6 +39,7 @@ Broker.prototype.addSupply = function(supply){
 };
 
 Broker.prototype.collectDemandSupply = function(timeBlock) {
+  console.log('market closed', Date())
   this.state = 1;
   this.timeBlock = timeBlock;
   this.marketNsp.emit('startCollection', timeBlock);
@@ -96,7 +102,7 @@ Broker.prototype.settleDemand = function(quote){
     for(supply in this.supply){
       receipts.addTransaction(new Transaction({
         price: (quote.price * config.discountPercent) - ((quote.price * config.discountPercent) * config.brokerFeePercent),
-        energy: this.supply[supply].energy * this.supply[supply].energy / totalSupply,
+        energy: totalDemand * this.supply[supply].energy / totalSupply,
         block: quote.timeBlock,
         seller: this.supply[supply].producerId,
         buyer: 'AEB'
@@ -106,7 +112,7 @@ Broker.prototype.settleDemand = function(quote){
    for(demand in this.demand){
      receipts.addTransaction(new Transaction({
        price: quote.price * config.discountPercent,
-       energy: this.demand[demand].energy * this.demand[demand].energy / totalDemand,
+       energy: totalSupply * this.demand[demand].energy / totalDemand,
        block: quote.timeBlock,
        buyer: this.demand[demand].consumerId,
        seller: 'AEB'
@@ -122,6 +128,25 @@ Broker.prototype.settleDemand = function(quote){
      }))
    }
   };
+  console.log(this.demand, this.supply);
+  receipts.receipts.forEach(function(receipt){
+    if(receipt.seller === 'AEB'){
+      var sale = receipt.price * receipt.energy * (receipt.block.blockDuration / 1000 / 60 / 60);
+      var oldSales = this.totalSales;
+      this.totalSales += sale;
+      this.deltaSales = this.totalSales - oldSales;
+      this.deltaBuffer.eq(this.deltaSales);
+    }
+  }.bind(this));
+
+  this.systemClient.emit('aggregation', {
+    totalSales: this.totalSales,
+    deltaSales: this.deltaSales,
+    deltaHistory: this.deltaBuffer.array,
+    totalSupply: totalSupply,
+    totalDemand: totalDemand
+  });
+
   receipts.save();
   console.log('totals', totalDemand, totalSupply);
   this.demand = {};

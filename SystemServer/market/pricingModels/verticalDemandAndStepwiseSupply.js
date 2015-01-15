@@ -13,33 +13,39 @@ module.exports = function(bids, supply, margin, blockDuration){
     energyDemand += bid.energy;
   });
 
+
   newSupply.sort(function(a, b){
     return a.pricePerMWH - b.pricePerMWH;
   });
 
+
   var supplyReached = false;
   var i = 0;
-  while(controls.length < newSupply.length && !supplyReached){
+  while(controls.length < newSupply.length){
     var current = newSupply[i];
     if(!current){
-      throw new Error('Not enough energy supply');
+      throw new Error('Not enough energy supply1');
     };
-    if(current.maxCapacity + energySupply >= energyDemand){
-      supplyReached = true;
-      productionGoal = energyDemand - energySupply;
+    if(!supplyReached){
+      if(current.maxCapacity + energySupply >= energyDemand){
+        supplyReached = true;
+        productionGoal = energyDemand - energySupply;
+      }else{
+        productionGoal = current.maxCapacity;
+      };
+      energySupply += productionGoal;
+      cost = current.pricePerMWH;
+      i++;
     }else{
-      productionGoal = current.maxCapacity;
+      productionGoal = 0;
     };
-    energySupply += productionGoal;
     controls.push({
       producerId: current.producerId,
       productionGoal: productionGoal
     });
-    cost += current.pricePerMWH * (blockDuration / 1000 / 60 / 60) * productionGoal;
-    i++;
   };
   if(!supplyReached){
-    throw new Error('Not enough energy supply');
+    throw new Error('Not enough energy supply2');
   };
   reporter.report('pricing', function(){return {
     energyDemand: energyDemand,
@@ -48,7 +54,7 @@ module.exports = function(bids, supply, margin, blockDuration){
   }});
   return {
     controls: controls,
-    price: (cost / bids.length) + margin
+    price: (cost) + margin
   }
 };
 

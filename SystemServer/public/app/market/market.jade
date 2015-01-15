@@ -1,0 +1,19 @@
+table.ui.celled.structured.table(ng-controller="MarketController")
+  thead
+    tr
+      th Auction Number
+      th Bidder
+      th Energy Bid
+      th Price Bid
+      th Block Start
+      th Block Duration
+  tbody
+    tr(ng-repeat="data in tableRows | reverse")
+      //- td(ng-if="data[$index][rowspan]" rowspan="{{data[$index][rowspan]}}") {{$index + 1}}
+      td {{data.auctionNum}}
+      td {{data.bidder}}
+      td {{data.energyBid}}
+      td {{data.priceBid}}
+      td {{data.blockStart}}
+      td {{data.blockDuration}}
+      

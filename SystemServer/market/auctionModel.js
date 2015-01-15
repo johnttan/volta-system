@@ -4,6 +4,7 @@ var Auction = function(params){
   this.bidders = {};
   this.bids = [];
   this.results = {};
+  this.timeStamp = Date.now();
   this.receipts = new Receipts();
   if(params){
     for(key in this){
@@ -20,7 +21,7 @@ Auction.prototype.addTransaction = function(params){
 };
 
 Auction.prototype.save = function(){
-
+  this.receipts.save();
 };
 
 Auction.prototype.getReceipts = function(){
