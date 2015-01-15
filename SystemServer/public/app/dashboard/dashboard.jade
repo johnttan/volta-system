@@ -28,7 +28,8 @@
     .ui.divider
     include ../network/network.jade
   .row-fluid(ng-show="isState('market')")
-    include ./market.jade
+    .ui.divider
+    include ../market/market.jade
   .row-fluid(ng-show="isState('producers')")
     include ./producers.jade
   .row-fluid(ng-show="isState('transactions')")
