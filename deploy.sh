@@ -126,6 +126,15 @@ if [ -e "$DEPLOYMENT_TARGET/gulpfile.js" ]; then
   cd - > /dev/null
 fi
 
+#5. Jade
+if [ -e "$DEPLOYMENT_TARGET/gulpfile.js" ]; then
+  cd "$DEPLOYMENT_TARGET"
+  ./node_modules/.bin/gulp templates
+  exitWithMessageOnError "jade compilation failed"
+  cd - > /dev/null
+fi
+
+
 ##################################################################################################################################
 
 # Post deployment stub
