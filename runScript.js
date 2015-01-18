@@ -5,7 +5,7 @@ if (process.env.AGENT === "system") {
   spawn('node', ['SystemServer/server.js']);	
 } else if (process.env.AGENT === "broker") {
   console.log("choosing broker run script");
-  spawn('node', ['AlternativeBrokerServer/server.js'])
+  spawn('node', ['AlternativeBrokerServer/server.js']);
 } else {
   console.log("AGENT variable should be set to system or broker")
 }
