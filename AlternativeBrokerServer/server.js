@@ -37,6 +37,7 @@ marketNsp.on('connection', function(socket){
   }
 });
 function setupSystemClient(){
+  console.log("setting up systemclient")
   discoveryClient.discover('system', 'system', function(err, xhr, data){
     data = JSON.parse(data);
     console.log('Try to discover system', err, data[0].ip);
