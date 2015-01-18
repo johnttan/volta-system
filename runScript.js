@@ -1,6 +1,7 @@
 var spawn = require('child_process').spawn;
 
 if (process.env.AGENT === "system") {
+  console.log("choosing system run script");
   spawn('node', ['SystemServer/server.js']);	
 } else if (process.env.AGENT === "broker") {
   spawn('node', ['AlternativeBrokerServer/server.js'])
