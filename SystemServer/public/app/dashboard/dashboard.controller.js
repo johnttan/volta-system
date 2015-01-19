@@ -20,7 +20,9 @@ angular.module('app')
       for(var i = 0; i<num;i++){
         var total = 0;
         for(var key in controls){
-          total += controls[key].array[i].productionGoal;
+          if (controls[key].array.length > i) {
+            total += controls[key].array[i].productionGoal;  
+          }
         };
         results.push([i+1, total]);
       };
