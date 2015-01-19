@@ -14,20 +14,23 @@ angular.module('app')
           var auction = $scope.auctions[i];
           var bidders = auction.bidders;
           var bids = auction.bids;
-          var blockStart = auction.currentBlock.blockStart;
-          var blockDuration = auction.currentBlock.blockDuration;
-          var numOfBidders = Object.keys(bidders).length;
-          for (var j = 0; j < numOfBidders; j++){
-            var tableRowData = {
-              numOfBidders: numOfBidders,
-              position: j,
-              auctionNum: i,
-              bidder: Object.keys(bidders)[j],
-              energyBid: bids[j].energy,
-              priceBid: bids[j].price,
-              blockStart: blockStart,
-              blockDuration: blockDuration
+          if (auction.currentBlock) {   
+            var blockStart = auction.currentBlock.blockStart;
+            var blockDuration = auction.currentBlock.blockDuration;
+            var numOfBidders = Object.keys(bidders).length;
+            for (var j = 0; j < numOfBidders; j++){
+              var tableRowData = {
+                numOfBidders: numOfBidders,
+                position: j,
+                auctionNum: i,
+                bidder: Object.keys(bidders)[j],
+                energyBid: bids[j].energy,
+                priceBid: bids[j].price,
+                blockStart: blockStart,
+                blockDuration: blockDuration
+              }
             }
+          }
             if ($scope.tableRows.length < 10) {
               $scope.tableRows.unshift(tableRowData);
             } else {
