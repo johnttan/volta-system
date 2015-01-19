@@ -24,7 +24,7 @@ AzureClient.prototype.list = function(cb) {
 };
 
 AzureClient.prototype.create = function(name, nsp, appsettings, cb){
-  this._siteCommand('create', [name, '--location "West US"'], function(err, out){
+  this._siteCommand('create', [name, '--location "West US"', '--git'], function(err, out){
     if(err){
       cb(err)
     }else{
@@ -82,14 +82,17 @@ AzureClient.prototype.deleteAll = function(nsp, cb){
 };
 
 AzureClient.prototype._siteCommandAll = function(command, arg, cb){
+  console.log('running all')
   var numStarted = 0;
   var numStopped = 0;
   var name = arg;
   if(Array.isArray(arg)){
     name = arg[0];
   };
+  var ran = false;
   for(var key in this.sites){
     if(key.indexOf(name) > -1){
+      ran = true;
       numStarted ++;
       this[command](key, function(err, out){
         numStopped ++;
@@ -99,6 +102,9 @@ AzureClient.prototype._siteCommandAll = function(command, arg, cb){
         }
       }.bind(this))
     }
+  };
+  if(!ran){
+    cb();
   }
 };
 
@@ -106,7 +112,9 @@ AzureClient.prototype._siteCommand = function(command, arg, cb){
   if(Array.isArray(arg)){
     arg = arg.join(' ');
   };
-  exec('azure site ' + command + ' ' + arg, function(err, out){
+  var command = 'azure site ' + command + ' ' + arg;
+  console.log(command);
+  exec(command, function(err, out){
     if(err){
       cb(err)
     }else{
@@ -115,22 +123,76 @@ AzureClient.prototype._siteCommand = function(command, arg, cb){
   })
 };
 
+function pushAll(urls){
+  var started = 0;
+  var stopped = 0;
+  urls.forEach(function(url){
+    started ++;
+    console.log('pushing', url.name);
+    exec('git push ' + url.name + ' master', function(err, out){
+      stopped ++;
+      if(stopped === started){
+        console.log('pushed all')
+      }
+    })
+  })
+};
+
+function setupGitAndPush(urls){
+  var started = 0;
+  var done = 0;
+  urls.forEach(function(url){
+    started ++;
+    console.log('removing', url.name);
+    exec('git remote remove ' + url.name, function(err, out){
+      done ++;
+      if(done === started){
+        urls.forEach(function(url){
+          started ++;
+          console.log('adding', url.name);
+          exec('git remote add ' + url.name + ' ' + url.url, function(err, out){
+            done ++;
+            if(done === started){
+              pushAll(urls);
+            }
+          })
+        })
+      }
+    })
+  })
+};
+
 var test = new AzureClient(function(err){
   if(err){console.log(err)};
-  test.deleteAll('volta', function(err, out){
-    console.log(err, out);
+  test.deleteAll('volta', function(err){
+    var completed = 0;
+    var started = 0;
+    for(var i=0;i<5;i++){
+      (function(i){
+        started ++;
+        console.log('creating site')
+        test.create('volta-p' + i.toString(), 'volta', {
+          SITE_TYPE: i % 2 === 0 ? 'backend':'frontend'
+        }, function(err){
+          completed ++;
+          if(err){
+            console.log(err)
+          };
+          console.log(i, 'site created')
+          if(completed === started){
+            console.log('all servers created');
+            test.list(function(err, data){
+              var gitUrls = _(data).filter(function(el){return el.repositorySiteName.indexOf('volta') > -1}).map(function(el){
+                var url = 'https://johnttan@' + el.repositorySiteName + '.scm.azurewebsites.net/' + el.repositorySiteName + '.git';
+                return {url: url, name: el.repositorySiteName};
+              }).value();
+              console.log(data);
+              setupGitAndPush(gitUrls);
+            })
+          }
+        })
+      })(i)
+    }
   })
-  // test.setSetting('volta-p8', 'SITE_TYPE', 'backend', function(err){
-  //   if(err){console.log(err)};
-  //   console.log('setting set')
-  // });
-  // test.create('volta-p9', 'volta', {
-  //   SITE_TYPE: 'backend'
-  // }, function(err){
-  //   if(err){
-  //     console.log(err)
-  //   }
-  //   console.log('site created')
-  // })
 });
 
