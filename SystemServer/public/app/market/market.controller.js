@@ -4,7 +4,6 @@ angular.module('app')
     $scope.aggregations = AggregationService.aggregations;
     $scope.tableRows = [];
 
-
     $scope.$watch(function(scope){
       return scope.aggregations.auctions}, function(newValue, oldValue) {
       if ($scope.aggregations.auctions) {
