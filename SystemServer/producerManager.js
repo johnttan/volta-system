@@ -9,7 +9,7 @@ ProducerManager.prototype.addProducer = function(producer) {
   producer.on('disconnect', function(){
     delete this._producers[producer.id];
     this._market.removeProducer(producer.id);
-    aggregator.report('producers.disconnect');
+    aggregator.report('producers.disconnect', producer.id);
   }.bind(this));
   producer.on('reportSupply', this.reportSupply.bind(this));
   this._producers[producer.id] = {

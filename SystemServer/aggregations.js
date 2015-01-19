@@ -17,6 +17,9 @@ var aggregations = [
     key: 'consumers.disconnect',
     aggregator: function(newValue, oldStructure){
       oldStructure.num --;
+      if(oldStructure.ids[newValue]){
+        delete oldStructure.ids[newValue]
+      };
       return oldStructure;
     }
   },
@@ -38,6 +41,11 @@ var aggregations = [
     key: 'producers.disconnect',
     aggregator: function(newValue, oldStructure){
       oldStructure.num --;
+      if(oldStructure.supply[newValue]){
+        delete oldStructure.supply[newValue];
+        delete oldStructure.ids[newValue];
+        delete oldStructure.controls[newValue];
+      };
       return oldStructure;
     }
   },
