@@ -52,6 +52,12 @@ Market.prototype.reportSupply = function(supply) {
   return true;
 };
 
+Market.prototype.removeProducer = function(id){
+  if(this.currentSupply[id]){
+    delete this.currentSupply[id];
+  }
+};
+
 /*
 Start Market cycle
 startMarket ->
