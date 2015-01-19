@@ -30,19 +30,18 @@ angular.module('app')
               }
             }
           }
-            if ($scope.tableRows.length < 10) {
-              $scope.tableRows.unshift(tableRowData);
-            } else {
-              $scope.tableRows.pop()
-              $scope.tableRows.unshift(tableRowData);
-            }
+          if ($scope.tableRows.length < 10) {
+            $scope.tableRows.unshift(tableRowData);
+          } else {
+            $scope.tableRows.pop()
+            $scope.tableRows.unshift(tableRowData);
           }
-          for (var k = 0; k < $scope.tableRows.length; k++){
-            if ($scope.tableRows[k].position === $scope.tableRows[k].numOfBidders-1){
-              $scope.tableRows[k].rowspan = $scope.tableRows[k].numOfBidders;
-            }
+        } //end of for statement
+        for (var k = 0; k < $scope.tableRows.length; k++){
+          if ($scope.tableRows[k].position === $scope.tableRows[k].numOfBidders-1){
+            $scope.tableRows[k].rowspan = $scope.tableRows[k].numOfBidders;
           }
         }
-      }
-    });
-  });
+      } //end of if aggregations.auctions
+    }); //end of watch callback
+  }); //end of controller function
