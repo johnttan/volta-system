@@ -1,5 +1,6 @@
 var exec = require('child_process').exec;
 var _ = require('lodash');
+var prompt = require('prompt');
 
 var AzureClient = function(readyCB){
   this.sites = {};
@@ -116,20 +117,20 @@ AzureClient.prototype._siteCommand = function(command, arg, cb){
 
 var test = new AzureClient(function(err){
   if(err){console.log(err)};
-  // test.deleteAll('volta', function(err, out){
-  //   console.log(err, out);
-  // })
+  test.deleteAll('volta', function(err, out){
+    console.log(err, out);
+  })
   // test.setSetting('volta-p8', 'SITE_TYPE', 'backend', function(err){
   //   if(err){console.log(err)};
   //   console.log('setting set')
   // });
-  test.create('volta-p9', 'volta', {
-    SITE_TYPE: 'backend'
-  }, function(err){
-    if(err){
-      console.log(err)
-    }
-    console.log('site created')
-  })
+  // test.create('volta-p9', 'volta', {
+  //   SITE_TYPE: 'backend'
+  // }, function(err){
+  //   if(err){
+  //     console.log(err)
+  //   }
+  //   console.log('site created')
+  // })
 });
 
