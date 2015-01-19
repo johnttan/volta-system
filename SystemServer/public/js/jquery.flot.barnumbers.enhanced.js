@@ -183,7 +183,9 @@
                 var c = plot.p2c(point);
 
                 // write the number on the bar
-                ctx.fillText(text.toString(10), c.left + offset.left + xOffset, c.top + offset.top + yOffset);
+                if (text) {
+                  ctx.fillText(text.toString(10), c.left + offset.left + xOffset, c.top + offset.top + yOffset);                    
+                }
             }
         });
     }
