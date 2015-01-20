@@ -15,9 +15,9 @@ angular.module('app')
         
         var network = new vis.Network(container, $scope.data, options);
 
-        $scope.$watch('changelistener.producers', function(){
+        /*$scope.$watch('changelistener.producers', function(){
           network.setData($scope.data);
-        });
+        });*/
 
         $scope.$watch(function(){
           if($scope.data.nodes && $scope.data.edges){
