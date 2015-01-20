@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "gulp test",
-    "start": "node SystemServer/server.js"
+    "start": "node runScript.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "lodash": "^2.4.1",
     "mongoose": "^3.8.21",
     "nanotimer": "^0.3.6",
+    "prompt": "^0.2.14",
     "request": "^2.51.0",
     "socket.io": "^1.2.1",
     "socket.io-client": "^1.2.1"
@@ -34,6 +35,7 @@
     "gulp": "^3.8.10",
     "gulp-install": "^0.2.0",
     "gulp-istanbul": "^0.5.0",
+    "gulp-jade": "^0.10.0",
     "gulp-jshint": "^1.9.0",
     "gulp-mocha": "^2.0.0",
     "istanbul": "^0.3.5",

@@ -17,7 +17,7 @@ var ConsumerManager = function(config, market, monitor){
 ConsumerManager.prototype.addConsumer = function(consumer) {
   aggregator.report('consumers', consumer);
   consumer.on('disconnect', function(){
-    aggregator.report('consumers.disconnect')
+    aggregator.report('consumers.disconnect', consumer.id)
   });
   consumer.on('bid', this.bid.bind(this));
   consumer.on('consume', function(consumption){

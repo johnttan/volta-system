@@ -5,5 +5,4 @@ angular.module('app')
     AggregationService.addUpdate(function(){
       $scope.$apply.bind($scope)
     });
-    console.log("prodData", $scope.data);
   })

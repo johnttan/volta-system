@@ -1,3 +1,4 @@
+console.log("running broker server file line 0");
 process.env.node_env = process.env.node_env || "development";
 
 var config = require('./config')[process.env.node_env];
@@ -6,11 +7,12 @@ var DiscoveryClient = require('../utils/discoveryClient');
 var Broker = require('./broker');
 var express = require('express');
 var app = express();
-process.env.node_env = process.env.node_env || 'development';
+// process.env.node_env = process.env.node_env || 'development';
 var bodyParser = require('body-parser');
 // Setup reporter
 var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
+console.log("running broker server file");
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -37,6 +39,7 @@ marketNsp.on('connection', function(socket){
   }
 });
 function setupSystemClient(){
+  console.log("setting up systemclient")
   discoveryClient.discover('system', 'system', function(err, xhr, data){
     data = JSON.parse(data);
     console.log('Try to discover system', err, data[0].ip);

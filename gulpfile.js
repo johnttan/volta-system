@@ -3,6 +3,7 @@ var mocha = require('gulp-mocha');
 var istanbul = require('gulp-istanbul');
 var install = require('gulp-install');
 var jshint = require('gulp-jshint');
+var jade = require('gulp-jade');
 
 gulp.task('default', ['mochaTest']);
 
@@ -41,6 +42,15 @@ gulp.task('style', function() {
 
 gulp.task('deploy', function () {
 
+});
+
+gulp.task('templates', function() {
+  var locals = {};
+  gulp.src(['./SystemServer/public/*.jade', './SystemServer/public/**/*.jade'])
+    .pipe(jade({
+      locals: locals
+    }))
+    .pipe(gulp.dest('./SystemServer/public/'))
 });
 
 gulp.task('watch', function(){
