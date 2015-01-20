@@ -84,6 +84,16 @@ var aggregations = [
     }
   },
   {
+    key: 'brokers.disconnect',
+    aggregator: function(newValue, oldStructure){
+      oldStructure.num --;
+      if(oldStructure.ids[newValue]){
+        delete oldStructure.ids[newValue];
+      };
+      return oldStructure;
+    }
+  },
+  {
     key: 'brokers.auctions',
     aggregator: function(newValue, oldStructure){
       oldStructure.auctions = newValue;
