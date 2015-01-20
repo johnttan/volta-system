@@ -242,7 +242,7 @@ angular.module('app')
         };
 
         $scope.number = function(){
-          if($scope.stats && $scope.stats.deltaHistory){
+          if($scope.stats && $scope.stats.deltaHistory && ($scope.stats.deltaHistory.length > 0)){
             return '$' + $scope.stats.deltaHistory[$scope.stats.deltaHistory.length-1].toFixed(2).toString();
           }
         };
