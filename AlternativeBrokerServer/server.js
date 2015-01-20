@@ -13,6 +13,7 @@ var bodyParser = require('body-parser');
 var reporter = new (require('../utils/adminReporter'))();
 global.reporter = reporter;
 console.log("running broker server file");
+
 // Setup middleware
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
