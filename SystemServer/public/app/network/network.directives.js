@@ -12,12 +12,10 @@ angular.module('app')
           width: '1200px',
           height: '400px'
         };
-        console.log("netwdat", $scope.data);
-        console.log("netwlist", $scope);
+        
         var network = new vis.Network(container, $scope.data, options);
 
         $scope.$watch('changelistener.producers', function(){
-          console.log('updateNetw');
           network.setData($scope.data);
         });
 
