@@ -29,8 +29,8 @@ Also see:
 ##Deployment
 To see a deployed version of the Volta Energy system, please visit the following:
 * [Volta Energy-System Dashboard](http://voltaenergy.io)
-* [Volta Energy-Consumer Dashboard](http://consumer1.azurewebsites.net)
-* [Volta Energy-Producer Dashboard](http://producer1.azurewebsites.net)
+* [Volta Energy-Consumer Dashboard](http://consumer1.azurewebsites.net/dashboard)
+* [Volta Energy-Producer Dashboard](http://producer1.azurewebsites.net/#/)
 
 ##Development
 
