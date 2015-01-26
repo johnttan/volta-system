@@ -18,7 +18,7 @@ Also see:
     2. [Installing Dependencies](#installing-dependencies)
     3. [Distributive System Tool](#distributive-system-tool)
     4. [Roadmap](#roadmap)
-4. [How it works](#how it works)
+4. [How it works](#how-it-works)
 
 ##Team
 
